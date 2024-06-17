@@ -4,6 +4,7 @@ import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/router'
 const userNameFormSchema = z.object({
   username: z
     .string()
@@ -17,14 +18,18 @@ export function UserForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<UserFormData>({
     resolver: zodResolver(userNameFormSchema),
   })
 
-  function handlePreRegister(data: UserFormData) {
-    console.log(data.username)
+  const router = useRouter()
+  async function handlePreRegister(data: UserFormData) {
+    const { username } = data
+
+    await router.push(`/register?username=${username}`)
   }
+
   return (
     <Form as="form" onSubmit={handleSubmit(handlePreRegister)}>
       <TextInput
@@ -33,7 +38,7 @@ export function UserForm() {
         placeholder="seu-usuario"
         {...register('username')}
       />
-      <Button size="sm" type="submit">
+      <Button size="sm" type="submit" disabled={isSubmitting}>
         Reservar
         <ArrowRight />
       </Button>
