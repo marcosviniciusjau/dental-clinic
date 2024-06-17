@@ -1,5 +1,4 @@
+import { Heading } from '@marcosvinicius-ignite-ui/react'
 export default function Home() {
-  return (
-    <h1>Hello World</h1>
-  );
+  return <Heading as="h1">Hello World</Heading>
 }
