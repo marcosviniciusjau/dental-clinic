@@ -9,3 +9,7 @@ declare module 'next-auth' {
     profile_img_url: string
   }
 }
+
+interface Session {
+  user: User
+}
