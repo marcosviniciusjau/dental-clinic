@@ -11,9 +11,13 @@ import dayjs from 'dayjs'
 import { api } from '@/src/lib/axios'
 import { useRouter } from 'next/router'
 
+interface Availability {
+  possibleTimes: number[]
+  availableTimes: number[]
+}
 export function CalendarStep() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [availability, setAvailability] = useState(null)
+  const [availability, setAvailability] = useState<Availability | null>(null)
 
   const router = useRouter()
 
@@ -37,6 +41,7 @@ export function CalendarStep() {
         },
       })
       .then((response) => {
+        setAvailability(response.data)
         console.log(response.data)
       })
   }, [selectedDate, username])
@@ -49,21 +54,16 @@ export function CalendarStep() {
             {weekDay} <span>{describedDate}</span>
           </TimePickerHeader>
           <TimePickerList>
-            <TimePickerItem>08:00</TimePickerItem>
-
-            <TimePickerItem>09:00</TimePickerItem>
-
-            <TimePickerItem>10:00</TimePickerItem>
-
-            <TimePickerItem>11:00</TimePickerItem>
-
-            <TimePickerItem>12:00</TimePickerItem>
-
-            <TimePickerItem>13:00</TimePickerItem>
-
-            <TimePickerItem>14:00</TimePickerItem>
-
-            <TimePickerItem>15:00</TimePickerItem>
+            {availability?.possibleTimes.map((hour) => {
+              return (
+                <TimePickerItem
+                  key={hour}
+                  disabled={!availability.availableTimes.includes(hour)}
+                >
+                  {String(hour).padStart(2, '0')}:00h
+                </TimePickerItem>
+              )
+            })}
           </TimePickerList>
         </TimePicker>
       )}
