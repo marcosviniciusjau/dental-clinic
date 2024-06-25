@@ -4,27 +4,34 @@ import { Container, Hero, Preview } from './styles'
 
 import previewImage from '../../assets/app-preview.png'
 import { UserForm } from './components/UserForm.ts'
+import { NextSeo } from 'next-seo'
 export default function Home() {
   return (
-    <Container>
-      <Hero>
-        <Heading size="4xl"> Agendamento descomplicado </Heading>
-        <Text size="xl">
-          {' '}
-          Conecte seu calendário e permita que as pessoas marquem agendamentos
-          no seu tempo livre.{' '}
-        </Text>
-        <UserForm />
-      </Hero>
-      <Preview>
-        <Image
-          src={previewImage}
-          height={400}
-          quality={100}
-          priority
-          alt="Calendário simbolizando aplicação em funcionamento"
-        />
-      </Preview>
-    </Container>
+    <>
+      <NextSeo
+        title="Agendamento descomplicado | Ignite Call"
+        description="Conecte seu calendário e permita que as pessoas marquem agendamentos no seu tempo livre."
+      />
+      <Container>
+        <Hero>
+          <Heading size="4xl"> Agendamento descomplicado </Heading>
+          <Text size="xl">
+            {' '}
+            Conecte seu calendário e permita que as pessoas marquem agendamentos
+            no seu tempo livre.{' '}
+          </Text>
+          <UserForm />
+        </Hero>
+        <Preview>
+          <Image
+            src={previewImage}
+            height={400}
+            quality={100}
+            priority
+            alt="Calendário simbolizando aplicação em funcionamento"
+          />
+        </Preview>
+      </Container>
+    </>
   )
 }
