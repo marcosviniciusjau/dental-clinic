@@ -30,11 +30,11 @@ export default async function handler(
   const createSchedulingBody = z.object({
     name: z.string(),
     email: z.string().email(),
-    observation: z.string(),
+    observations: z.string(),
     date: z.string().datetime(),
   })
 
-  const { name, email, observation, date } = createSchedulingBody.parse(
+  const { name, email, observations, date } = createSchedulingBody.parse(
     req.body,
   )
 
@@ -63,7 +63,7 @@ export default async function handler(
     data: {
       name,
       email,
-      observation,
+      observations,
       date: schedulingDate.toDate(),
       user_id: user.id,
     },
@@ -78,7 +78,7 @@ export default async function handler(
     conferenceDataVersion: 1,
     requestBody: {
       summary: `Ignite Call: ${name} `,
-      description: observation,
+      description: observations,
       start: {
         dateTime: schedulingDate.format(),
       },

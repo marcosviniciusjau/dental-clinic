@@ -8,8 +8,8 @@ declare module 'next-auth' {
     username: string
     profile_img_url: string
   }
-}
 
-interface Session {
-  user: User
+  interface Session {
+    user: User
+  }
 }

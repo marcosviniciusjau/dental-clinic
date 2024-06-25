@@ -16,7 +16,7 @@ import { ConfirmForm, FormActions, FormError, FormHeader } from './styles'
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: 'O nome precisa no mínimo 3 caracteres' }),
   email: z.string().email({ message: 'Digite um e-mail válido' }),
-  observation: z.string().nullable(),
+  observations: z.string().nullable(),
 })
 
 type ConfirmFormData = z.infer<typeof confirmFormSchema>
@@ -42,12 +42,12 @@ export function ConfirmStep({
   const username = String(router.query.username)
 
   async function handleConfirmScheduling(data: ConfirmFormData) {
-    const { name, email, observation } = data
+    const { name, email, observations } = data
 
     await api.post(`/users/${username}/schedule`, {
       name,
       email,
-      observation,
+      observations,
       date: schedulingDate,
     })
 
@@ -90,7 +90,7 @@ export function ConfirmStep({
 
       <label>
         <Text size="sm">Observações</Text>
-        <TextArea {...register('observation')} />
+        <TextArea {...register('observations')} />
       </label>
 
       <FormActions>
