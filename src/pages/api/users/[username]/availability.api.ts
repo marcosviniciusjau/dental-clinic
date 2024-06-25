@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 import dayjs from 'dayjs'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '@/src/lib/prisma'
-
 import utc from 'dayjs/plugin/utc'
 
+import { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '../../../../lib/prisma'
+
 dayjs.extend(utc)
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -20,7 +21,7 @@ export default async function handler(
   if (!date || !timezoneOffset) {
     return res
       .status(400)
-      .json({ message: 'Date or timezoneOffset no provided.' })
+      .json({ message: 'Date or timezoneOffset not provided.' })
   }
 
   const user = await prisma.user.findUnique({
@@ -34,6 +35,8 @@ export default async function handler(
   }
 
   const referenceDate = dayjs(String(date))
+  const isPastDate = referenceDate.endOf('day').isBefore(new Date())
+
   const timezoneOffsetInHours =
     typeof timezoneOffset === 'string'
       ? Number(timezoneOffset) / 60
@@ -41,8 +44,6 @@ export default async function handler(
 
   const referenceDateTimeZoneOffsetInHours =
     referenceDate.toDate().getTimezoneOffset() / 60
-
-  const isPastDate = referenceDate.endOf('day').isBefore(new Date())
 
   if (isPastDate) {
     return res.json({ possibleTimes: [], availableTimes: [] })
