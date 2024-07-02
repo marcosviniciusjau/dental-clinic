@@ -34,7 +34,7 @@ export function UserForm() {
     <Form as="form" onSubmit={handleSubmit(handlePreRegister)}>
       <TextInput
         containerProps={{ size: 'sm' }}
-        prefix="ignite.com/"
+        prefix="seuemail.com/"
         placeholder="seu-usuario"
         {...register('username')}
       />

@@ -2,25 +2,27 @@ import { Heading, Text } from '@marcosvinicius-ignite-ui/react'
 import Image from 'next/image'
 import { Container, Hero, Preview } from './styles'
 
-import previewImage from '../../assets/app-preview.png'
+import previewImage from '../../assets/dentista.png'
+
 import { UserForm } from './components/UserForm.ts'
 import { NextSeo } from 'next-seo'
+import { Header } from './components/Header'
+import { Do } from './components/Do'
 export default function Home() {
   return (
     <>
       <NextSeo
-        title="Agendamento descomplicado | Ignite Call"
+        title="Dental Clinic"
         description="Conecte seu calendário e permita que as pessoas marquem agendamentos no seu tempo livre."
       />
+      <Header />
       <Container>
         <Hero>
-          <Heading size="4xl"> Agendamento descomplicado </Heading>
+          <Heading size="4xl"> O melhor para o seu sorriso </Heading>
           <Text size="xl">
             {' '}
-            Conecte seu calendário e permita que as pessoas marquem agendamentos
-            no seu tempo livre.{' '}
+            Agende agora mesmo para sempre ter o melhor sorriso{' '}
           </Text>
-          <UserForm />
         </Hero>
         <Preview>
           <Image
@@ -32,6 +34,8 @@ export default function Home() {
           />
         </Preview>
       </Container>
+      <Do />
+      <UserForm />
     </>
   )
 }

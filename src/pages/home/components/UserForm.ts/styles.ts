@@ -1,4 +1,4 @@
-import { Box, Text, styled } from '@marcosvinicius-ignite-ui/react'
+import { Box, Button, Text, styled } from '@marcosvinicius-ignite-ui/react'
 
 export const Form = styled(Box, {
   display: 'grid',
@@ -9,6 +9,17 @@ export const Form = styled(Box, {
 
   '@media(max-width: 600px)': {
     gridTemplateColumns: '1fr',
+  },
+  [`> ${Button}`]: {
+    backgroundColor: '#289DD2',
+    color: '$white',
+    '&:disabled': {
+      cursor: 'default',
+      opacity: 0.5,
+    },
+    '&:not(:disabled):hover': {
+      backgroundColor: '$green300',
+    },
   },
 })
 
