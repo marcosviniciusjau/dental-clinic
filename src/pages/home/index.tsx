@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <NextSeo
         title="Dental Clinic"
-        description="Conecte seu calendário e permita que as pessoas marquem agendamentos no seu tempo livre."
+        description="Dental Clinic. Agende seu horário e tenha o melhor sorriso."
       />
       <Header />
       <Container>
