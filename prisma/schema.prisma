@@ -13,7 +13,6 @@ model User {
   name            String
   bio             String?            @db.Text
   email           String            @unique
-  phone_number    String?
   profile_img_url String?
   created_at      DateTime           @default(now())
   accounts        Account[]

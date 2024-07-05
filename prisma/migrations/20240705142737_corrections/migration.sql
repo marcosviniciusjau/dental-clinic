@@ -4,7 +4,6 @@ CREATE TABLE "users" (
     "name" TEXT NOT NULL,
     "bio" TEXT,
     "email" TEXT NOT NULL,
-    "phone_number" TEXT,
     "profile_img_url" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

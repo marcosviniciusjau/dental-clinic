@@ -7,7 +7,7 @@ import {
 } from '@marcosvinicius-ignite-ui/react'
 import { Container, Form, FormError, Header } from './styles'
 
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -17,15 +17,9 @@ import { useEffect } from 'react'
 import { api } from '@/src/lib/axios'
 import { AxiosError } from 'axios'
 import { NextSeo } from 'next-seo'
-import InputMask from 'react-input-mask'
-
-const phoneNumberRegex = /^\(?\d{2}\)? ?9?\d{4}-?\d{4}$/
 
 const registerFormSchema = z.object({
   email: z.string().email({ message: 'Digite um e-mail válido' }),
-  phone_number: z.string().regex(phoneNumberRegex, {
-    message: 'Número de telefone inválido',
-  }),
   name: z.string().min(3, { message: 'Mínimo 3 caracteres' }),
 })
 
@@ -34,7 +28,6 @@ type RegisterFormData = z.infer<typeof registerFormSchema>
 export default function Register() {
   const {
     register,
-    control,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
@@ -54,7 +47,6 @@ export default function Register() {
     try {
       await api.post('/users', {
         name: data.name,
-        phone_number: data.phone_number,
         email: data.email,
       })
       if (data.email === 'mvaraujowebsites@gmail.com') {
@@ -90,33 +82,6 @@ export default function Register() {
             <TextInput placeholder="Seu nome" {...register('name')} />
             {errors.name && (
               <FormError size="sm">{errors.name.message}</FormError>
-            )}
-          </label>
-          <label>
-            <Text size="sm">Telefone</Text>
-            <Controller
-              name="phone_number"
-              control={control}
-              render={({ field }) => (
-                <InputMask
-                  mask="(99) 99999-9999"
-                  value={field.value}
-                  onChange={field.onChange}
-                  onBlur={field.onBlur}
-                >
-                  {(inputProps) => (
-                    <TextInput
-                      prefix="+55"
-                      placeholder="(99) 99999-9999"
-                      type="tel"
-                      {...inputProps}
-                    />
-                  )}
-                </InputMask>
-              )}
-            />
-            {errors.phone_number && (
-              <FormError size="sm">{errors.phone_number.message}</FormError>
             )}
           </label>
           <label>
