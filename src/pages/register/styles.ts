@@ -1,4 +1,10 @@
-import { Box, Text, Heading, styled, Button } from '@marcosvinicius-ignite-ui/react'
+import {
+  Box,
+  Text,
+  Heading,
+  styled,
+  Button,
+} from '@marcosvinicius-ignite-ui/react'
 
 import InputMask from 'react-input-mask'
 export const Container = styled('main', {
@@ -31,6 +37,7 @@ export const Form = styled(Box, {
     flexDirection: 'column',
     gap: '$2',
   },
+
   [`> ${Button}`]: {
     backgroundColor: '#289DD2',
     marginBottom: '$6',
