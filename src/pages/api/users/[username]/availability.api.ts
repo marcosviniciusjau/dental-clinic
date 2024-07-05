@@ -15,7 +15,7 @@ export default async function handler(
     return res.status(405).end()
   }
 
-  const username = String(req.query.username)
+  const email = String(req.query.email)
   const { date, timezoneOffset } = req.query
 
   if (!date || !timezoneOffset) {
@@ -26,7 +26,7 @@ export default async function handler(
 
   const user = await prisma.user.findUnique({
     where: {
-      username,
+      email,
     },
   })
 

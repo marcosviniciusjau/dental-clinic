@@ -7,7 +7,7 @@ import {
 } from '@marcosvinicius-ignite-ui/react'
 import { Container, Form, FormError, Header } from './styles'
 
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -17,15 +17,16 @@ import { useEffect } from 'react'
 import { api } from '@/src/lib/axios'
 import { AxiosError } from 'axios'
 import { NextSeo } from 'next-seo'
+import InputMask from 'react-input-mask'
+
+const phoneNumberRegex = /^\(?\d{2}\)? ?9?\d{4}-?\d{4}$/
 
 const registerFormSchema = z.object({
-  username: z
-    .string()
-    .min(3, { message: 'Mínimo 3 caracteres' })
-    .regex(/^([a-z\\\\-]+)$/i, { message: 'Apenas letras e hifens' })
-    .transform((username) => username.toLowerCase()),
-
-  name: z.string().min(3, { message: 'Mínimo 3 caracteres' }),
+  email: z.string().email({ message: 'Digite um e-mail válido' }),
+  phone_number: z.string().regex(phoneNumberRegex, {
+    message: 'Número de telefone inválido',
+  }),
+  name: z.string().min(3, { message: 'Mínimo 3 caracteres' }),
 })
 
 type RegisterFormData = z.infer<typeof registerFormSchema>
@@ -33,6 +34,7 @@ type RegisterFormData = z.infer<typeof registerFormSchema>
 export default function Register() {
   const {
     register,
+    control,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
@@ -43,19 +45,22 @@ export default function Register() {
   const router = useRouter()
 
   useEffect(() => {
-    if (router.query.username) {
-      setValue('username', String(router.query.username))
+    if (router.query.email) {
+      setValue('email', String(router.query.email))
     }
-  }, [router.query?.username, setValue])
+  }, [router.query?.email, setValue])
 
   async function handleRegister(data: RegisterFormData) {
     try {
       await api.post('/users', {
         name: data.name,
-        username: data.username,
+        phone_number: data.phone_number,
+        email: data.email,
       })
-
-      await router.push('/register/connect-calendar')
+      if (data.email === 'mvaraujowebsites@gmail.com') {
+        await router.push('/register/connect-calendar')
+      }
+      await router.push(`/schedule/mvaraujowebsites@gmail.com`)
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         alert(err.response.data.message)
@@ -67,30 +72,19 @@ export default function Register() {
 
   return (
     <>
-      <NextSeo title="Crie uma conta | Ignite Call" />
+      <NextSeo title="Crie uma conta | Dental Clinic" />
 
       <Container>
         <Header>
-          <Heading as="strong">Bem-vindo ao Ignite Call!</Heading>
+          <Heading as="strong">Bem-vindo a Dental Clinic!</Heading>
           <Text>
-            Precisamos de algumas informações para criar seu perfil! Ah, você
-            pode editar essas informações depois.
+            Precisamos de algumas informações para criar seu perfil! Ah, você
+            pode editar essas informações depois.
           </Text>
-          <MultiStep size={4} currentStep={1} />
+          <MultiStep size={2} currentStep={1} />
         </Header>
 
         <Form as="form" onSubmit={handleSubmit(handleRegister)}>
-          <label>
-            <Text size="sm">Nome de usuário</Text>
-            <TextInput
-              prefix="ignite.com/"
-              placeholder="seu-usuário"
-              {...register('username')}
-            />
-            {errors.username && (
-              <FormError size="sm">{errors.username.message}</FormError>
-            )}
-          </label>
           <label>
             <Text size="sm">Nome completo</Text>
             <TextInput placeholder="Seu nome" {...register('name')} />
@@ -98,8 +92,42 @@ export default function Register() {
               <FormError size="sm">{errors.name.message}</FormError>
             )}
           </label>
+          <label>
+            <Text size="sm">Telefone</Text>
+            <Controller
+              name="phone_number"
+              control={control}
+              render={({ field }) => (
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                >
+                  {(inputProps) => (
+                    <TextInput
+                      prefix="+55"
+                      placeholder="(99) 99999-9999"
+                      type="tel"
+                      {...inputProps}
+                    />
+                  )}
+                </InputMask>
+              )}
+            />
+            {errors.phone_number && (
+              <FormError size="sm">{errors.phone_number.message}</FormError>
+            )}
+          </label>
+          <label>
+            <Text size="sm">Seu email</Text>
+            <TextInput placeholder="Seu email" {...register('email')} />
+            {errors.email && (
+              <FormError size="sm">{errors.email.message}</FormError>
+            )}
+          </label>
           <Button type="submit" disabled={isSubmitting}>
-            Próximo passo
+            Próximo passo
             <ArrowRight />
           </Button>
         </Form>

@@ -1,14 +1,15 @@
 import { Heading, Text, styled } from '@marcosvinicius-ignite-ui/react'
 
 export const Container = styled('div', {
-  maxWidth: 'calc(100vw - (100vw - 1160px) / 2)',
-  marginLeft: '80px',
+  backgroundColor: '#289DD2',
+  marginLeft: 'auto',
   display: 'grid',
   gridTemplateColumns: '1fr 1fr 1fr',
   gridTemplateAreas: '"image1 text text1" "image2 text2 text3"',
   alignItems: 'center',
   gap: '$16',
   overflow: 'hidden',
+  padding: '0 $10',
 })
 
 export const Hero = styled('div', {

@@ -1,54 +1,71 @@
-import { Button, TextInput, Text } from '@marcosvinicius-ignite-ui/react'
-import { Form, FormAnnotation } from './styles'
+import {
+  Button,
+  TextInput,
+  Text,
+  Heading,
+} from '@marcosvinicius-ignite-ui/react'
+import { Container, Form, FormAnnotation, Imagem, Vazio } from './styles'
 import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/router'
-const userNameFormSchema = z.object({
-  username: z
+import agenda from '@/src/assets/agenda.jpg'
+import Image from 'next/image'
+
+const emailFormSchema = z.object({
+  email: z
     .string()
-    .min(3, { message: 'Mínimo 3 caracteres' })
-    .regex(/^([a-z\\\\-]+)$/i, { message: 'Apenas letras e hifens' })
-    .transform((username) => username.toLowerCase()),
+    .email({ message: 'Digite um e-mail válido' })
+    .min(3, { message: 'Mínimo 3 caracteres' }),
 })
 
-type UserFormData = z.infer<typeof userNameFormSchema>
+type UserFormData = z.infer<typeof emailFormSchema>
 export function UserForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<UserFormData>({
-    resolver: zodResolver(userNameFormSchema),
+    resolver: zodResolver(emailFormSchema),
   })
 
   const router = useRouter()
   async function handlePreRegister(data: UserFormData) {
-    const { username } = data
+    const { email } = data
 
-    await router.push(`/register?username=${username}`)
+    await router.push(`/register?email=${email}`)
   }
 
   return (
-    <Form as="form" onSubmit={handleSubmit(handlePreRegister)}>
-      <TextInput
-        containerProps={{ size: 'sm' }}
-        prefix="seuemail.com/"
-        placeholder="seu-usuario"
-        {...register('username')}
-      />
-      <Button size="sm" type="submit" disabled={isSubmitting}>
-        Reservar
-        <ArrowRight />
-      </Button>
-      <FormAnnotation>
-        <Text size="sm">
-          {errors.username
-            ? errors.username.message
-            : 'Digite o nome do usuário'}
-        </Text>
-      </FormAnnotation>
-    </Form>
+    <Container>
+      <Imagem>
+        <Image
+          src={agenda}
+          height={400}
+          quality={100}
+          alt="Imagem de wavebreakmedia_micro no Freepik"
+        />
+      </Imagem>
+      <Vazio></Vazio>
+
+      <Form as="form" onSubmit={handleSubmit(handlePreRegister)}>
+        <Heading>Agende agora mesmo!</Heading>
+        <TextInput
+          containerProps={{ size: 'sm' }}
+          placeholder="seu-email"
+          {...register('email')}
+        />
+        <Button size="sm" type="submit" disabled={isSubmitting}>
+          Reservar
+          <ArrowRight />
+        </Button>
+        <FormAnnotation>
+          <Text size="sm">
+            {errors.email ? errors.email.message : 'Digite o seu e-mail'}
+          </Text>
+        </FormAnnotation>
+      </Form>
+    </Container>
   )
 }

@@ -15,7 +15,7 @@ interface ScheduleProps {
 export default function Schedule({ user }: ScheduleProps) {
   return (
     <>
-      <NextSeo title={`Agendar com ${user.name}| Ignite Call`} />
+      <NextSeo title={`Agendar com ${user.name}| Dental Clinic`} />
 
       <Container>
         <UserHeader>
@@ -36,11 +36,11 @@ export const getStaticPaths = async () => {
   }
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const username = String(params?.username)
+  const email = String(params?.email)
 
   const user = await prisma.user.findUnique({
     where: {
-      username,
+      email,
     },
   })
 

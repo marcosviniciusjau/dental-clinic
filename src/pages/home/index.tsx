@@ -8,6 +8,7 @@ import { UserForm } from './components/UserForm.ts'
 import { NextSeo } from 'next-seo'
 import { Header } from './components/Header'
 import { Do } from './components/Do'
+import { Footer } from './components/Footer'
 export default function Home() {
   return (
     <>
@@ -36,6 +37,7 @@ export default function Home() {
       </Container>
       <Do />
       <UserForm />
+      <Footer />
     </>
   )
 }

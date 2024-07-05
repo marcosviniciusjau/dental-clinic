@@ -1,5 +1,6 @@
-import { Box, Text, Heading, styled } from '@marcosvinicius-ignite-ui/react'
+import { Box, Text, Heading, styled, Button } from '@marcosvinicius-ignite-ui/react'
 
+import InputMask from 'react-input-mask'
 export const Container = styled('main', {
   maxWidth: 572,
   margin: '$20 auto $4',
@@ -30,10 +31,21 @@ export const Form = styled(Box, {
     flexDirection: 'column',
     gap: '$2',
   },
+  [`> ${Button}`]: {
+    backgroundColor: '#289DD2',
+    marginBottom: '$6',
+
+    '&:hover': {
+      backgroundColor: '#289DD2',
+    },
+  },
 })
 
 export const FormError = styled(Text, {
   color: '#f75a68',
+  [`> ${InputMask}`]: {
+    backgroundColor: '#f75a68',
+  },
 })
 
 export const FormAnnotation = styled('div', {
