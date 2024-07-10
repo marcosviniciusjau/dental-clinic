@@ -6,7 +6,6 @@ import {
   TextInput,
 } from '@marcosvinicius-ignite-ui/react'
 import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
 import { CalendarBlank, Clock } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -37,9 +36,6 @@ export function ConfirmStep({
   } = useForm<ConfirmFormData>({
     resolver: zodResolver(confirmFormSchema),
   })
-
-  const router = useRouter()
-  const email = String(router.query.email)
 
   async function handleConfirmScheduling(data: ConfirmFormData) {
     const { name, email, observations } = data
