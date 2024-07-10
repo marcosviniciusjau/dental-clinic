@@ -39,12 +39,12 @@ export function ConfirmStep({
   })
 
   const router = useRouter()
-  const username = String(router.query.username)
+  const email = String(router.query.email)
 
   async function handleConfirmScheduling(data: ConfirmFormData) {
     const { name, email, observations } = data
 
-    await api.post(`/users/${username}/schedule`, {
+    await api.post(`/users/${email}/schedule`, {
       name,
       email,
       observations,

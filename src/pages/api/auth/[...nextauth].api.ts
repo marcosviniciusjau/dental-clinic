@@ -27,7 +27,6 @@ export function buildNextAuthOptions(
           return {
             id: profile.sub,
             name: profile.name,
-            username: '',
             email: profile.email,
             profile_img_url: profile.picture,
           }

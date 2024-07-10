@@ -26,7 +26,7 @@ export function CalendarStep({ onSelectedTime }: CalendarStepProps) {
   const router = useRouter()
 
   const isDateSelected = !!selectedDate
-  const username = String(router.query.username)
+  const email = String(router.query.email)
 
   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null
 
@@ -41,7 +41,7 @@ export function CalendarStep({ onSelectedTime }: CalendarStepProps) {
   const { data: availability } = useQuery<Availability>({
     queryKey: ['availability', selectedDateWithoutTime],
     queryFn: async () => {
-      const response = await api.get(`/users/${username}/availability`, {
+      const response = await api.get(`/users/${email}/availability`, {
         params: {
           date: selectedDateWithoutTime,
           timezoneOffset: selectedDate ? selectedDate.getTimezoneOffset() : 0,

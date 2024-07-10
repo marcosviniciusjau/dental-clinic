@@ -46,8 +46,8 @@ export default function updateProfile() {
       bio: data.bio,
     })
     await router.push(
-      `/schedule/[username]`,
-      `/schedule/${session.data?.user.username}`,
+      `/schedule/[email]`,
+      `/schedule/${session.data?.user.email}`,
     )
   }
 
