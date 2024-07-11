@@ -1,4 +1,4 @@
-import { Box, Text, styled } from '@marcosvinicius-ignite-ui/react'
+import { Box, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled(Box, {
   margin: '$6 auto 0',

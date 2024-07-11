@@ -6,7 +6,7 @@ import {
   ProfilePhoto,
   Text,
   TextArea,
-} from '@marcosvinicius-ignite-ui/react'
+} from '@marcos-vinicius-design-system/react'
 import { Container, Header } from '../styles'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'

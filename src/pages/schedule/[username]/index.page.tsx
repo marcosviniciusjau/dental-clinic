@@ -1,4 +1,4 @@
-import { Heading, ProfilePhoto, Text } from '@marcosvinicius-ignite-ui/react'
+import { Heading, ProfilePhoto, Text } from '@marcos-vinicius-design-system/react'
 import { Container, UserHeader } from './styles'
 import { GetStaticProps } from 'next'
 import { prisma } from '@/src/lib/prisma'

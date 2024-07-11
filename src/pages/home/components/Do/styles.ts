@@ -1,7 +1,6 @@
-import { Heading, Text, styled } from '@marcosvinicius-ignite-ui/react'
+import { Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('div', {
-  backgroundColor: '#289DD2',
   marginLeft: 'auto',
   display: 'grid',
   gridTemplateColumns: '1fr 1fr 1fr',

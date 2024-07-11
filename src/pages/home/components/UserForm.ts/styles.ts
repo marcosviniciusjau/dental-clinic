@@ -1,4 +1,4 @@
-import { Box, Button, Text, styled } from '@marcosvinicius-ignite-ui/react'
+import { Box, Button, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('div', {
   maxWidth: 'calc(100vw - (100vw - 1160px) / 2)',
@@ -30,14 +30,13 @@ export const Form = styled(Box, {
     gridTemplateColumns: '1fr',
   },
   [`> ${Button}`]: {
-    backgroundColor: '#289DD2',
     color: '$white',
     '&:disabled': {
       cursor: 'default',
       opacity: 0.5,
     },
     '&:not(:disabled):hover': {
-      backgroundColor: '$green300',
+      backgroundColor: '$blue300',
     },
   },
 })

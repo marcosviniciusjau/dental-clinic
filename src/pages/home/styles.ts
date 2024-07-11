@@ -1,4 +1,4 @@
-import { Heading, Text, styled } from '@marcosvinicius-ignite-ui/react'
+import { Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('div', {
   marginLeft: 'auto',
@@ -6,7 +6,6 @@ export const Container = styled('div', {
   alignItems: 'center',
   gap: '$20',
   overflow: 'hidden',
-  backgroundColor: '#289DD2',
 })
 
 export const Hero = styled('div', {

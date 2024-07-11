@@ -1,4 +1,4 @@
-import { Text } from '@marcosvinicius-ignite-ui/react'
+import { Text } from '@marcos-vinicius-design-system/react'
 import Logo from '@/src/assets/logo.png'
 import Image from 'next/image'
 import { HeaderContainer, HeaderText } from './styles'

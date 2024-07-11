@@ -2,7 +2,7 @@ import aparelho from '@/src/assets/aparelho.jpg'
 import implante from '@/src/assets/implante.jpg'
 import consulta from '@/src/assets/consulta.jpg'
 import limpeza from '@/src/assets/4.png'
-import { Heading, Text } from '@marcosvinicius-ignite-ui/react'
+import { Heading, Text } from '@marcos-vinicius-design-system/react'
 import {
   Container,
   Hero,

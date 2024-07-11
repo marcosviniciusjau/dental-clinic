@@ -4,7 +4,7 @@ import {
   MultiStep,
   Text,
   TextInput,
-} from '@marcosvinicius-ignite-ui/react'
+} from '@marcos-vinicius-design-system/react'
 import { Container, Form, FormError, Header } from './styles'
 
 import { useForm } from 'react-hook-form'

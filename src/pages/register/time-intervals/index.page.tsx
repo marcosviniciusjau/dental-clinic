@@ -5,7 +5,7 @@ import {
   MultiStep,
   Text,
   TextInput,
-} from '@marcosvinicius-ignite-ui/react'
+} from '@marcos-vinicius-design-system/react'
 import { Container, FormError, Header } from '../styles'
 import {
   IntervalBox,

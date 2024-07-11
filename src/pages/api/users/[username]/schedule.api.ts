@@ -15,11 +15,11 @@ export default async function handler(
     return res.status(405).end()
   }
 
-  const email = String(req.query.email)
+  const emailOwner = String(req.query.email)
 
   const user = await prisma.user.findUnique({
     where: {
-      email,
+      email: emailOwner,
     },
   })
 
@@ -29,6 +29,7 @@ export default async function handler(
 
   const createSchedulingBody = z.object({
     name: z.string(),
+    email: z.string().email(),
     observations: z.string(),
     date: z.string().datetime(),
   })

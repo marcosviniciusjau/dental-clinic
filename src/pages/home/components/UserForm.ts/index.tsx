@@ -3,7 +3,7 @@ import {
   TextInput,
   Text,
   Heading,
-} from '@marcosvinicius-ignite-ui/react'
+} from '@marcos-vinicius-design-system/react'
 import { Container, Form, FormAnnotation, Imagem, Vazio } from './styles'
 import { ArrowRight } from 'phosphor-react'
 import { useForm } from 'react-hook-form'

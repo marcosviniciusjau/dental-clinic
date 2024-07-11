@@ -3,7 +3,7 @@ import {
   Heading,
   MultiStep,
   Text,
-} from '@marcosvinicius-ignite-ui/react'
+} from '@marcos-vinicius-design-system/react'
 import { Container, Header } from '../styles'
 
 import { signIn, useSession } from 'next-auth/react'

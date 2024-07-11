@@ -4,7 +4,7 @@ import {
   Heading,
   styled,
   Button,
-} from '@marcosvinicius-ignite-ui/react'
+} from '@marcos-vinicius-design-system/react'
 
 import InputMask from 'react-input-mask'
 export const Container = styled('main', {
@@ -39,12 +39,7 @@ export const Form = styled(Box, {
   },
 
   [`> ${Button}`]: {
-    backgroundColor: '#289DD2',
     marginBottom: '$6',
-
-    '&:hover': {
-      backgroundColor: '#289DD2',
-    },
   },
 })
 

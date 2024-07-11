@@ -1,4 +1,4 @@
-import { styled } from '@marcosvinicius-ignite-ui/react'
+import { styled } from '@marcos-vinicius-design-system/react'
 
 export const HeaderContainer = styled('header', {
   display: 'flex',
