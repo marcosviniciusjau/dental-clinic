@@ -10,6 +10,9 @@ export const Container = styled('div', {
   gridTemplateAreas: 'image vazio form',
   alignItems: 'center',
   overflow: 'hidden',
+  '@media(max-width: 600px)': {
+    display: 'block',
+  },
 })
 export const Vazio = styled('div', {
   griArea: 'vazio',
@@ -26,9 +29,6 @@ export const Form = styled(Box, {
   flexDirection: 'column',
   gap: '$6',
 
-  '@media(max-width: 600px)': {
-    gridTemplateColumns: '1fr',
-  },
   [`> ${Button}`]: {
     color: '$white',
     '&:disabled': {

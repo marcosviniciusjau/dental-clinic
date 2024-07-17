@@ -77,7 +77,7 @@ export default async function handler(
     calendarId: 'primary',
     conferenceDataVersion: 1,
     requestBody: {
-      summary: `Ignite Call: ${name} `,
+      summary: `Dental Clinic: ${name} `,
       description: observations,
       start: {
         dateTime: schedulingDate.format(),

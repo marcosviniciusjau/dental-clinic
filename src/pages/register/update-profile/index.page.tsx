@@ -45,19 +45,16 @@ export default function updateProfile() {
     await api.put('/users/update-profile', {
       bio: data.bio,
     })
-    await router.push(
-      `/schedule/[email]`,
-      `/schedule/${session.data?.user.email}`,
-    )
+    await router.push(`/schedule/${session.data?.user.email}`)
   }
 
   return (
     <>
-      <NextSeo title="Atualize seu perfil | Ignite Call" noindex />
+      <NextSeo title="Atualize seu perfil | Dental Clinic" noindex />
 
       <Container>
         <Header>
-          <Heading as="strong">Bem-vindo ao Ignite Call!</Heading>
+          <Heading as="strong">Bem-vindo à Dental Clinic!</Heading>
           <Text>
             Precisamos de algumas informações para criar seu perfil! Ah, você
             pode editar essas informações depois.

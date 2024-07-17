@@ -1,7 +1,8 @@
 import aparelho from '@/src/assets/aparelho.jpg'
 import implante from '@/src/assets/implante.jpg'
 import consulta from '@/src/assets/consulta.jpg'
-import limpeza from '@/src/assets/4.png'
+import limpeza from '@/src/assets/limpeza.jpg'
+
 import { Heading, Text } from '@marcos-vinicius-design-system/react'
 import {
   Container,
@@ -16,7 +17,7 @@ import Image from 'next/image'
 export function Do() {
   return (
     <Container>
-      <Hero style={{ marginTop: '380px' }}>
+      <Hero>
         <Heading size="3xl">o que fazemos</Heading>
       </Hero>
 
@@ -75,7 +76,7 @@ export function Do() {
           quality={100}
           style={{ borderRadius: '4px' }}
           priority
-          alt="Imagem de Freepik"
+          alt="Imagem do Freepik"
         />
         <Text size="xl">Limpezas</Text>
         <Text size="sm">

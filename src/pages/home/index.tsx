@@ -26,13 +26,7 @@ export default function Home() {
           </Text>
         </Hero>
         <Preview>
-          <Image
-            src={previewImage}
-            height={400}
-            quality={100}
-            priority
-            alt="Calendário simbolizando aplicação em funcionamento"
-          />
+          <Image src={previewImage} quality={100} priority alt="" />
         </Preview>
       </Container>
       <Do />

@@ -25,6 +25,10 @@ export const Container = styled(Box, {
 })
 
 export const TimePicker = styled('div', {
+  '@media(max-width: 600px)': {
+    display: 'block',
+    backgroundColor: '$gray800',
+  },
   borderLeft: '1px solid $gray600',
   padding: '$6 $6 0',
 

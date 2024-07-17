@@ -6,7 +6,6 @@ import {
   Button,
 } from '@marcos-vinicius-design-system/react'
 
-import InputMask from 'react-input-mask'
 export const Container = styled('main', {
   maxWidth: 572,
   margin: '$20 auto $4',
@@ -45,9 +44,6 @@ export const Form = styled(Box, {
 
 export const FormError = styled(Text, {
   color: '#f75a68',
-  [`> ${InputMask}`]: {
-    backgroundColor: '#f75a68',
-  },
 })
 
 export const FormAnnotation = styled('div', {

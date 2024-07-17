@@ -10,7 +10,6 @@ import { Container, Form, FormError, Header } from './styles'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-
 import { ArrowRight } from 'phosphor-react'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -36,7 +35,7 @@ export default function Register() {
   })
 
   const router = useRouter()
-
+  const emailOwner = 'marcosviniciusjahu@gmail.com'
   useEffect(() => {
     if (router.query.email) {
       setValue('email', String(router.query.email))
@@ -49,10 +48,15 @@ export default function Register() {
         name: data.name,
         email: data.email,
       })
-      if (data.email === 'mvaraujowebsites@gmail.com') {
+
+      const name = data.name
+      const email = data.email
+
+      const newClient = JSON.stringify({ name, email })
+      if (data.email === emailOwner) {
         await router.push('/register/connect-calendar')
       }
-      await router.push(`/schedule/mvaraujowebsites@gmail.com`)
+      await router.push(`/schedule/${emailOwner}?newClient=${newClient}`)
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         alert(err.response.data.message)

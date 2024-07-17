@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import { CalendarBlank, Clock } from 'phosphor-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { api } from '../../../../../lib/axios'
+import { api } from '@/src/lib/axios'
 import { ConfirmForm, FormActions, FormError, FormHeader } from './styles'
 
 const confirmFormSchema = z.object({
@@ -30,16 +30,23 @@ export function ConfirmStep({
   schedulingDate,
   onCancelConfirmation,
 }: ConfirmStepProps) {
+  const router = useRouter()
+  const emailOwner = String(router.query.email)
+  const client = String(router.query.newClient)
+  const clientData = JSON.parse(decodeURIComponent(client))
+
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm<ConfirmFormData>({
+    defaultValues: {
+      name: clientData.name,
+      email: clientData.email,
+      observations: '',
+    },
     resolver: zodResolver(confirmFormSchema),
   })
-
-  const router = useRouter()
-  const emailOwner = String(router.query.email)
 
   async function handleConfirmScheduling(data: ConfirmFormData) {
     const { name, email, observations } = data

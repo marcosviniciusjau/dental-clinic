@@ -9,12 +9,20 @@ export const Container = styled('div', {
   gap: '$16',
   overflow: 'hidden',
   padding: '0 $10',
+  backgroundColor: '$blue500',
+  '@media(max-width: 600px)': {
+    display: 'block',
+    paddingLeft: '$6',
+  },
 })
 
 export const Hero = styled('div', {
+  '@media(min-width: 600px)': {
+    marginTop: '380px',
+  },
   [`> ${Heading}`]: {
     '@media(max-width: 600px)': {
-      fontSize: '$6xl',
+      fontSize: '$4xl',
     },
   },
 
@@ -28,7 +36,7 @@ export const Implantes = styled('div', {
   maxWidth: 315,
   gridArea: 'image1',
   display: 'flex',
-  marginTop: '$20',
+  marginTop: '$10',
   flexDirection: 'column',
   gap: '$4',
   overflow: 'hidden',
@@ -43,6 +51,10 @@ export const Aparelhos = styled('div', {
   gap: '$4',
   marginTop: '$20',
   overflow: 'hidden',
+  '@media(max-width: 600px)': {
+    marginBottom: '$16',
+    marginTop: '$16',
+  },
 })
 
 export const Consultas = styled('div', {

@@ -19,8 +19,7 @@ export default function App({
           openGraph={{
             type: 'website',
             locale: 'pt_BR',
-            url: 'https://www.ignite-call.rocketseat.com.br',
-            siteName: 'Ignite Call',
+            siteName: 'Dental Clinic',
           }}
         />
 
