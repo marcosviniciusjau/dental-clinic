@@ -32,10 +32,10 @@ export default function Home() {
             priority
             alt=""
             style={{
-              display: 'flex',
-              margin: 'auto',
-              width: '50vh',
-              height: '50vh',
+              display: "flex",
+              margin: "auto",
+              width: "50vh",
+              height: "50vh",
             }}
           />
         </Preview>
