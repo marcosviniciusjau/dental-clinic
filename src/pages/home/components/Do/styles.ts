@@ -1,14 +1,12 @@
 import { Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('div', {
-  marginLeft: 'auto',
+  width: '100%',
   display: 'grid',
   gridTemplateColumns: '1fr 1fr 1fr',
   gridTemplateAreas: '"image1 text text1" "image2 text2 text3"',
   alignItems: 'center',
-  gap: '$16',
   overflow: 'hidden',
-  padding: '0 $10',
   backgroundColor: '$blue500',
   '@media(max-width: 600px)': {
     display: 'block',

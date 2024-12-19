@@ -2,7 +2,6 @@ import { Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 import Image from 'next/image'
 
 export const Container = styled('div', {
-  marginLeft: 'auto',
   display: 'flex',
   alignItems: 'center',
   gap: '$20',
@@ -35,15 +34,14 @@ export const Hero = styled('div', {
 })
 
 export const Preview = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  marginRight: '$8',
-  marginLeft: '$8',
+  '@media(min-width: 600px)': {
+    marginLeft: '20vh',
+  },
   overflow: 'hidden',
   paddingBottom: '$10',
   '@media(max-width: 600px)': {
     [`> ${Image}`]: {
-      paddingRight: '$8',
+      paddingBlock: '$8',
       paddingLeft: '$8',
     },
   },

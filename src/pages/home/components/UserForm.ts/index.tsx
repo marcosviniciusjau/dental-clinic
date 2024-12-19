@@ -42,7 +42,7 @@ export function UserForm() {
       <Imagem>
         <Image
           src={agenda}
-          height={400}
+          height={300}
           quality={100}
           alt="Imagem de wavebreakmedia_micro no Freepik"
         />
