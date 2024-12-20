@@ -13,6 +13,9 @@ import { z } from 'zod'
 import { api } from '@/src/lib/axios'
 import { ConfirmForm, FormActions, FormError, FormHeader } from './styles'
 
+import Cookies from 'js-cookie'
+import { ToastContainer, toast } from 'react-toastify';
+
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: 'O nome precisa no mínimo 3 caracteres' }),
   email: z.string().email({ message: 'Digite um e-mail válido' }),
@@ -32,8 +35,8 @@ export function ConfirmStep({
 }: ConfirmStepProps) {
   const router = useRouter()
   const emailOwner = String(router.query.email)
-  const client = String(router.query.newClient)
-  const clientData = JSON.parse(decodeURIComponent(client))
+
+  const clientData = JSON.parse(Cookies.get('@dentalclinic:newClient'));
 
   const {
     register,
@@ -49,16 +52,19 @@ export function ConfirmStep({
   })
 
   async function handleConfirmScheduling(data: ConfirmFormData) {
-    const { name, email, observations } = data
+      const { name, email, observations } = data
 
-    await api.post(`/users/${emailOwner}/schedule`, {
-      name,
-      email,
-      observations,
-      date: schedulingDate,
-    })
-
-    onCancelConfirmation()
+      try{
+        const response = await api.post(`/users/${emailOwner}/schedule`, {
+        name,
+        email,
+        observations,
+        date: schedulingDate,
+      })
+      toast.success('Agendamento realizado com sucesso!')
+    }catch(error){
+      console.error(error)
+    }
   }
 
   const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY')
@@ -107,7 +113,10 @@ export function ConfirmStep({
         <Button type="submit" disabled={isSubmitting}>
           Confirmar
         </Button>
+        
+      <ToastContainer />
       </FormActions>
+      
     </ConfirmForm>
   )
 }

@@ -8,6 +8,8 @@ import { GetStaticProps } from 'next'
 import { prisma } from '@/src/lib/prisma'
 import { ScheduleForm } from './ScheduleForm'
 import { NextSeo } from 'next-seo'
+
+import { ToastContainer, toast } from 'react-toastify';
 interface ScheduleProps {
   user: {
     name: string
@@ -17,6 +19,8 @@ interface ScheduleProps {
   }
 }
 export default function Schedule({ user }: ScheduleProps) {
+  
+  toast.success('Agendamento realizado com sucesso!')
   return (
     <>
       <NextSeo title={`Agendar com ${'Dental Clinic'}| Dental Clinic`} />
@@ -29,6 +33,7 @@ export default function Schedule({ user }: ScheduleProps) {
         </UserHeader>
         <ScheduleForm />
       </Container>
+      <ToastContainer/>
     </>
   )
 }

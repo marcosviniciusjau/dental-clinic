@@ -16,7 +16,9 @@ import { useEffect } from 'react'
 import { api } from '@/src/lib/axios'
 import { AxiosError } from 'axios'
 import { NextSeo } from 'next-seo'
+import Cookies from 'js-cookie'
 
+import { ToastContainer, toast } from 'react-toastify';
 const registerFormSchema = z.object({
   email: z.string().email({ message: 'Digite um e-mail válido' }),
   name: z.string().min(3, { message: 'Mínimo 3 caracteres' }),
@@ -35,7 +37,7 @@ export default function Register() {
   })
 
   const router = useRouter()
-  const emailOwner = 'marcosviniciusjahu@gmail.com'
+  const emailOwner = 'mvaraujowebsites@gmail.com'
   useEffect(() => {
     if (router.query.email) {
       setValue('email', String(router.query.email))
@@ -49,23 +51,26 @@ export default function Register() {
         email: data.email,
       })
 
-      const name = data.name
-      const email = data.email
+      if (data.email !== 'mvaraujowebsites@gmail.com') {
+        const name = data.name
+        const email = data.email
+  
+        const newClient = JSON.stringify({ name, email })
 
-      const newClient = JSON.stringify({ name, email })
-      if (data.email === emailOwner) {
+        Cookies.set('@dentalclinic:newClient',newClient)
+        await router.push(`/schedule/${emailOwner}`)
+      }else{
         await router.push('/register/connect-calendar')
       }
-      await router.push(`/schedule/${emailOwner}?newClient=${newClient}`)
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
-        alert(err.response.data.message)
+        toast.error(err.response.data.message)
         return
       }
+
       console.error(err)
     }
   }
-
   return (
     <>
       <NextSeo title="Crie uma conta | Dental Clinic" />
@@ -100,6 +105,7 @@ export default function Register() {
             <ArrowRight />
           </Button>
         </Form>
+        <ToastContainer />
       </Container>
     </>
   )
