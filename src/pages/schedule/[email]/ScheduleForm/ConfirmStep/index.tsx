@@ -35,13 +35,17 @@ export function ConfirmStep({
 }: ConfirmStepProps) {
   const router = useRouter()
   const emailOwner = String(router.query.email)
-
-  const clientData = JSON.parse(Cookies.get('@dentalclinic:newClient'));
+  const cookie = Cookies.get('@dentalclinic:newClient')
+  if(!cookie){
+    return
+  }
+  const clientData = JSON.parse(cookie);
 
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useForm<ConfirmFormData>({
     defaultValues: {
       name: clientData.name,
