@@ -23,14 +23,12 @@ interface ScheduleProps {
   }
 }
 export default function Schedule({ user }: ScheduleProps) {
-  
     const router = useRouter()
     const cookie = Cookies.get('@dentalclinic:newClient')
     if(!cookie){
       return 403
     }
 
-  toast.success('Agendamento realizado com sucesso!')
   return (
     <>
       <NextSeo title={`Agendar com ${'Dental Clinic'}| Dental Clinic`} />

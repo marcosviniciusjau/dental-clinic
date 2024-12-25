@@ -33,31 +33,23 @@ export const Hero = styled('div', {
 })
 export const Imagem = styled(Image,{
   display: "flex",
-  margin: "auto",
   width: "40vh",
   height: "40vh",
   borderRadius: "4px",
   
   '@media(max-width: 600px)': {
-    marginLeft: "$8",
     padding: 0,
-    width: "20vh",
-    height: "20vh",
+    marginLeft: "$8",
+    width: "30vh",
+    height: "30vh",
   }
 })
 
 export const Preview = styled('div', {
   '@media(min-width: 600px)': {
-    marginLeft: '20vh',
+    marginLeft: '5vh',
   },
 
   overflow: 'hidden',
   paddingBottom: '$10',
-
-  '@media(max-width: 600px)': {
-    [`> ${Image}`]: {
-      paddingBlock: '$8',
-      paddingLeft: '$8',
-    },
-  },
 })

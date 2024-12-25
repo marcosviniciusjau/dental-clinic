@@ -67,7 +67,7 @@ export function ConfirmStep({
         date: schedulingDate,
       })
       toast.success('Agendamento realizado com sucesso!')
-      router.push('/')
+      await router.push('/')
     } catch (error) {
       console.error(error)
     }
