@@ -15,6 +15,7 @@ import { ConfirmForm, FormActions, FormError, FormHeader } from './styles'
 
 import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
+import { useCallback } from 'react'
 
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: 'O nome precisa no mínimo 3 caracteres' }),
@@ -37,7 +38,7 @@ export function ConfirmStep({
   const emailOwner = String(router.query.email)
   const cookie = Cookies.get('@dentalclinic:newClient')
   if(!cookie){
-    return
+    return 403
   }
   const clientData = JSON.parse(cookie);
 
@@ -66,7 +67,8 @@ export function ConfirmStep({
         date: schedulingDate,
       })
       toast.success('Agendamento realizado com sucesso!')
-    }catch(error){
+      router.push('/')
+    } catch (error) {
       console.error(error)
     }
   }

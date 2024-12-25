@@ -8,6 +8,7 @@ export const Container = styled('div', {
   alignItems: 'center',
   overflow: 'hidden',
   backgroundColor: '$blue500',
+  paddingLeft: '$16',
   '@media(max-width: 600px)': {
     display: 'block',
     paddingLeft: '$6',
@@ -43,11 +44,10 @@ export const Implantes = styled('div', {
 export const Aparelhos = styled('div', {
   maxWidth: 315,
   display: 'flex',
-
   gridArea: 'text1',
   flexDirection: 'column',
   gap: '$4',
-  marginTop: '$20',
+  marginTop: '$10',
   overflow: 'hidden',
   '@media(max-width: 600px)': {
     marginBottom: '$16',
@@ -58,6 +58,7 @@ export const Aparelhos = styled('div', {
 export const Consultas = styled('div', {
   gridArea: 'text3',
   maxWidth: 315,
+  marginTop: '$16',
   marginBottom: '$20',
   display: 'flex',
   flexDirection: 'column',
@@ -67,6 +68,7 @@ export const Consultas = styled('div', {
 export const Limpezas = styled('div', {
   gridArea: 'image2',
   maxWidth: 315,
+  marginTop: '$16',
   marginBottom: '$20',
   display: 'flex',
   flexDirection: 'column',

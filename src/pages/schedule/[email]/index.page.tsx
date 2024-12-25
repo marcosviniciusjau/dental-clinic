@@ -10,6 +10,10 @@ import { ScheduleForm } from './ScheduleForm'
 import { NextSeo } from 'next-seo'
 
 import { ToastContainer, toast } from 'react-toastify';
+
+import Cookies from 'js-cookie'
+
+import { useRouter } from 'next/router'
 interface ScheduleProps {
   user: {
     name: string
@@ -20,14 +24,21 @@ interface ScheduleProps {
 }
 export default function Schedule({ user }: ScheduleProps) {
   
+    const router = useRouter()
+    const cookie = Cookies.get('@dentalclinic:newClient')
+    if(!cookie){
+      return 403
+    }
+
   toast.success('Agendamento realizado com sucesso!')
   return (
     <>
       <NextSeo title={`Agendar com ${'Dental Clinic'}| Dental Clinic`} />
 
+
       <Container>
         <UserHeader>
-          <ProfilePhoto src="https://avatars.githubusercontent.com/u/82465988?s=400&u=1a1e57c5c28568093ab8cebcf3ff6ffa2c006641&v=4" />
+          <ProfilePhoto src={user.profileImgUrl} />
           <Heading>Dental Clinic</Heading>
           <Text>{user.bio}</Text>
         </UserHeader>

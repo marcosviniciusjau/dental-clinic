@@ -20,7 +20,6 @@ export const Hero = styled('div', {
   maxWidth: 480,
   padding: '0 $8',
   paddingBottom: '$10',
-  paddingTop: '$10',
   [`> ${Heading}`]: {
     '@media(max-width: 600px)': {
       fontSize: '$2xl',
@@ -32,13 +31,29 @@ export const Hero = styled('div', {
     color: '$gray300',
   },
 })
+export const Imagem = styled(Image,{
+  display: "flex",
+  margin: "auto",
+  width: "40vh",
+  height: "40vh",
+  borderRadius: "4px",
+  
+  '@media(max-width: 600px)': {
+    marginLeft: "$8",
+    padding: 0,
+    width: "20vh",
+    height: "20vh",
+  }
+})
 
 export const Preview = styled('div', {
   '@media(min-width: 600px)': {
     marginLeft: '20vh',
   },
+
   overflow: 'hidden',
   paddingBottom: '$10',
+
   '@media(max-width: 600px)': {
     [`> ${Image}`]: {
       paddingBlock: '$8',
