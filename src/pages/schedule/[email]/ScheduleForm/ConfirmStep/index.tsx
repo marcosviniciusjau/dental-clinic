@@ -15,7 +15,7 @@ import { ConfirmForm, FormActions, FormError, FormHeader } from './styles'
 
 import Cookies from 'js-cookie'
 import { ToastContainer, toast } from 'react-toastify';
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: 'O nome precisa no mínimo 3 caracteres' }),
@@ -60,15 +60,18 @@ export function ConfirmStep({
       const { name, email, observations } = data
 
       try{
-        const response = await api.post(`/users/${emailOwner}/schedule`, {
+       await api.post(`/users/${emailOwner}/schedule`, {
         name,
         email,
         observations,
         date: schedulingDate,
       })
       toast.success('Agendamento realizado com sucesso!')
-      await router.push('/')
+      setTimeout(()=>{
+        onCancelConfirmation()
+      },5000)
     } catch (error) {
+      toast.error('Ocorreu um erro. Tente outro horário ou outro dia')
       console.error(error)
     }
   }

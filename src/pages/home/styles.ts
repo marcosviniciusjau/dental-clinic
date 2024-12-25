@@ -40,8 +40,6 @@ export const Imagem = styled(Image,{
   '@media(max-width: 600px)': {
     padding: 0,
     marginLeft: "$8",
-    width: "30vh",
-    height: "30vh",
   }
 })
 
