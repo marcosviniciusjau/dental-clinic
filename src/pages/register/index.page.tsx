@@ -19,6 +19,7 @@ import { NextSeo } from 'next-seo'
 import Cookies from 'js-cookie'
 
 import { ToastContainer, toast } from 'react-toastify';
+import { setCookie } from 'nookies'
 const registerFormSchema = z.object({
   email: z.string().email({ message: 'Digite um e-mail válido' }),
   name: z.string().min(3, { message: 'Mínimo 3 caracteres' }),
@@ -46,18 +47,21 @@ export default function Register() {
 
   async function handleRegister(data: RegisterFormData) {
     try {
-      await api.post('/users', {
+      const response = await api.post('/users', {
         name: data.name,
         email: data.email,
       })
-
       if (data.email !== 'mvaraujowebsites@gmail.com') {
         const name = data.name
         const email = data.email
   
-        const newClient = JSON.stringify({ name, email })
+        const newClient = JSON.stringify({name, email})
 
-        Cookies.set('@dentalclinic:newClient',newClient)
+         setCookie(null, 'dental-clinic:newClient', newClient, {
+            maxAge: 60 * 60 * 24 * 7,
+            path: '/',
+          })
+          
         await router.push(`/schedule/${emailOwner}`)
       }else{
         await router.push('/register/connect-calendar')

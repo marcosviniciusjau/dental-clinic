@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 
-import { prisma } from '../../../../lib/prisma'
+import { prisma } from '@/src/lib/prisma'
 import { google } from 'googleapis'
 import { getGoogleOAuthToken } from '@/src/lib/google'
 

@@ -3,7 +3,7 @@ import {
   ProfilePhoto,
   Text,
 } from '@marcos-vinicius-design-system/react'
-import { Container, UserHeader } from './styles'
+import { Container, DoctorHeader, UserHeader } from './styles'
 import { GetStaticProps } from 'next'
 import { prisma } from '@/src/lib/prisma'
 import { ScheduleForm } from './ScheduleForm'
@@ -24,7 +24,8 @@ interface ScheduleProps {
 }
 export default function Schedule({ user }: ScheduleProps) {
     const router = useRouter()
-    const cookie = Cookies.get('@dentalclinic:newClient')
+    const cookie = Cookies.get('dental-clinic:newClient')
+
     if(!cookie){
       return 403
     }
@@ -35,11 +36,11 @@ export default function Schedule({ user }: ScheduleProps) {
 
 
       <Container>
-        <UserHeader>
+        <DoctorHeader>
           <ProfilePhoto src={user.profileImgUrl} />
           <Heading>Dental Clinic</Heading>
           <Text>{user.bio}</Text>
-        </UserHeader>
+        </DoctorHeader>
         <ScheduleForm />
       </Container>
       <ToastContainer/>

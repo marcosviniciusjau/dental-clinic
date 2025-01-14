@@ -1,4 +1,4 @@
-import { Heading, Text, styled } from '@marcos-vinicius-design-system/react'
+import { Button, Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('div', {
   maxWidth: 852,
@@ -10,6 +10,27 @@ export const Container = styled('div', {
 })
 
 export const UserHeader = styled('div', {
+  [`> ${Text}`]: {
+    color: '$gray100',
+  },
+  [`> ${Heading}`]: {
+    marginTop: '-$8',
+    color: '$gray100',
+  display: 'grid',
+  justifyItems: 'end',
+  [`> ${Button}`]: {
+    fontWeight: 'normal',
+  },
+  },
+})
+
+export const Profile = styled('div',{
+  marginBlock: 0,  
+  display: 'grid',
+  alignItems: 'center',
+  justifyContent: 'end',
+})
+export const DoctorHeader = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
