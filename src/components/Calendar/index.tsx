@@ -13,6 +13,7 @@ import {
   CalendarHeader,
   CalendarTitle,
 } from './styles'
+import { Availability } from '@/src/pages/schedule/[email]/ScheduleForm/CalendarStep'
 
 interface CalendarWeek {
   week: number
@@ -32,15 +33,15 @@ interface BlockedDates {
 interface CalendarProps {
   selectedDate: Date | null
   onDateSelected: (date: Date) => void
+  availability?: Availability;
 }
 
-export function Calendar({ onDateSelected }: CalendarProps) {
+export function Calendar({ onDateSelected,availability  }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(() => {
     return dayjs().set('date', 1)
   })
 
   const router = useRouter()
-
   function handlePreviousMonth() {
     const previousMonth = currentDate.subtract(1, 'month')
 
@@ -77,7 +78,6 @@ export function Calendar({ onDateSelected }: CalendarProps) {
       return response.data
     },
   })
-
   const calendarWeeks = useMemo(() => {
     if (!blockedDates) {
       return []
@@ -121,7 +121,8 @@ export function Calendar({ onDateSelected }: CalendarProps) {
           disabled:
             date.endOf('day').isBefore(new Date()) ||
             blockedDates.blockedWeekDays?.includes(date.get('day')) ||
-            blockedDates.blockedDates.includes(date.get('date')),
+            blockedDates.blockedDates.includes(date.get('date')) ||
+            !availability?.availableTimes?.length,
         }
       }),
       ...nextMonthFillArray.map((date) => {

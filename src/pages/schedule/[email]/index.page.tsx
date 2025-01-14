@@ -25,7 +25,6 @@ interface ScheduleProps {
 export default function Schedule({ user }: ScheduleProps) {
     const router = useRouter()
     const cookie = Cookies.get('dental-clinic:newClient')
-
     if(!cookie){
       return 403
     }
@@ -33,8 +32,6 @@ export default function Schedule({ user }: ScheduleProps) {
   return (
     <>
       <NextSeo title={`Agendar com ${'Dental Clinic'}| Dental Clinic`} />
-
-
       <Container>
         <DoctorHeader>
           <ProfilePhoto src={user.profileImgUrl} />

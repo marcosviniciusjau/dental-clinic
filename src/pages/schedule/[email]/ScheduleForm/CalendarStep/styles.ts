@@ -88,3 +88,10 @@ export const TimePickerItem = styled('button', {
     boxShadow: '0 0 0 2px $colors$gray100',
   },
 })
+
+export const FormActions = styled('div', {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  gap: '$1',
+})
+

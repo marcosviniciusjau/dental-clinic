@@ -36,7 +36,7 @@ export function ConfirmStep({
 }: ConfirmStepProps) {
   const router = useRouter()
   const emailOwner = String(router.query.email)
-  const cookie = Cookies.get('@dentalclinic:newClient')
+  const cookie = Cookies.get('dental-clinic:newClient')
   if(!cookie){
     return 403
   }
