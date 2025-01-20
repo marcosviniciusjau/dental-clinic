@@ -16,6 +16,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { ContainerLogin } from "../../styles";
 import { ClientProps } from "../../index.page";
 import { get } from 'local-storage';
+
+import { parseCookies } from "nookies"
 const confirmFormSchema = z.object({
   name: z.string().min(3, { message: "O nome precisa no mínimo 3 caracteres" }),
   email: z.string().email({ message: "Digite um e-mail válido" }),
@@ -38,9 +40,10 @@ export function ConfirmStep({
   const router = useRouter();
   const emailOwner = String(router.query.email);
 
-  let clientStorage = get('client') as ClientProps
+  let clientStorage = get('client') as any
 
-  if(!clientStorage){
+  const { 'dental-clinic:client': userIdOnCookies } = parseCookies()
+  if(!userIdOnCookies){
     return (
       <ContainerLogin>
       <Heading>Você precisa fazer login para acessar essa página</Heading>

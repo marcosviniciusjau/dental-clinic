@@ -113,11 +113,11 @@ export default function Schedule({ user }: ScheduleProps) {
           <ProfileHeader>
             <Text>{clientStorage[0].name}</Text>
             <Text>{clientStorage[0].email}</Text>
-            <Button variant={"ghost"} onClick={logout}>
+            <Button onClick={logout}>
             <Door/>
             Sair
             </Button>
-            <Button variant="ghost" onClick={updateProfile}>
+            <Button onClick={updateProfile}>
             <Pencil/>
             Editar Perfil
             </Button>
