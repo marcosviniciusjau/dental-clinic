@@ -12,14 +12,14 @@ import { ArrowRight, Check } from 'phosphor-react'
 import { AuthError, ConnectBox, ConnectItem } from './styles'
 import { useRouter } from 'next/router'
 import { NextSeo } from 'next-seo'
-import { env } from '@/@types/env'
+import { env } from '@/env/env'
 
 export default function CreateAccountGoogle() {
   const session = useSession()
 
   const router = useRouter()
 
-  const emailOwner = env.EMAIL;
+  const emailOwner = env.NEXT_PUBLIC_EMAIL;
   const hasAuthError = !!router.query.error
   const isSignedId = session.status === 'authenticated'
 

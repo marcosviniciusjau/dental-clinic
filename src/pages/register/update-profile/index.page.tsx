@@ -29,7 +29,7 @@ const updateProfileSchema = z.object({
 type UpdateProfileData = z.infer<typeof updateProfileSchema>;
 
 export default function updateProfile() {
- let clientStorage = get('client') as ClientProps[]
+ let clientStorage = get('client')
  const emailOwner = env.NEXT_PUBLIC_EMAIL
  if(!clientStorage){
    return (

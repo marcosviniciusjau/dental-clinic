@@ -41,7 +41,7 @@ export default function Register() {
   });
 
   const router = useRouter();
-  const emailOwner = env.EMAIL;
+  const emailOwner = env.NEXT_PUBLIC_EMAIL;
   useEffect(() => {
     if (router.query.email) {
       setValue("email", String(router.query.email));
