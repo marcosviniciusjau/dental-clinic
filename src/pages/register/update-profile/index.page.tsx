@@ -29,7 +29,7 @@ const updateProfileSchema = z.object({
 type UpdateProfileData = z.infer<typeof updateProfileSchema>;
 
 export default function updateProfile() {
- let clientStorage = get('client')
+ let clientStorage = get('client') as ClientProps[]
  const emailOwner = env.NEXT_PUBLIC_EMAIL
  if(!clientStorage){
    return (
@@ -59,7 +59,7 @@ export default function updateProfile() {
     });
     const clientToStorage = response.data
     if(clientStorage != clientToStorage){
-      clientStorage = set('client', clientToStorage) as unknown
+      clientStorage = set('client', clientToStorage) as any
     }
 
     toast.success("Perfil atualizado com sucesso!");

@@ -21,7 +21,7 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import { setCookie } from "nookies";
 import { hash } from "bcryptjs";
-import { env } from "@/@types/env";
+import { env } from "@/env/env";
 const registerFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
   name: z.string().min(3, { message: "Mínimo 3 caracteres" }),

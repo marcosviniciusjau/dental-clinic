@@ -68,7 +68,7 @@ export default function Schedule({ user }: ScheduleProps) {
           if (!clientStorage || clientStorage === null) {
           const response = await api.get(`/users/get-user`);
           const clientToStorage = response.data
-          clientStorage = set('client', clientToStorage)
+          clientStorage = set('client', clientToStorage) as any
           return response.data;
           } else {
             return clientStorage
