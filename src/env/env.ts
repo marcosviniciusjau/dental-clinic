@@ -1,0 +1,22 @@
+import { z } from "zod";
+import dotenv from "dotenv";
+dotenv.config();
+const envSchema = z.object({
+  NEXT_PUBLIC_DATABASE_URL: z.string(),
+  NEXT_PUBLIC_DATABASE_DIRECT_URL: z.string(),
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string(),
+  NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: z.string(),
+  NEXT_PUBLIC_NEXTAUTH_SECRET: z.string(),
+  NEXT_PUBLIC_EMAIL: z.string(),
+  NEXT_PUBLIC_JWT_SECRET: z.string(),
+})
+const parsedEnv = {
+  NEXT_PUBLIC_DATABASE_URL: process.env.NEXT_PUBLIC_DATABASE_URL,
+  NEXT_PUBLIC_DATABASE_DIRECT_URL: process.env.NEXT_PUBLIC_DATABASE_DIRECT_URL,
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+  NEXT_PUBLIC_GOOGLE_CLIENT_SECRET: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET,
+  NEXT_PUBLIC_NEXTAUTH_SECRET: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
+  NEXT_PUBLIC_EMAIL: process.env.NEXT_PUBLIC_EMAIL,
+  NEXT_PUBLIC_JWT_SECRET: process.env.NEXT_PUBLIC_JWT_SECRET,
+};
+export const env = envSchema.parse(parsedEnv)

@@ -3,9 +3,9 @@ import dayjs from 'dayjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { z } from 'zod'
 
-import { prisma } from '@/src/lib/prisma'
+import { prisma } from '@/lib/prisma'
 import { google } from 'googleapis'
-import { getGoogleOAuthToken } from '@/src/lib/google'
+import { getGoogleOAuthToken } from '@/lib/google'
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,6 +21,13 @@ export default async function handler(
     where: {
       email: emailOwner,
     },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      bio: true,
+      profile_img_url: true
+    },
   })
 
   if (!user) {
@@ -30,7 +37,7 @@ export default async function handler(
   const createSchedulingBody = z.object({
     name: z.string(),
     email: z.string().email(),
-    observations: z.string(),
+    observations: z.enum(['Check-up', 'Tratamento', 'Implante']).default('Tratamento'),
     date: z.string().datetime(),
   })
 

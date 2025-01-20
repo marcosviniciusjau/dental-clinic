@@ -9,12 +9,11 @@ export function PrismaAdapter(
 ): Adapter {
   return {
     async createUser(user) {
-      const { 'dental-clinic:userId': userIdOnCookies } = parseCookies({ req })
+      const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
 
       if (!userIdOnCookies) {
-        throw new Error('User ID not found on cookies.')
+        throw new Error('User not found on cookies.')
       }
-
       const prismaUser = await prisma.user.update({
         where: {
           id: userIdOnCookies,
@@ -40,10 +39,20 @@ export function PrismaAdapter(
     },
 
     async getUser(id) {
+      console.log("comecou a senha errada!")
       const user = await prisma.user.findUnique({
         where: {
           id,
         },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          password: false,
+          created_at: false,
+          bio: false,
+          profile_img_url: true
+        }
       })
 
       if (!user) {
@@ -63,6 +72,15 @@ export function PrismaAdapter(
         where: {
           email,
         },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          password: false,
+          created_at: false,
+          bio: false,
+          profile_img_url: true
+        }
       })
 
       if (!user) {
@@ -89,7 +107,7 @@ export function PrismaAdapter(
           user: true,
         },
       })
-
+console.log("a senha aqui")
       if (!account) {
         return null
       }

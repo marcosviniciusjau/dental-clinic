@@ -1,4 +1,4 @@
-import { Calendar } from "@/src/components/Calendar";
+import { Calendar } from "@/components/Calendar";
 import {
   Container,
   TimePicker,
@@ -8,7 +8,7 @@ import {
 } from "./styles";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { api } from "@/src/lib/axios";
+import { api } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { FormActions } from "./styles";
@@ -22,7 +22,6 @@ export interface Availability {
 interface CalendarStepProps {
   onSelectedTime: (date: Date) => void;
 }
-
 export function CalendarStep({ onSelectedTime }: CalendarStepProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -64,30 +63,25 @@ export function CalendarStep({ onSelectedTime }: CalendarStepProps) {
 
     onSelectedTime(dateWithTime);
   }
-
-
-  function onCancelConfirmation(){
-   setSelectedDate(null)
+  function onCancelConfirmation() {
+    setSelectedDate(null);
   }
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
-      <Calendar 
-      selectedDate={selectedDate} 
-      onDateSelected={setSelectedDate} 
-      />
-    
+      <Calendar selectedDate={selectedDate} onDateSelected={setSelectedDate} />
+
       {isDateSelected && (
         <TimePicker>
-            <FormActions>
-              <Button
-                type="button"
-                variant="tertiary"
-                onClick={onCancelConfirmation}
-              >
-                Cancelar
-              </Button>
-            </FormActions>
+          <FormActions>
+            <Button
+              type="button"
+              variant="tertiary"
+              onClick={onCancelConfirmation}
+            >
+              Cancelar
+            </Button>
+          </FormActions>
           <TimePickerHeader>
             {weekDay} <span>{describedDate}</span>
           </TimePickerHeader>
@@ -105,7 +99,6 @@ export function CalendarStep({ onSelectedTime }: CalendarStepProps) {
                 </TimePickerItem>
               );
             })}
-          
           </TimePickerList>
         </TimePicker>
       )}

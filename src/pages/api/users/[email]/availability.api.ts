@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '@/src/lib/prisma'
+import { prisma } from '@/lib/prisma'
 
 dayjs.extend(utc)
 
@@ -28,6 +28,10 @@ export default async function handler(
     where: {
       email,
     },
+    select:{
+      email: true,
+      id: true,
+    }
   })
 
   if (!user) {

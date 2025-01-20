@@ -1,9 +1,9 @@
-import aparelho from '@/src/assets/aparelho.jpg'
-import implante from '@/src/assets/implante.jpg'
-import consulta from '@/src/assets/consulta.jpg'
-import limpeza from '@/src/assets/limpeza.jpg'
+import aparelho from "@/assets/aparelho.jpg";
+import implante from "@/assets/implante.jpg";
+import consulta from "@/assets/consulta.jpg";
+import limpeza from "@/assets/limpeza.jpg";
 
-import { Heading, Text } from '@marcos-vinicius-design-system/react'
+import { Heading, Text } from "@marcos-vinicius-design-system/react";
 import {
   Container,
   Hero,
@@ -11,8 +11,8 @@ import {
   Aparelhos,
   Consultas,
   Limpezas,
-} from './styles'
-import Image from 'next/image'
+} from "./styles";
+import Image from "next/image";
 
 export function Do() {
   return (
@@ -27,7 +27,7 @@ export function Do() {
           height={200}
           quality={100}
           priority
-          style={{ borderRadius: '4px' }}
+          style={{ borderRadius: "4px" }}
           alt="Imagem de wavebreakmedia_micro no Freepik"
         />
         <Text size="xl">Implantes</Text>
@@ -42,7 +42,7 @@ export function Do() {
           src={aparelho}
           height={200}
           quality={100}
-          style={{ borderRadius: '4px' }}
+          style={{ borderRadius: "4px" }}
           priority
           alt="Imagem de pvproductions no Freepik"
         />
@@ -59,7 +59,7 @@ export function Do() {
           src={consulta}
           height={200}
           quality={100}
-          style={{ borderRadius: '4px' }}
+          style={{ borderRadius: "4px" }}
           priority
           alt="Imagem do Freepik"
         />
@@ -74,7 +74,7 @@ export function Do() {
           src={limpeza}
           height={200}
           quality={100}
-          style={{ borderRadius: '4px' }}
+          style={{ borderRadius: "4px" }}
           priority
           alt="Imagem do Freepik"
         />
@@ -85,5 +85,5 @@ export function Do() {
         </Text>
       </Limpezas>
     </Container>
-  )
+  );
 }

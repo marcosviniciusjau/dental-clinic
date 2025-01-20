@@ -18,6 +18,5 @@ export const HeaderContainer = styled('header', {
 
 export const HeaderText = styled('header', {
   display: 'inherit',
-  marginTop: '$10',
   gap: '$6',
 })
