@@ -59,8 +59,9 @@ export default function updateProfile() {
     });
     const clientToStorage = response.data
     if(clientStorage != clientToStorage){
-      clientStorage = set('client', clientToStorage)
+      clientStorage = set('client', clientToStorage) as unknown
     }
+
     toast.success("Perfil atualizado com sucesso!");
     await router.push(`/schedule/${emailOwner}`);	
   }

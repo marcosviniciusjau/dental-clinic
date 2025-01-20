@@ -30,6 +30,8 @@ interface ScheduleProps {
 }
 
 export interface ClientProps {
+  email: string | undefined
+  name: string | undefined
   client: {
     name: string
     email: string
@@ -59,20 +61,21 @@ export default function Schedule({ user }: ScheduleProps) {
       },
     });
     
-    let clientStorage = get('client') as ClientProps
-      const { data: client } = useQuery<ClientProps>({
+    let clientStorage = get('client') as ClientProps[]
+     useQuery({
         queryKey: ["client"],
         queryFn: async () => {
-          if(!clientStorage){
+          if (!clientStorage || clientStorage === null) {
           const response = await api.get(`/users/get-user`);
           const clientToStorage = response.data
           clientStorage = set('client', clientToStorage)
           return response.data;
           } else {
-            return JSON.parse(clientStorage)
+            return clientStorage
           }
         },
       });
+
   if(!userIdOnCookies){
     remove('client')
     return (
@@ -95,7 +98,7 @@ export default function Schedule({ user }: ScheduleProps) {
       remove('client')
       router.push('/sign-in')
     } catch (error) {
-      console.log("deu tudo errado!")
+      console.log(error)
     }
  
   }
@@ -107,29 +110,28 @@ export default function Schedule({ user }: ScheduleProps) {
       <Header/>
       <Container>
         <UserHeader>
-        <ProfileHeader>
-       
-          <Text>{clientStorage[0].name}</Text>
-          <Text>{clientStorage[0].email}</Text>
-          <Button variant="ghost" onClick={logout}>
-          <Door/>
-          Sair
-          </Button>
-          <Button variant="ghost" onClick={updateProfile}>
-          <Pencil/>
-          Editar Perfil
-          </Button>
-        </ProfileHeader>
-        <Consultas>
-          <Heading>Suas consultas:</Heading>
-        {schedulings ? schedulings.map((scheduling) =>
-              <div key={scheduling.id}>
-                <Text>Data da consulta: {new Date(scheduling.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</Text>
-                <Text>Consulta:{scheduling.observations}</Text>
-                </div>
-           
-          ) : <Text>Você ainda não possui agendamentos.</Text>}
-        </Consultas>
+          <ProfileHeader>
+            <Text>{clientStorage[0].name}</Text>
+            <Text>{clientStorage[0].email}</Text>
+            <Button variant={"ghost"} onClick={logout}>
+            <Door/>
+            Sair
+            </Button>
+            <Button variant="ghost" onClick={updateProfile}>
+            <Pencil/>
+            Editar Perfil
+            </Button>
+          </ProfileHeader>
+          <Consultas>
+            <Heading>Suas consultas:</Heading>
+          {schedulings ? schedulings.map((scheduling) =>
+                <div key={scheduling.id}>
+                  <Text>Data da consulta: {new Date(scheduling.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</Text>
+                  <Text>Consulta:{scheduling.observations}</Text>
+                  </div>
+            
+            ) : <Text>Você ainda não possui agendamentos.</Text>}
+          </Consultas>
         <DoctorHeader>
           <ProfilePhoto src={user.profileImgUrl} />
           <Heading>Dental Clinic</Heading>

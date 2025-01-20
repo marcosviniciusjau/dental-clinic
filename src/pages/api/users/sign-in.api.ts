@@ -3,10 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { AppError } from "@/utils/app-error";
 import { compare } from "bcryptjs";
 import dayjs from "dayjs";
-import { sign } from "jsonwebtoken"
+import { sign } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 import { setCookie } from "nookies";
-import {set} from 'local-storage'
 interface SignInBody {
   email: string;
   password: string;
@@ -29,14 +28,22 @@ export default async function handler(
       id: true,
       email: true,
       name: true,
+      password: true
     }
   })
+
   if (!user) {
     throw new AppError('Email or password incorrect')
   }
+
   if (!password) {
     throw new AppError('Email or password incorrect')
   }
+  
+  if (!user.password) {
+    throw new AppError('Email or password incorrect')
+  }
+
   const passwordMatch = compare(password, user.password)
 
   if (!passwordMatch) {
