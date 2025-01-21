@@ -20,5 +20,5 @@ const parsedEnv = {
   NEXT_NEXTAUTH_SECRET: process.env.NEXT_NEXTAUTH_SECRET,
   NEXT_EMAIL: process.env.NEXT_EMAIL,
   NEXT_JWT_SECRET: process.env.NEXT_JWT_SECRET,
-};]
+};
 export const env = envSchema.parse(parsedEnv)
