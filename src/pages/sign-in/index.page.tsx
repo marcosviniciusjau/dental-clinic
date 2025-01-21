@@ -20,7 +20,7 @@ type SignInFormData = z.infer<typeof SignInFormSchema>;
 export default function SignIn() {
   const router = useRouter();
 
-  const emailOwner = env.NEXT_PUBLIC_EMAIL;
+  const emailOwner = env.NEXT_EMAIL;
   const {
     register,
     handleSubmit,

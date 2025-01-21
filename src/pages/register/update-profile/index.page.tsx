@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
   Button,
-  Heading, Text,
-  TextArea
+  Heading,
+  Text,
+  TextArea,
 } from "@marcos-vinicius-design-system/react";
 import { Container, Header } from "../styles";
 import { useForm } from "react-hook-form";
@@ -23,22 +24,24 @@ import { env } from "@/env/env";
 import { ToastContainer, toast } from "react-toastify";
 const updateProfileSchema = z.object({
   name: z.string().min(2),
-  email: z.string().email()
+  email: z.string().email(),
 });
 
 type UpdateProfileData = z.infer<typeof updateProfileSchema>;
 
 export default function updateProfile() {
- let clientStorage = get('client') as ClientProps[]
- const emailOwner = env.NEXT_PUBLIC_EMAIL
- if(!clientStorage){
-   return (
-     <ContainerLogin>
-     <Heading>Você precisa fazer login para acessar essa página</Heading>
-     <a href="/sign-in" style={{textDecoration:'none'}}><Button>Fazer Login</Button></a>
-     </ContainerLogin>
-   )
- }
+  let clientStorage = get("client") as ClientProps[];
+  const emailOwner = env.NEXT_EMAIL;
+  if (!clientStorage) {
+    return (
+      <ContainerLogin>
+        <Heading>Você precisa fazer login para acessar essa página</Heading>
+        <a href="/sign-in" style={{ textDecoration: "none" }}>
+          <Button>Fazer Login</Button>
+        </a>
+      </ContainerLogin>
+    );
+  }
 
   const {
     register,
@@ -55,15 +58,15 @@ export default function updateProfile() {
   async function handleUpdateProfile(data: UpdateProfileData) {
     const response = await api.put("/users/update-profile", {
       name: data.name,
-      email: data.email
+      email: data.email,
     });
-    const clientToStorage = response.data
-    if(clientStorage != clientToStorage){
-      clientStorage = set('client', clientToStorage) as any
+    const clientToStorage = response.data;
+    if (clientStorage != clientToStorage) {
+      clientStorage = set("client", clientToStorage) as any;
     }
 
     toast.success("Perfil atualizado com sucesso!");
-    await router.push(`/schedule/${emailOwner}`);	
+    await router.push(`/schedule/${emailOwner}`);
   }
 
   return (
@@ -90,7 +93,7 @@ export default function updateProfile() {
             Finalizar
             <ArrowRight />
           </Button>
-          
+
           <ToastContainer />
         </ProfileBox>
       </Container>

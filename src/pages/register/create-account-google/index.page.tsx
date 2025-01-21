@@ -3,28 +3,28 @@ import {
   Heading,
   MultiStep,
   Text,
-} from '@marcos-vinicius-design-system/react'
-import { Container, Header } from '../styles'
+} from "@marcos-vinicius-design-system/react";
+import { Container, Header } from "../styles";
 
-import { signIn, useSession } from 'next-auth/react'
+import { signIn, useSession } from "next-auth/react";
 
-import { ArrowRight, Check } from 'phosphor-react'
-import { AuthError, ConnectBox, ConnectItem } from './styles'
-import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
-import { env } from '@/env/env'
+import { ArrowRight, Check } from "phosphor-react";
+import { AuthError, ConnectBox, ConnectItem } from "./styles";
+import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
+import { env } from "@/env/env";
 
 export default function CreateAccountGoogle() {
-  const session = useSession()
+  const session = useSession();
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const emailOwner = env.NEXT_PUBLIC_EMAIL;
-  const hasAuthError = !!router.query.error
-  const isSignedId = session.status === 'authenticated'
+  const emailOwner = env.NEXT_EMAIL;
+  const hasAuthError = !!router.query.error;
+  const isSignedId = session.status === "authenticated";
 
   async function handleCreateAccount() {
-    await signIn('google', { callbackUrl: '/register/create-account-google' })
+    await signIn("google", { callbackUrl: "/register/create-account-google" });
   }
 
   async function handleNextStep() {
@@ -38,9 +38,7 @@ export default function CreateAccountGoogle() {
       <Container>
         <Header>
           <Heading as="strong">Crie sua conta!</Heading>
-          <Text>
-            Crie sua conta!
-          </Text>
+          <Text>Crie sua conta!</Text>
           <MultiStep size={4} currentStep={2} />
         </Header>
         <ConnectBox>
@@ -63,9 +61,7 @@ export default function CreateAccountGoogle() {
             )}
           </ConnectItem>
           {hasAuthError && (
-            <AuthError size="sm">
-              Falha ao se conectar ao Google
-            </AuthError>
+            <AuthError size="sm">Falha ao se conectar ao Google</AuthError>
           )}
 
           <Button onClick={handleNextStep} type="submit" disabled={!isSignedId}>
@@ -75,5 +71,5 @@ export default function CreateAccountGoogle() {
         </ConnectBox>
       </Container>
     </>
-  )
+  );
 }
