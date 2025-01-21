@@ -24,8 +24,7 @@ export default function Contact() {
         </Preview>
         <Hero>
           <Heading size="4xl"> Entre em contato conosco: </Heading>
-          
-      <SocialMedia />
+          <SocialMedia />
         </Hero>
       </Container>
       <UserForm />

@@ -57,6 +57,7 @@ export const Facebook = styled('div', {
   gap: '$4',
   overflow: 'hidden',
 })
+
 export const Pagina = styled('div', {
   maxWidth: 315,
   marginTop: '$16',
@@ -66,6 +67,7 @@ export const Pagina = styled('div', {
   gap: '$4',
   overflow: 'hidden',
 })
+
 export const Instagram = styled('div', {
   maxWidth: 315,
   display: 'flex',
@@ -74,6 +76,7 @@ export const Instagram = styled('div', {
   gap: '$4',
   overflow: 'hidden',
 })
+
 export const Arroba = styled('div', {
   maxWidth: 315,
   marginTop: '$16',
