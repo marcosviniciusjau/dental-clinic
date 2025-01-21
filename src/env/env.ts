@@ -1,6 +1,7 @@
 import { z } from "zod";
 import dotenv from "dotenv";
 dotenv.config();
+
 const envSchema = z.object({
   NEXT_DATABASE_URL: z.string(),
   NEXT_DATABASE_DIRECT_URL: z.string(),
@@ -10,6 +11,7 @@ const envSchema = z.object({
   NEXT_EMAIL: z.string(),
   NEXT_JWT_SECRET: z.string(),
 })
+
 const parsedEnv = {
   NEXT_DATABASE_URL: process.env.NEXT_DATABASE_URL,
   NEXT_DATABASE_DIRECT_URL: process.env.NEXT_DATABASE_DIRECT_URL,
@@ -18,5 +20,5 @@ const parsedEnv = {
   NEXT_NEXTAUTH_SECRET: process.env.NEXT_NEXTAUTH_SECRET,
   NEXT_EMAIL: process.env.NEXT_EMAIL,
   NEXT_JWT_SECRET: process.env.NEXT_JWT_SECRET,
-};
+};]
 export const env = envSchema.parse(parsedEnv)

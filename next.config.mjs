@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ["page.tsx", "api.ts", "api.tsx"],
   env: {
+    NEXT_DATABASE_DIRECT_URL: process.env.NEXT_DATABASE_DIRECT_URL,
     NEXT_DATABASE_URL: process.env.NEXT_DATABASE_URL,
     NEXT_API_KEY: process.env.NEXT_API_KEY,
     NEXT_GOOGLE_CLIENT_ID: process.env.NEXT_GOOGLE_CLIENT_ID,
