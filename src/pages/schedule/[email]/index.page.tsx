@@ -3,151 +3,193 @@ import {
   ProfilePhoto,
   Text,
   Button,
-} from '@marcos-vinicius-design-system/react'
-import { Accordion, AccordionItem, AccordionWrapper, Consultas, Container, ContainerLogin, DoctorHeader, Panel, ProfileHeader, UserHeader } from './styles'
-import { GetStaticProps } from 'next'
-import { prisma } from '@/lib/prisma'
-import { ScheduleForm } from './ScheduleForm'
-import { NextSeo } from 'next-seo'
-import { Header } from '@/pages/home/components/Header'
-import { ToastContainer } from 'react-toastify'
+} from "@marcos-vinicius-design-system/react";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionWrapper,
+  Consultas,
+  Container,
+  ContainerLogin,
+  DoctorHeader,
+  PanelProfile,
+  Panel,
+  ProfileHeader,
+  UserHeader,
+} from "./styles";
+import { GetStaticProps } from "next";
+import { prisma } from "@/lib/prisma";
+import { ScheduleForm } from "./ScheduleForm";
+import { NextSeo } from "next-seo";
+import { Header } from "@/pages/home/components/Header";
+import { ToastContainer } from "react-toastify";
 
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { api } from '@/lib/axios'
-import { useQuery } from '@tanstack/react-query'
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { api } from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
 
-import { set, get, remove } from 'local-storage'
-import { destroyCookie, parseCookies } from "nookies"
-import { Door, Pencil } from 'phosphor-react'
+import { set, get, remove } from "local-storage";
+import { destroyCookie, parseCookies } from "nookies";
+import { Door, Pencil } from "phosphor-react";
 interface ScheduleProps {
   user: {
-    name: string
-    email: string
-    bio: string
-    profileImgUrl: string
-  },
+    name: string;
+    email: string;
+    bio: string;
+    profileImgUrl: string;
+  };
 }
 
 export interface ClientProps {
-  email: string | undefined
-  name: string | undefined
+  email: string | undefined;
+  name: string | undefined;
   client: {
-    name: string
-    email: string
-  }[]
-}[]
-
+    name: string;
+    email: string;
+  }[];
+}
+[];
 
 interface Schedulings {
-    id: string;
-    date: Date;
-    observations: string | null;
-}[]
+  id: string;
+  date: Date;
+  observations: string | null;
+}
+[];
 
 export default function Schedule({ user }: ScheduleProps) {
-  const router = useRouter()
+  const router = useRouter();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const { 'dental-clinic:client': userIdOnCookies } = parseCookies()
-    const toggleAccordion = (index: number) => {
-      setOpenIndex(openIndex === index ? null : index);
-    };
-    const { data: schedulings } = useQuery<Schedulings[]>({
-      queryKey: ["schedulings"],
-      queryFn: async () => {
-        const response = await api.get(`/users/get-schedulings`);
-        return response.data;
-      },
-    });
-    
-    let clientStorage = get('client') as ClientProps[]
-     useQuery({
-        queryKey: ["client"],
-        queryFn: async () => {
-          if (!clientStorage || clientStorage === null) {
-          const response = await api.get(`/users/get-user`);
-          const clientToStorage = response.data
-          clientStorage = set('client', clientToStorage) as any
-          return response.data;
-          } else {
-            return clientStorage
-          }
-        },
-      });
+  const { "dental-clinic:client": userIdOnCookies } = parseCookies();
+  const toggleAccordion = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+  const { data: schedulings } = useQuery<Schedulings[]>({
+    queryKey: ["schedulings"],
+    queryFn: async () => {
+      const response = await api.get(`/users/get-schedulings`);
+      return response.data;
+    },
+  });
 
-  if(!userIdOnCookies){
-    remove('client')
+  let clientStorage = get("client") as ClientProps[];
+  useQuery({
+    queryKey: ["client"],
+    queryFn: async () => {
+      if (!clientStorage || clientStorage === null) {
+        const response = await api.get(`/users/get-user`);
+        const clientToStorage = response.data;
+        clientStorage = set("client", clientToStorage) as any;
+        return response.data;
+      } else {
+        return clientStorage;
+      }
+    },
+  });
+
+  if (!userIdOnCookies) {
+    remove("client");
     return (
       <ContainerLogin>
-      <Heading>Você precisa fazer login para acessar essa página</Heading>
-      <a href="/sign-in" style={{textDecoration:'none'}}><Button>Fazer Login</Button></a>
+        <Heading>Você precisa fazer login para acessar essa página</Heading>
+        <a href="/sign-in" style={{ textDecoration: "none" }}>
+          <Button>Fazer Login</Button>
+        </a>
       </ContainerLogin>
-    )
+    );
   }
 
-  async function updateProfile(){
-    router.push('/register/update-profile')
+  async function updateProfile() {
+    router.push("/register/update-profile");
   }
 
-  function logout(){
+  function logout() {
     try {
-      destroyCookie(null, 'dental-clinic:client', {
-        path: '/',
-      })
-      remove('client')
-      router.push('/sign-in')
+      destroyCookie(null, "dental-clinic:client", {
+        path: "/",
+      });
+      remove("client");
+      router.push("/sign-in");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
- 
   }
 
   return (
     <>
-      <NextSeo title={`Agendar com ${'Dental Clinic'}| Dental Clinic`} />
-      
-      <Header/>
+      <NextSeo title={`Agendar com ${"Dental Clinic"}| Dental Clinic`} />
+
+      <Header />
       <Container>
         <UserHeader>
-          <ProfileHeader>
-            <Text>{clientStorage[0].name}</Text>
-            <Text>{clientStorage[0].email}</Text>
-            <Button onClick={logout}>
-            <Door/>
-            Sair
-            </Button>
-            <Button onClick={updateProfile}>
-            <Pencil/>
-            Editar Perfil
-            </Button>
-          </ProfileHeader>
+            <div key={1}>
+              <ProfileHeader
+                onClick={() => toggleAccordion(1)}
+                isOpen={openIndex === 1}
+              >
+                <Text size="sm">{clientStorage[0].name}</Text>
+               
+              </ProfileHeader>
+              <PanelProfile isOpen={openIndex === 1}>
+              <Text size="sm">{clientStorage[0].email}</Text>
+                <Button  style={{background: '#121214'}}  size="sm" onClick={logout}>
+                  <Door />
+                  Sair
+                </Button>
+                <Button style={{background: '#121214'}}  size="sm" onClick={updateProfile}>
+                  <Pencil />
+                  Editar Perfil
+                </Button>
+              </PanelProfile>
+            </div>
           <Consultas>
             <Heading>Suas consultas:</Heading>
-          {schedulings ? schedulings.map((scheduling) =>
+            {schedulings ? (
+              schedulings.map((scheduling) => (
                 <div key={scheduling.id}>
-                  <Text>Data da consulta: {new Date(scheduling.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</Text>
+                  <Text>
+                    Data da consulta:{" "}
+                    {new Date(scheduling.date).toLocaleDateString("pt-BR", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </Text>
                   <Text>Consulta:{scheduling.observations}</Text>
-                  </div>
-            
-            ) : <Text>Você ainda não possui agendamentos.</Text>}
+                </div>
+              ))
+            ) : (
+              <Text>Você ainda não possui agendamentos.</Text>
+            )}
           </Consultas>
-        <DoctorHeader>
-          <ProfilePhoto src={user.profileImgUrl} />
-          <Heading>Dental Clinic</Heading>
-          <Text>{user.bio}</Text>  
-          <Text>{user.email}</Text>
-
-        </DoctorHeader>
-          </UserHeader>
+          <DoctorHeader>
+            <ProfilePhoto src={user.profileImgUrl} />
+            <Heading>Dental Clinic</Heading>
+            <Text>{user.bio}</Text>
+            <Text>{user.email}</Text>
+          </DoctorHeader>
+        </UserHeader>
         <ScheduleForm />
         <AccordionWrapper>
-        <Heading size="lg">Perguntas frequentes</Heading>
-      
+          <Heading size="lg">Perguntas frequentes</Heading>
+
           {[
-            { question: 'Qual o preço médio das consultas?', answer: 'A partir de 150' },
-            { question: 'Qual o horário de funcionamento?', answer: 'De segunda a sexta, das 8h às 18h.' },
-            { question: 'Posso cancelar minha consulta?', answer: 'Sim, com até 24h de antecedência.' },
+            {
+              question: "Qual o preço médio das consultas?",
+              answer: "A partir de 150",
+            },
+            {
+              question: "Qual o horário de funcionamento?",
+              answer: "De segunda a sexta, das 8h às 18h.",
+            },
+            {
+              question: "Posso cancelar minha consulta?",
+              answer: "Sim, com até 24h de antecedência.",
+            },
           ].map((item, index) => (
             <AccordionItem key={index}>
               <Accordion
@@ -163,28 +205,28 @@ export default function Schedule({ user }: ScheduleProps) {
           ))}
         </AccordionWrapper>
       </Container>
-      <ToastContainer/>
+      <ToastContainer />
     </>
-  )
+  );
 }
 
 export const getStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
-  }
-}
+    fallback: "blocking",
+  };
+};
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const email = String(params?.email)
+  const email = String(params?.email);
 
   const user = await prisma.user.findUnique({
     where: {
       email,
-    }, 
-  })
+    },
+  });
 
   if (!user) {
-    return { notFound: true }
+    return { notFound: true };
   }
 
   return {
@@ -197,5 +239,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     },
     revalidate: 60 * 60 * 24,
-  }
-}
+  };
+};

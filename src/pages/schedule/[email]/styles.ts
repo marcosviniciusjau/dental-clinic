@@ -1,14 +1,16 @@
-import { Box, Button, Heading, Text, styled } from '@marcos-vinicius-design-system/react'
+import { Box, Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('div', {
   maxWidth: 852,
   padding: '0 $4',
-  margin: '0 auto $4',
   
+  margin: '$16 auto $4',
   '@media(max-width: 600px)': {
     padding: '0 $4',
   },
-  
+  '@media(min-width: 600px)': {
+    margin: '$20 auto $4',
+  },
 })
 
 export const ContainerLogin = styled('div', {
@@ -35,12 +37,17 @@ export const ContainerLogin = styled('div', {
 })
 
 export const UserHeader = styled('div', {
-  marginTop: '$6',
+  '@media(min-width: 600px)': {
+  marginTop: '$5',
   display: 'grid',
   gridTemplateColumns: '1fr 2fr 1fr',
   gridTemplateAreas: `'agendamentos doctor profile'`,
   gap: '19rem',
   alignItems: 'start',
+  },
+  '@media(max-width: 600px)': {
+    
+    }
 });
 
 export const DoctorHeader = styled('div', {
@@ -63,26 +70,51 @@ export const ProfileHeader = styled('div', {
   gridArea: 'profile',
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  margin: '0',
+  
+  cursor: 'pointer',
+  '@media(min-width: 600px)': {
+    marginTop: '-$20',
+    alignItems: 'flex-end',
+  },
+  '@media(max-width: 600px)': {
+    marginTop: '-$10',
+    alignItems: 'flex-end',
+  },
 
   [`> ${Heading}`]: {
     lineHeight: '$base',
-    marginTop: '$2',
   },
 
   [`> ${Text}`]: {
     color: '$gray100',
     textAlign: 'center',
   },
+
+  variants: {
+    isOpen: {
+      true: {
+        backgroundColor: '$gray900'
+      },
+    },
+  },
 });
+
 export const Consultas = styled('div', {
   gridArea: 'agendamentos',
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
-  marginLeft: '-10rem',
+  
+  marginLeft: '$5',
   maxHeight: '400px',
+  '@media(min-width: 600px)': {
+    marginLeft: '-10rem',
+  },
+  '@media(max-width: 600px)': {
+    width: '50%',
+    marginBottom: '$10',
+   },
+
   [`> div`]: {
     padding: '1rem',
     backgroundColor: '$gray800',
@@ -97,7 +129,18 @@ export const Consultas = styled('div', {
 
 
 export const AccordionWrapper = styled('div', {
+  
+  '@media(max-width: 600px)': {
+    width: '50%',
+    marginBottom: '$10',
+   },
   marginTop: '$10',
+  
+  marginLeft: '$5',
+  [`> ${Heading}`]: {
+    color: '$gray100',
+    marginBottom: '$4',
+  },
 });
 
 export const AccordionItem = styled('div', {
@@ -115,6 +158,7 @@ export const Accordion = styled(Box, {
   outline: 'none',
   transition: '0.4s',
 
+  marginBottom: '$5',
   variants: {
     isOpen: {
       true: {
@@ -124,11 +168,30 @@ export const Accordion = styled(Box, {
   },
 });
 
-export const Panel = styled('div', {
-  padding: '0 18px',
+export const PanelProfile = styled('div', {
+  '@media(max-width: 600px)': {
+    marginLeft: '$80',
+  },
   backgroundColor: 'white',
   overflow: 'hidden',
   height: 0,
+  transition: 'height 0.4s ease-out',
+
+  variants: {
+    isOpen: {
+      true: {
+        height: 'auto',
+        padding: '18px',
+      },
+    },
+  },
+});
+
+export const Panel = styled('div', {
+  backgroundColor: 'white',
+  overflow: 'hidden',
+  height: 0,
+  marginTop: '$5',
   transition: 'height 0.4s ease-out',
 
   variants: {

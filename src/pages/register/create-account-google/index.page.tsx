@@ -27,7 +27,6 @@ export default function CreateAccountGoogle() {
     await signIn('google', { callbackUrl: '/register/create-account-google' })
   }
 
-
   async function handleNextStep() {
     await router.push(`/schedule/${emailOwner}`);
   }
