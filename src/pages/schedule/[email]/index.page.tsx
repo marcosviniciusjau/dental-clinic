@@ -26,7 +26,7 @@ import { ScheduleForm } from "./ScheduleForm";
 import { NextSeo } from "next-seo";
 import { Header } from "@/pages/home/components/Header";
 import { ToastContainer } from "react-toastify";
-import { buildNextAuthOptions } from "../../api/auth/[...nextAuth].api";
+import { buildNextAuthOptions } from "@/pages/api/auth/[...nextauth].api
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "@/lib/axios";
