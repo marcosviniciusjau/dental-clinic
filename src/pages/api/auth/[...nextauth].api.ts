@@ -49,8 +49,6 @@ export function buildNextAuthOptions(
         },
         async authorize(credentials) {
           try {
-            console.log('Iniciando autenticação com credenciais:', credentials);
-
             if (!credentials?.email || !credentials?.password) {
               throw new Error('Email e senha são obrigatórios.');
             }
