@@ -51,8 +51,8 @@ export default async function handler(
   })
   const currentDate = dayjs().startOf('day')
   const nextWeek = currentDate.add(1, 'week')
-
-  setCookie({ res }, 'dental-clinic:client', user.id, {
+  const userJSON = JSON.stringify(user)
+  setCookie({ res }, 'dental-clinic:client', userJSON, {
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: '/',
   })
