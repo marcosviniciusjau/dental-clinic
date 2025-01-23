@@ -39,7 +39,6 @@ export function PrismaAdapter(
     },
 
     async getUser(id) {
-      console.log("comecou a senha errada!")
       const user = await prisma.user.findUnique({
         where: {
           id,

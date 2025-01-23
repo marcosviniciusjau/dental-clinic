@@ -18,12 +18,15 @@ import {
   UserHeader,
 } from "./styles";
 import { GetStaticProps } from "next";
+
+import { GetServerSideProps } from 'next'
+import { getServerSession, unstable_getServerSession } from 'next-auth'
 import { prisma } from "@/lib/prisma";
 import { ScheduleForm } from "./ScheduleForm";
 import { NextSeo } from "next-seo";
 import { Header } from "@/pages/home/components/Header";
 import { ToastContainer } from "react-toastify";
-
+import { buildNextAuthOptions } from "../../api/auth/[...nextAuth].api";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "@/lib/axios";
@@ -32,6 +35,8 @@ import { useQuery } from "@tanstack/react-query";
 import { set, get, remove } from "local-storage";
 import { destroyCookie, parseCookies } from "nookies";
 import { Door, Pencil } from "phosphor-react";
+import { getSession, useSession } from "next-auth/react";
+import { env } from "@/env/env";
 interface ScheduleProps {
   user: {
     name: string;
@@ -42,14 +47,9 @@ interface ScheduleProps {
 }
 
 export interface ClientProps {
-  email: string | undefined;
-  name: string | undefined;
-  client: {
-    name: string;
-    email: string;
-  }[];
+  email: string;
+  name: string;
 }
-[];
 
 interface Schedulings {
   id: string;
@@ -60,12 +60,17 @@ interface Schedulings {
 
 export default function Schedule({ user }: ScheduleProps) {
   const router = useRouter();
+const session = useSession()
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const { "dental-clinic:client": userIdOnCookies } = parseCookies();
+  const { "dental-clinic:client": userOnCookies } = parseCookies();
+
+  const userJSON = JSON.parse(userOnCookies);
+
   const toggleAccordion = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+  
   const { data: schedulings } = useQuery<Schedulings[]>({
     queryKey: ["schedulings"],
     queryFn: async () => {
@@ -74,32 +79,6 @@ export default function Schedule({ user }: ScheduleProps) {
     },
   });
 
-  let clientStorage = get("client") as ClientProps[];
-  useQuery({
-    queryKey: ["client"],
-    queryFn: async () => {
-      if (!clientStorage || clientStorage === null) {
-        const response = await api.get(`/users/get-user`);
-        const clientToStorage = response.data;
-        clientStorage = set("client", clientToStorage) as any;
-        return response.data;
-      } else {
-        return clientStorage;
-      }
-    },
-  });
-
-  if (!userIdOnCookies) {
-    remove("client");
-    return (
-      <ContainerLogin>
-        <Heading>Você precisa fazer login para acessar essa página</Heading>
-        <a href="/sign-in" style={{ textDecoration: "none" }}>
-          <Button>Fazer Login</Button>
-        </a>
-      </ContainerLogin>
-    );
-  }
 
   async function updateProfile() {
     router.push("/register/update-profile");
@@ -129,11 +108,11 @@ export default function Schedule({ user }: ScheduleProps) {
                 onClick={() => toggleAccordion(1)}
                 isOpen={openIndex === 1}
               >
-                <Text size="sm">{clientStorage[0].name}</Text>
+                <Text size="sm">{userJSON.name}</Text>
                
               </ProfileHeader>
               <PanelProfile isOpen={openIndex === 1}>
-              <Text size="sm">{clientStorage[0].email}</Text>
+              <Text size="sm">{userJSON.email}</Text>
                 <Button  style={{background: '#121214'}}  size="sm" onClick={logout}>
                   <Door />
                   Sair
@@ -210,14 +189,14 @@ export default function Schedule({ user }: ScheduleProps) {
   );
 }
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: "blocking",
-  };
-};
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const email = String(params?.email);
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getServerSession(
+    req,
+    res,
+    buildNextAuthOptions(req, res),
+  )
+  console.log(session)
+  const email = env.NEXT_EMAIL
 
   const user = await prisma.user.findUnique({
     where: {
@@ -237,7 +216,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         bio: user.bio,
         profileImgUrl: user.profile_img_url,
       },
+      session,
     },
-    revalidate: 60 * 60 * 24,
   };
 };

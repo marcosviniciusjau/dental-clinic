@@ -4,12 +4,13 @@ import { z } from "zod";
 import { Button, Text, TextInput } from "@marcos-vinicius-design-system/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/lib/axios";
-import { AxiosError } from "axios";
 import { useRouter } from "next/router";
-import { toast } from "sonner";
 import { Header } from "../home/components/Header";
 import { env } from "@/env/env";
+import { signIn } from "next-auth/react";
 
+import { AxiosError } from "axios";
+import { ToastContainer, toast } from "react-toastify";
 const SignInFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
   password: z.string().min(6, { message: "Mínimo 6 caracteres" }),
@@ -30,19 +31,13 @@ export default function SignIn() {
   });
 
   async function handleSignIn(data: SignInFormData) {
-    try {
-      await api.post("/users/sign-in", data);
-
-      await router.push(`/schedule/${emailOwner}`);
-    } catch (err) {
-      if (err instanceof AxiosError && err?.response?.data?.message) {
-        toast.error(err.response.data.message);
-        return;
-      }
-
-      console.error(err);
+    await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      callbackUrl: `/schedule/${emailOwner}`
+    }); 
     }
-  }
+    
   return (
     <Container>
       <Header />
@@ -68,6 +63,7 @@ export default function SignIn() {
         <Button type="submit" disabled={isSubmitting}>
           Fazer login
         </Button>
+        <ToastContainer/>
       </Form>
     </Container>
   );

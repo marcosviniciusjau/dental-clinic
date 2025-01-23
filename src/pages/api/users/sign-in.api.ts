@@ -28,7 +28,6 @@ export default async function handler(
       id: true,
       email: true,
       name: true,
-      password: true
     }
   })
 
@@ -40,16 +39,12 @@ export default async function handler(
     throw new AppError('Email or password incorrect')
   }
   
-  if (!user.password) {
-    throw new AppError('Email or password incorrect')
-  }
-
   const passwordMatch = compare(password, user.password)
 
   if (!passwordMatch) {
     throw new AppError('Email or password incorrect')
   }
-
+  
   const { secret, expiresIn } = authConfig.jwt
 
   const token = sign({}, secret, {
@@ -74,6 +69,6 @@ export default async function handler(
     },
   })
 
-  return res.status(200).end()
+  return res.status(200).send(user)
   
 }
