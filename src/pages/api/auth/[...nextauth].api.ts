@@ -75,9 +75,6 @@ export function buildNextAuthOptions(
               throw new AppError('Email ou senha incorretos');
             }
 
-            const currentDate = dayjs().startOf('day');
-            const nextWeek = currentDate.add(1, 'week');
-
             return {
               id: user.id,
               email: user.email,
@@ -96,49 +93,32 @@ export function buildNextAuthOptions(
       async signIn() {
         return true;
       },
-      async jwt({ token, user, account }) {
+      async jwt({ token, user }) {
         if (user) {
           token.id = user.id;
           token.email = user.email;
           token.name = user.name;
           token.profile_img_url = user.profile_img_url;
-          token.is_admin = user.is_admin;
 
-          if (account?.provider === "google") {
-            token.provider = "google";
-          } else {
-            token.provider = "credentials";
-            const tokenJson = JSON.stringify(token);
-            setCookie({ res }, 'dental-clinic:client',tokenJson, {
-              maxAge: 60 * 60 * 24 * 7, // 7 days
-              path: '/',
-              expires: dayjs().add(1, 'week').toDate(),
-            })
-          }
+          const currentDate = dayjs().startOf('day');
+          const nextWeek = currentDate.add(1, 'week');
+          const tokenJson = JSON.stringify(token);
+          setCookie({ res }, 'dental-clinic:client', tokenJson, {
+            maxAge: 60 * 60 * 24 * 7, // 7 days
+            path: '/',
+            expires: nextWeek.toDate(),
+          })
+
         }
-        console.log(token)
         return token;
       },
 
-      async session({ session, user, token, account }) {
-        console.log("começou na sessão")
-        if (token.provider === "google") {
-          session.user.is_admin = true;
-
-          session.user.id = token.id;
-          session.user.email = token.email;
-          session.user.name = token.name;
-          return session;
-        } else {
-          session.user.isAdmin = false;
-          return {
-            ...session,
-            user,
-          }
+      async session({ session, user, token }) {
+        return {
+          ...session,
+          user,
         }
-
       },
-
     },
     pages: {
       signIn: '/sign-in',
