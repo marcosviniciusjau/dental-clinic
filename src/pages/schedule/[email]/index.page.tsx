@@ -34,7 +34,7 @@ import { useQuery } from "@tanstack/react-query";
 import { remove } from "local-storage";
 import { destroyCookie } from "nookies";
 import { Door, Pencil } from "phosphor-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { env } from "@/env/env";
 interface ScheduleProps {
   user: {
@@ -60,7 +60,6 @@ interface Schedulings {
 export default function Schedule({ user }: ScheduleProps) {
   const router = useRouter();
   const session = useSession();
-  
   const isSignedId = session.status === "authenticated";
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -81,11 +80,8 @@ export default function Schedule({ user }: ScheduleProps) {
   }
 
   function logout() {
-    try {
-      destroyCookie(null, "dental-clinic:client", {
-        path: "/",
-      });
-      remove("client");
+    try { 
+      signOut()
       router.push("/sign-in");
     } catch (error) {
       console.log(error);
@@ -129,7 +125,7 @@ export default function Schedule({ user }: ScheduleProps) {
             </div>
             <Consultas>
               <Heading>Suas consultas:</Heading>
-              {schedulings ? (
+              {schedulings && schedulings.length > 0 ? (
                 schedulings.map((scheduling) => (
                   <div key={scheduling.id}>
                     <Text>

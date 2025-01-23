@@ -3,7 +3,7 @@ import { Box, Heading, Text, styled } from '@marcos-vinicius-design-system/react
 export const Container = styled('div', {
   maxWidth: 852,
   padding: '0 $4',
-  
+
   margin: '$16 auto $4',
   '@media(max-width: 600px)': {
     padding: '0 $4',
@@ -15,39 +15,31 @@ export const Container = styled('div', {
 
 export const ContainerLogin = styled('div', {
   '@media(min-width: 600px)': {
-      '&:last-child':{
-        width: '100vh',
-        height: '100vh',
-        display: 'grid',
-        placeContent: 'center',
-        marginLeft: '$40',
-        gap: '$8',
-      }
-    
+    marginLeft: '$40',
+    width: '80vh',
+    height: '80vh',
+    display: 'grid',
+    placeContent: 'center',
+    gap: '$8',
   },
   '@media(max-width: 600px)': {
-    '&:last-child':{
-        display: 'grid',
-        placeContent: 'center',
-        marginLeft: '$40',
-      }
-    
+  marginTop: '30vh',
+  [`> ${Heading}`]: {
+    fontSize: 'md',
   },
-  
+
+  }
 })
 
 export const UserHeader = styled('div', {
   '@media(min-width: 600px)': {
-  marginTop: '$5',
-  display: 'grid',
-  gridTemplateColumns: '1fr 2fr 1fr',
-  gridTemplateAreas: `'agendamentos doctor profile'`,
-  gap: '19rem',
-  alignItems: 'start',
+    marginTop: '$5',
+    display: 'grid',
+    gridTemplateColumns: '1fr 2fr 1fr',
+    gridTemplateAreas: `'agendamentos doctor profile'`,
+    gap: '19rem',
+    alignItems: 'start',
   },
-  '@media(max-width: 600px)': {
-    
-    }
 });
 
 export const DoctorHeader = styled('div', {
@@ -70,7 +62,7 @@ export const ProfileHeader = styled('div', {
   gridArea: 'profile',
   display: 'flex',
   flexDirection: 'column',
-  
+
   cursor: 'pointer',
   '@media(min-width: 600px)': {
     marginTop: '-$20',
@@ -104,7 +96,7 @@ export const Consultas = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
-  
+
   marginLeft: '$5',
   maxHeight: '400px',
   '@media(min-width: 600px)': {
@@ -113,7 +105,7 @@ export const Consultas = styled('div', {
   '@media(max-width: 600px)': {
     width: '50%',
     marginBottom: '$10',
-   },
+  },
 
   [`> div`]: {
     padding: '1rem',
@@ -129,13 +121,13 @@ export const Consultas = styled('div', {
 
 
 export const AccordionWrapper = styled('div', {
-  
+
   '@media(max-width: 600px)': {
     width: '50%',
     marginBottom: '$10',
-   },
+  },
   marginTop: '$10',
-  
+
   marginLeft: '$5',
   [`> ${Heading}`]: {
     color: '$gray100',
