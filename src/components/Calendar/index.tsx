@@ -13,8 +13,6 @@ import {
   CalendarHeader,
   CalendarTitle,
 } from "./styles";
-import { Availability } from "@/pages/schedule/[email]/ScheduleForm/CalendarStep";
-
 interface CalendarWeek {
   week: number;
   days: Array<{
