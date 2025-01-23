@@ -59,12 +59,18 @@ export function buildNextAuthOptions(
               where: {
                 email: credentials.email,
               },
+              select: {
+                id: true,
+                email: true,
+                name: true,
+                password: true,
+                profile_img_url: true,
+              }
             });
 
             if (!user) {
               throw new AppError('Email ou senha incorretos');
             }
-
 
             if (!user.password) {
               throw new AppError('Email ou senha incorretos');
@@ -80,7 +86,6 @@ export function buildNextAuthOptions(
               email: user.email,
               name: user.name,
               profile_img_url: user.profile_img_url || '',
-              is_admin: user.is_admin
             };
           } catch (error) {
             console.error('Erro na autenticação:', error);
@@ -116,6 +121,7 @@ export function buildNextAuthOptions(
       async session({ session, user, token }) {
         return {
           ...session,
+          token,
           user,
         }
       },
