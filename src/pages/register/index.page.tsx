@@ -51,7 +51,7 @@ export default function Register() {
   async function handleRegister(data: RegisterFormData) {
     try {
       const passwordHashed = await hash(data.password, 6);
-      const response = await api.post("/users", {
+      await api.post("/users", {
         name: data.name,
         email: data.email,
         password: passwordHashed,
@@ -101,7 +101,7 @@ export default function Register() {
           </label>
           <label>
             <Text size="sm">Senha</Text>
-            <TextInput placeholder="Senha" {...register("password")} />
+            <TextInput placeholder="Senha" {...register("password")} type="password"/>
             {errors.password && (
               <FormError size="sm">{errors.password.message}</FormError>
             )}

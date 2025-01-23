@@ -49,9 +49,16 @@ export default async function handler(
     subject: String(user.id),
     expiresIn
   })
+
   const currentDate = dayjs().startOf('day')
   const nextWeek = currentDate.add(1, 'week')
   const userJSON = JSON.stringify(user)
+
+  setCookie({ res }, 'dental-clinic:token', token, {
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+    path: '/',
+  })
+  
   setCookie({ res }, 'dental-clinic:client', userJSON, {
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: '/',
