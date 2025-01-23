@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { Header } from "../home/components/Header";
 import { env } from "@/env/env";
 import { signIn } from "next-auth/react";
-
+import { useSession } from "next-auth/react";
 import { AxiosError } from "axios";
 import { ToastContainer, toast } from "react-toastify";
 const SignInFormSchema = z.object({
@@ -18,9 +18,11 @@ const SignInFormSchema = z.object({
 
 type SignInFormData = z.infer<typeof SignInFormSchema>;
 
+
 export default function SignIn() {
   const router = useRouter();
-
+  const session = useSession()
+  console.log(session)
   const emailOwner = env.NEXT_EMAIL;
   const {
     register,
@@ -29,13 +31,20 @@ export default function SignIn() {
   } = useForm<SignInFormData>({
     resolver: zodResolver(SignInFormSchema),
   });
-
+  if(session.status === 'authenticated'){
+     router.push(`/schedule/${emailOwner}`);
+    }
   async function handleSignIn(data: SignInFormData) {
+    try {
     await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      callbackUrl: `/schedule/${emailOwner}`
-    }); 
+        email: data.email,
+        password: data.password,
+      }); 
+     
+    } catch (error) {
+      console.error(error)
+    }
+   
     }
     
   return (

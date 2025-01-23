@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { Adapter } from 'next-auth/adapters'
 import { prisma } from '../prisma'
 import { parseCookies, destroyCookie } from 'nookies'
+import dayjs from 'dayjs'
 
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
@@ -33,6 +34,7 @@ export function PrismaAdapter(
         id: prismaUser.id,
         name: prismaUser.name,
         email: prismaUser.email!,
+        is_admin: prismaUser.is_admin,
         emailVerified: null,
         profile_img_url: prismaUser.profile_img_url!,
       }
@@ -47,9 +49,7 @@ export function PrismaAdapter(
           id: true,
           name: true,
           email: true,
-          password: false,
-          created_at: false,
-          bio: false,
+          is_admin: true,
           profile_img_url: true
         }
       })
@@ -62,6 +62,7 @@ export function PrismaAdapter(
         id: user.id,
         name: user.name,
         email: user.email!,
+        is_admin: user.is_admin,
         emailVerified: null,
         profile_img_url: user.profile_img_url!,
       }
@@ -75,9 +76,7 @@ export function PrismaAdapter(
           id: true,
           name: true,
           email: true,
-          password: false,
-          created_at: false,
-          bio: false,
+          is_admin: true,
           profile_img_url: true
         }
       })
@@ -91,6 +90,7 @@ export function PrismaAdapter(
         name: user.name,
         email: user.email!,
         emailVerified: null,
+        is_admin: user.is_admin,
         profile_img_url: user.profile_img_url!,
       }
     },
@@ -106,7 +106,6 @@ export function PrismaAdapter(
           user: true,
         },
       })
-console.log("a senha aqui")
       if (!account) {
         return null
       }
@@ -117,6 +116,7 @@ console.log("a senha aqui")
         id: user.id,
         name: user.name,
         email: user.email!,
+        is_admin: user.is_admin,
         emailVerified: null,
         profile_img_url: user.profile_img_url!,
       }
@@ -162,6 +162,7 @@ console.log("a senha aqui")
     },
 
     async createSession({ sessionToken, userId, expires }) {
+      console.log("criando a sessao")
       await prisma.session.create({
         data: {
           user_id: userId,
@@ -178,6 +179,9 @@ console.log("a senha aqui")
     },
 
     async getSessionAndUser(sessionToken) {
+      
+      const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
+
       const prismaSession = await prisma.session.findUnique({
         where: {
           session_token: sessionToken,
@@ -186,13 +190,20 @@ console.log("a senha aqui")
           user: true,
         },
       })
-
+        const currentDate = dayjs().startOf('day');
+       const nextWeek = currentDate.add(1, 'week');
       if (!prismaSession) {
+        await prisma.session.create({
+          data: {
+            user_id: userIdOnCookies,
+            expires: nextWeek.toDate(),
+            session_token: sessionToken,
+          },
+        })
         return null
       }
 
       const { user, ...session } = prismaSession
-
       return {
         session: {
           userId: session.user_id,
