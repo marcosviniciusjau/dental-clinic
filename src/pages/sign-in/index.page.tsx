@@ -1,7 +1,12 @@
 import { Form, FormError, Container } from "./styles";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button, Text, TextInput } from "@marcos-vinicius-design-system/react";
+import {
+  Button,
+  Heading,
+  Text,
+  TextInput,
+} from "@marcos-vinicius-design-system/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/lib/axios";
 import { useRouter } from "next/router";
@@ -10,6 +15,9 @@ import { env } from "@/env/env";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { AxiosError } from "axios";
+import { AuthError } from "../register/connect-calendar/styles";
+import { startTransition, useEffect } from "react";
+
 import { ToastContainer, toast } from "react-toastify";
 const SignInFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
@@ -18,12 +26,19 @@ const SignInFormSchema = z.object({
 
 type SignInFormData = z.infer<typeof SignInFormSchema>;
 
-
 export default function SignIn() {
   const router = useRouter();
-  const session = useSession()
-  console.log(session)
+
   const emailOwner = env.NEXT_EMAIL;
+  const session = useSession();
+
+  const hasAuthError = !!router.query.error;
+  useEffect(() => {
+    if(session.status === 'authenticated'){
+      window.location.href = `/schedule/${emailOwner}`
+    }
+  })
+
   const {
     register,
     handleSubmit,
@@ -31,26 +46,28 @@ export default function SignIn() {
   } = useForm<SignInFormData>({
     resolver: zodResolver(SignInFormSchema),
   });
-  if(session.status === 'authenticated'){
-     router.push(`/schedule/${emailOwner}`);
-    }
+
   async function handleSignIn(data: SignInFormData) {
     try {
-    await signIn("credentials", {
+      await signIn("credentials", {
         email: data.email,
         password: data.password,
-      }); 
-     
+        callbacks: "/sign-in",
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-   
-    }
-    
+  }
+
   return (
     <Container>
       <Header />
+      <ToastContainer/>
       <Form as="form" onSubmit={handleSubmit(handleSignIn)}>
+        <Heading>Fazer Login</Heading>
+        {hasAuthError && (
+          <AuthError size="sm">Email ou senha incorretos</AuthError>
+        )}
         <label>
           <Text size="sm">Seu email</Text>
           <TextInput placeholder="Seu email" {...register("email")} />
@@ -72,7 +89,6 @@ export default function SignIn() {
         <Button type="submit" disabled={isSubmitting}>
           Fazer login
         </Button>
-        <ToastContainer/>
       </Form>
     </Container>
   );

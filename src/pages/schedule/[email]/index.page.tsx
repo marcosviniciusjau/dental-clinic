@@ -81,8 +81,9 @@ export default function Schedule({ user }: ScheduleProps) {
 
   function logout() {
     try { 
-      signOut()
-      router.push("/sign-in");
+      signOut({ callbackUrl: "/" });
+      destroyCookie(null, 'dental-clinic:client', { path: '/' })
+      router.push("/");
     } catch (error) {
       console.log(error);
     }

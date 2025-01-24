@@ -1,8 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { Adapter } from 'next-auth/adapters'
 import { prisma } from '../prisma'
-import { parseCookies, destroyCookie } from 'nookies'
+import { setCookie,parseCookies, destroyCookie } from 'nookies'
 import dayjs from 'dayjs'
+import { useRouter } from 'next/router'
+import { env } from '@/env/env'
 
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
@@ -162,7 +165,6 @@ export function PrismaAdapter(
     },
 
     async createSession({ sessionToken, userId, expires }) {
-      console.log("criando a sessao")
       await prisma.session.create({
         data: {
           user_id: userId,
@@ -190,9 +192,11 @@ export function PrismaAdapter(
           user: true,
         },
       })
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+
         const currentDate = dayjs().startOf('day');
        const nextWeek = currentDate.add(1, 'week');
-      if (!prismaSession) {
+        if (!prismaSession) {
         await prisma.session.create({
           data: {
             user_id: userIdOnCookies,
@@ -230,7 +234,6 @@ export function PrismaAdapter(
           user_id: userId,
         },
       })
-
       return {
         sessionToken: prismaSession.session_token,
         userId: prismaSession.user_id,

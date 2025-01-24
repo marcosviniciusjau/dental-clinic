@@ -14,6 +14,9 @@ export function Header() {
         <a href="/contact" style={{ textDecoration: "none" }}>
           <Text>Contato </Text>
         </a>
+        <a href="/sign-in" style={{ textDecoration: "none" }}>
+          <Text>Fazer Login </Text>
+        </a>
         <Text>Sobre </Text>
       </HeaderText>
     </HeaderContainer>

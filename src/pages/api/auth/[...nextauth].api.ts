@@ -72,7 +72,7 @@ export function buildNextAuthOptions(
               throw new AppError('Email ou senha incorretos');
             }
 
-            const passwordMatch = compare(credentials.password, user.password);
+            const passwordMatch = await compare(credentials.password, user.password);
             if (!passwordMatch) {
               throw new AppError('Email ou senha incorretos');
             }
@@ -82,7 +82,7 @@ export function buildNextAuthOptions(
 
             setCookie({ res }, 'dental-clinic:client', user.id, {
               maxAge: 60 * 60 * 24 * 7, // 7 days
-              path: '/',
+              path: `/`,
               expires: nextWeek.toDate(),
             });
 
@@ -124,10 +124,22 @@ export function buildNextAuthOptions(
           ...session,
           user,
         }
-        }
-  
-
+        },
+        
     },
+    cookies: {
+      sessionToken: {
+        name: 'next-auth.session-token',
+        options: {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production', // HTTPS apenas em produção
+          sameSite: 'lax', // Compatível com redirecionamentos internos
+          path: '/', // Disponível em toda a aplicação
+        },
+      },
+      
+    },
+    
     pages: {
       signIn: '/sign-in',
     },

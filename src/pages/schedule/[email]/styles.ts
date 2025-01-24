@@ -68,17 +68,17 @@ export const ProfileHeader = styled('div', {
     marginTop: '-$20',
     alignItems: 'flex-end',
   },
-  '@media(max-width: 600px)': {
-    marginTop: '-$10',
-    alignItems: 'flex-end',
-  },
 
+'@media(max-width: 600px)': {
+  marginTop: '-$10',
+  },
   [`> ${Heading}`]: {
     lineHeight: '$base',
   },
 
   [`> ${Text}`]: {
     color: '$gray100',
+    marginLeft: '25vh',
     textAlign: 'center',
   },
 
@@ -96,14 +96,14 @@ export const Consultas = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
-
   marginLeft: '$5',
   maxHeight: '400px',
   '@media(min-width: 600px)': {
     marginLeft: '-10rem',
   },
   '@media(max-width: 600px)': {
-    width: '50%',
+    width: '80%',
+    marginTop: '$10',
     marginBottom: '$10',
   },
 
@@ -123,7 +123,7 @@ export const Consultas = styled('div', {
 export const AccordionWrapper = styled('div', {
 
   '@media(max-width: 600px)': {
-    width: '50%',
+    width: '80%',
     marginBottom: '$10',
   },
   marginTop: '$10',
@@ -162,9 +162,11 @@ export const Accordion = styled(Box, {
 
 export const PanelProfile = styled('div', {
   '@media(max-width: 600px)': {
-    marginLeft: '$80',
+    marginLeft: '25vh',
   },
-  backgroundColor: 'white',
+  '@media(min-width: 600px)': {
+  backgroundColor: '#e2e2ee62',
+  },
   overflow: 'hidden',
   height: 0,
   transition: 'height 0.4s ease-out',

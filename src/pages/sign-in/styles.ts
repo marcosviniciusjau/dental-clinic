@@ -7,8 +7,6 @@ import {
 } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('main', {
-  maxWidth: 572,
-  margin: '$20 auto $4',
   padding: '0 $4',
 })
 
@@ -26,11 +24,19 @@ export const Header = styled('div', {
 })
 
 export const Form = styled('div', {
+  maxWidth: 572,
+  margin: '$20 auto $4',
   marginTop: '$6',
   display: 'flex',
   flexDirection: 'column',
   gap: '$4',
-
+  '@media(max-width: 600px)': {
+    marginTop: '30vh',
+    [`> ${Heading}`]: {
+      fontSize: 'md',
+    },
+  
+    },
   label: {
     display: 'flex',
     flexDirection: 'column',
