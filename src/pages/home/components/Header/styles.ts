@@ -5,11 +5,11 @@ export const HeaderContainer = styled('header', {
     alignItems: 'center',
     justifyContent: 'space-between',
 
-    padding: '0 $2',
+    padding: '0 $5',
 })
 
 export const HeaderText = styled('header', {
   display: 'inherit',
-  gap: '$6',
+  gap: '$3',
   
 })

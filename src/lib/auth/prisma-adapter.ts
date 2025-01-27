@@ -209,13 +209,6 @@ export function PrismaAdapter(
       const currentDate = dayjs().startOf('day');
       const nextWeek = currentDate.add(1, 'week');
       if (!prismaSession) {
-        await prisma.session.create({
-          data: {
-            user_id: userIdOnCookies,
-            expires: nextWeek.toDate(),
-            session_token: sessionToken,
-          },
-        })  
         return null
       }
 

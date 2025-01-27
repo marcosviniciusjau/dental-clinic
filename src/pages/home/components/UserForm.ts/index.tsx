@@ -56,6 +56,7 @@ export function UserForm() {
           <br/>
           Agende agora mesmo!
         </Heading>
+        <label>Digite seu email para começar</label>
         <TextInput
           containerProps={{ size: "sm" }}
           placeholder="seu-email"
