@@ -18,15 +18,38 @@ import { AxiosError } from "axios";
 import { NextSeo } from "next-seo";
 import Cookies from "js-cookie";
 
+import { Header as HeaderHome } from "@/pages/home/components/Header";
 import { ToastContainer, toast } from "react-toastify";
 import { setCookie } from "nookies";
 import { hash } from "bcryptjs";
 import { env } from "@/env/env";
 const registerFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
-  name: z.string().min(3, { message: "Mínimo 3 caracteres" }),
-  password: z.string().min(6, { message: "Mínimo 6 caracteres" }),
-});
+  name: z.string().min(3, { message: "Mínimo 3 caracteres" }),  
+  password: z
+  .string()
+  .min(6, { message: "Mínimo 6 caracteres" })
+  .regex(/[A-Z]/, { message: "Deve conter ao menos uma letra maiúscula" })
+  .regex(/[a-z]/, { message: "Deve conter ao menos uma letra minúscula" })
+  .regex(/[0-9]/, { message: "Deve conter ao menos um número" })
+  .regex(/[^a-zA-Z0-9]/, {
+    message: "Deve conter ao menos um caractere especial (!@#$%^&*)",
+  }).optional(),
+})
+.refine(
+  (data) => {
+    // Torna a senha obrigatória apenas se o email for diferente de emailOwner
+    const emailOwner = env.NEXT_EMAIL;
+    if (data.email !== emailOwner && !data.password) {
+      return false;
+    }
+    return true;
+  },
+  {
+    message: "Senha é obrigatória para emails diferentes do administrador",
+    path: ["password"], // Define onde exibir o erro
+  }
+)
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
 
@@ -74,6 +97,7 @@ export default function Register() {
     <>
       <NextSeo title="Crie uma conta | Dental Clinic" />
 
+      <HeaderHome/>
       <Container>
         <Header>
           <Heading as="strong">Bem-vindo a Dental Clinic!</Heading>

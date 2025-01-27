@@ -18,20 +18,17 @@ import {
   UserHeader,
 } from "./styles";
 
-import { GetServerSideProps } from "next";
-import { getServerSession } from "next-auth";
+import { GetStaticProps } from "next";
 import { prisma } from "@/lib/prisma";
 import { ScheduleForm } from "./ScheduleForm";
 import { NextSeo } from "next-seo";
 import { Header } from "@/pages/home/components/Header";
 import { ToastContainer } from "react-toastify";
-import { buildNextAuthOptions } from "@/pages/api/auth/[...nextauth].api";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-import { remove } from "local-storage";
 import { destroyCookie } from "nookies";
 import { Door, Pencil } from "phosphor-react";
 import { signOut, useSession } from "next-auth/react";
@@ -199,22 +196,23 @@ export default function Schedule({ user }: ScheduleProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = await getServerSession(
-    req,
-    res,
-    buildNextAuthOptions(req, res)
-  );
-  const email = env.NEXT_EMAIL;
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
+}
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const email = env.NEXT_EMAIL
 
   const user = await prisma.user.findUnique({
     where: {
       email,
-    },
-  });
+    }, 
+  })
 
   if (!user) {
-    return { notFound: true };
+    return { notFound: true }
   }
 
   return {
@@ -225,7 +223,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         bio: user.bio,
         profileImgUrl: user.profile_img_url,
       },
-      session,
     },
-  };
-};
+    revalidate: 60 * 60 * 24,
+  }
+}

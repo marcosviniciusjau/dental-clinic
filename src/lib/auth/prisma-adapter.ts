@@ -2,7 +2,7 @@
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { Adapter } from 'next-auth/adapters'
 import { prisma } from '../prisma'
-import { setCookie,parseCookies, destroyCookie } from 'nookies'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { env } from '@/env/env'
@@ -17,6 +17,19 @@ export function PrismaAdapter(
 
       if (!userIdOnCookies) {
         throw new Error('User not found on cookies.')
+      }
+      if (user.email === env.NEXT_EMAIL) {
+        await prisma.user.update({
+          where: {
+            id: userIdOnCookies,
+          },
+          data: {
+            name: user.name,
+            email: user.email,
+            is_admin: true,
+            profile_img_url: user.profile_img_url,
+          },
+        })
       }
       const prismaUser = await prisma.user.update({
         where: {
@@ -181,7 +194,6 @@ export function PrismaAdapter(
     },
 
     async getSessionAndUser(sessionToken) {
-      
       const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
 
       const prismaSession = await prisma.session.findUnique({
@@ -194,16 +206,16 @@ export function PrismaAdapter(
       })
       // eslint-disable-next-line react-hooks/rules-of-hooks
 
-        const currentDate = dayjs().startOf('day');
-       const nextWeek = currentDate.add(1, 'week');
-        if (!prismaSession) {
+      const currentDate = dayjs().startOf('day');
+      const nextWeek = currentDate.add(1, 'week');
+      if (!prismaSession) {
         await prisma.session.create({
           data: {
             user_id: userIdOnCookies,
             expires: nextWeek.toDate(),
             session_token: sessionToken,
           },
-        })
+        })  
         return null
       }
 
@@ -218,6 +230,7 @@ export function PrismaAdapter(
           id: user.id,
           name: user.name,
           email: user.email!,
+          is_admin: user.is_admin,
           emailVerified: null,
           profile_img_url: user.profile_img_url!,
         },

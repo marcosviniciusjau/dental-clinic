@@ -84,6 +84,7 @@ export function buildNextAuthOptions(
               maxAge: 60 * 60 * 24 * 7, // 7 days
               path: `/`,
               expires: nextWeek.toDate(),
+              httpOnly: false,
             });
 
             return {
@@ -126,23 +127,13 @@ export function buildNextAuthOptions(
         }
         },
         
-    },
-    cookies: {
-      sessionToken: {
-        name: 'next-auth.session-token',
-        options: {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === 'production', // HTTPS apenas em produção
-          sameSite: 'lax', // Compatível com redirecionamentos internos
-          path: '/', // Disponível em toda a aplicação
+        async redirect({ url, baseUrl }) {
+          if (url.startsWith("/")) return `${baseUrl}${url}`
+          // Allows callback URLs on the same origin
+          else if (new URL(url).origin === baseUrl) return url
+          return baseUrl
         },
       },
-      
-    },
-    
-    pages: {
-      signIn: '/sign-in',
-    },
   };
 }
 

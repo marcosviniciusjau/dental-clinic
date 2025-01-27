@@ -17,7 +17,7 @@ import { useSession } from "next-auth/react";
 import { AxiosError } from "axios";
 import { AuthError } from "../register/connect-calendar/styles";
 import { startTransition, useEffect } from "react";
-
+import { redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 const SignInFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
@@ -33,11 +33,6 @@ export default function SignIn() {
   const session = useSession();
 
   const hasAuthError = !!router.query.error;
-  useEffect(() => {
-    if(session.status === 'authenticated'){
-      window.location.href = `/schedule/${emailOwner}`
-    }
-  })
 
   const {
     register,
@@ -46,19 +41,19 @@ export default function SignIn() {
   } = useForm<SignInFormData>({
     resolver: zodResolver(SignInFormSchema),
   });
-
   async function handleSignIn(data: SignInFormData) {
     try {
-      await signIn("credentials", {
+       await signIn("credentials", {
         email: data.email,
         password: data.password,
-        callbacks: "/sign-in",
+        callbacks: `/sign-in`,
+        redirect: true,
+        callbackUrl: `/schedule/${emailOwner}`,
       });
     } catch (error) {
       console.error(error);
+      }
     }
-  }
-
   return (
     <Container>
       <Header />

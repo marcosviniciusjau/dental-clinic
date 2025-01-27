@@ -121,7 +121,6 @@ export const Consultas = styled('div', {
 
 
 export const AccordionWrapper = styled('div', {
-
   '@media(max-width: 600px)': {
     width: '80%',
     marginBottom: '$10',
@@ -163,9 +162,6 @@ export const Accordion = styled(Box, {
 export const PanelProfile = styled('div', {
   '@media(max-width: 600px)': {
     marginLeft: '25vh',
-  },
-  '@media(min-width: 600px)': {
-  backgroundColor: '#e2e2ee62',
   },
   overflow: 'hidden',
   height: 0,
