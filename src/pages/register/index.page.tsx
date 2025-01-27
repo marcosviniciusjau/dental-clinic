@@ -16,11 +16,9 @@ import { useEffect } from "react";
 import { api } from "@/lib/axios";
 import { AxiosError } from "axios";
 import { NextSeo } from "next-seo";
-import Cookies from "js-cookie";
 
 import { Header as HeaderHome } from "@/pages/home/components/Header";
 import { ToastContainer, toast } from "react-toastify";
-import { setCookie } from "nookies";
 import { hash } from "bcryptjs";
 import { env } from "@/env/env";
 const registerFormSchema = z.object({

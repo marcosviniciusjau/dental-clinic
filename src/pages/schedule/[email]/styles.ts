@@ -127,7 +127,8 @@ export const AccordionWrapper = styled('div', {
   },
   marginTop: '$10',
 
-  marginLeft: '$5',
+  width: '50%',
+  marginLeft: '$16',
   [`> ${Heading}`]: {
     color: '$gray100',
     marginBottom: '$4',

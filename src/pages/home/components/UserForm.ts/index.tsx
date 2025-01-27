@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
 import agenda from "@/assets/agenda.jpg";
 import Image from "next/image";
+import { FormError } from "@/pages/register/styles";
 
 const emailFormSchema = z.object({
   email: z
@@ -50,7 +51,11 @@ export function UserForm() {
       <Vazio></Vazio>
 
       <Form as="form" onSubmit={handleSubmit(handlePreRegister)}>
-        <Heading>Agende agora mesmo!</Heading>
+        <Heading>
+          Preparado para ter o melhor sorriso?
+          <br/>
+          Agende agora mesmo!
+        </Heading>
         <TextInput
           containerProps={{ size: "sm" }}
           placeholder="seu-email"
@@ -62,7 +67,9 @@ export function UserForm() {
         </Button>
         <FormAnnotation>
           <Text size="sm">
-            {errors.email ? errors.email.message : "Digite o seu e-mail"}
+            {errors.email && (
+              <FormError size="sm">{errors.email.message}</FormError>
+            )}
           </Text>
         </FormAnnotation>
       </Form>
