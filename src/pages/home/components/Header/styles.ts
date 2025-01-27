@@ -5,8 +5,7 @@ export const HeaderContainer = styled('header', {
     alignItems: 'center',
     justifyContent: 'space-between',
 
-    padding: '0 $5',
-
+    padding: '0 $2',
 })
 
 export const HeaderText = styled('header', {

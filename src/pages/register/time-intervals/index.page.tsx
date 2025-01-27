@@ -98,9 +98,10 @@ export default function TimeIntervals() {
 
   const router = useRouter();
 
-  const session = useSession();
-  console.log(session)
-  const isSignedId = session.status === "authenticated" && session.data.user?.is_admin === true;
+  const session = useSession();   
+  const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
+
+  const isSignedId = session.status === "authenticated" && userIdOnCookies;
   async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
     const { intervals } = data;
     await api.post("/users/time-intervals", {

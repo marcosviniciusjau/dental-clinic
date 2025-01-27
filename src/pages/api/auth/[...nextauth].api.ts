@@ -107,14 +107,14 @@ export function buildNextAuthOptions(
       },
       async jwt({ token, user, account }) {
         if (account) {
-          token.provider = account.provider; // Identifica o provedor usado
+          token.provider = account.provider;
         }
         if (user) {
           token.id = user.id;
           token.email = user.email;
           token.name = user.name;
           if (account?.provider === 'credentials') {
-            token.role = 'user'; // Por exemplo, definir um papel para o usuário
+            token.role = 'user';
           }
         }
         return token;
