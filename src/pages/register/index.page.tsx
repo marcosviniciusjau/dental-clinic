@@ -34,22 +34,9 @@ const registerFormSchema = z.object({
   .regex(/[0-9]/, { message: "Deve conter ao menos um número" })
   .regex(/[^a-zA-Z0-9]/, {
     message: "Deve conter ao menos um caractere especial (!@#$%^&*)",
-  }).optional(),
+  })
 })
-.refine(
-  (data) => {
-    // Torna a senha obrigatória apenas se o email for diferente de emailOwner
-    const emailOwner = env.NEXT_EMAIL;
-    if (data.email !== emailOwner && !data.password) {
-      return false;
-    }
-    return true;
-  },
-  {
-    message: "Senha é obrigatória para emails diferentes do administrador",
-    path: ["password"], // Define onde exibir o erro
-  }
-)
+
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
 
