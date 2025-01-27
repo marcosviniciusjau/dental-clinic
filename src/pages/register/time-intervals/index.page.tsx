@@ -27,7 +27,7 @@ import { useSession } from "next-auth/react";
 import { ContainerLogin } from "@/pages/schedule/[email]/styles";
 
 import { Header as HeaderHome } from "@/pages/home/components/Header";
-import {parseCookies} from 'nookies'
+import { parseCookies } from "nookies";
 const timeIntervalsFormSchema = z.object({
   intervals: z
     .array(
@@ -98,8 +98,8 @@ export default function TimeIntervals() {
 
   const router = useRouter();
 
-  const session = useSession();   
-  const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
+  const session = useSession();
+  const { "dental-clinic:client": userIdOnCookies } = parseCookies();
 
   const isSignedId = session.status === "authenticated" && userIdOnCookies;
   async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
@@ -112,89 +112,95 @@ export default function TimeIntervals() {
 
   return (
     <Header>
-      <HeaderHome/>
+      <HeaderHome />
       {isSignedId ? (
         <>
-        <NextSeo title="Selecione sua disponibilidade | Dental Clinic" noindex />
-      
-        <Container>
-          <Header>
-            <Heading as="strong">Quase lá</Heading>
-            <Text>
-              Defina o intervalo de horário que você está disponível em cada dia
-              da semana.
-            </Text>
-            <MultiStep size={4} currentStep={3} />
-          </Header>
-          <Form<TimeIntervalsFormInput, TimeIntervalsFormOutput>
-            control={control}
-            onSubmit={async ({ data }) => await handleSetTimeIntervals(data)}
-          >
-            <IntervalBox>
-              <IntervalContainer>
-                {fields.map((field, index) => {
-                  return (
-                    <IntervalItem key={field.id}>
-                      <IntervalDay>
-                        <Controller
-                          name={`intervals.${index}.enabled`}
-                          control={control}
-                          render={({ field }) => {
-                            return (
-                              <Checkbox
-                                onCheckedChange={(checked) => {
-                                  field.onChange(checked === true);
-                                }}
-                                checked={field.value}
-                              />
-                            );
-                          }}
-                        />
-                        <Text>{weekDays[field.weekDay]}</Text>
-                      </IntervalDay>
-                      <IntervalInputs>
-                        <TextInput
-                          containerProps={{ size: "sm" }}
-                          type="time"
-                          step={60}
-                          disabled={intervals[index].enabled === false}
-                          {...register(`intervals.${index}.startTime`)}
-                        />
-                        <TextInput
-                          containerProps={{ size: "sm" }}
-                          type="time"
-                          step={60}
-                          disabled={intervals[index].enabled === false}
-                          {...register(`intervals.${index}.endTime`)}
-                        />
-                      </IntervalInputs>
-                    </IntervalItem>
-                  );
-                })}
-              </IntervalContainer>
-              {errors.intervals && (
-                <FormError size="sm">
-                  {errors.intervals.root?.message}
-                </FormError>
-              )}
-              <Button type="submit" disabled={isSubmitting}>
-                Proximo Passo
-                <ArrowRight />
-              </Button>
-            </IntervalBox>
-          </Form>
-        </Container>
+          <NextSeo
+            title="Selecione sua disponibilidade | Dental Clinic"
+            noindex
+          />
+
+          <Container>
+            <Header>
+              <Heading as="strong">Quase lá</Heading>
+              <Text>
+                Defina o intervalo de horário que você está disponível em cada
+                dia da semana.
+              </Text>
+              <MultiStep size={4} currentStep={3} />
+            </Header>
+            <Form<TimeIntervalsFormInput, TimeIntervalsFormOutput>
+              control={control}
+              onSubmit={async ({ data }) => await handleSetTimeIntervals(data)}
+            >
+              <IntervalBox>
+                <IntervalContainer>
+                  {fields.map((field, index) => {
+                    return (
+                      <IntervalItem key={field.id}>
+                        <IntervalDay>
+                          <Controller
+                            name={`intervals.${index}.enabled`}
+                            control={control}
+                            render={({ field }) => {
+                              return (
+                                <Checkbox
+                                  onCheckedChange={(checked) => {
+                                    field.onChange(checked === true);
+                                  }}
+                                  checked={field.value}
+                                />
+                              );
+                            }}
+                          />
+                          <Text>{weekDays[field.weekDay]}</Text>
+                        </IntervalDay>
+                        <IntervalInputs>
+                          <TextInput
+                            containerProps={{ size: "sm" }}
+                            type="time"
+                            step={60}
+                            disabled={intervals[index].enabled === false}
+                            {...register(`intervals.${index}.startTime`)}
+                          />
+                          <TextInput
+                            containerProps={{ size: "sm" }}
+                            type="time"
+                            step={60}
+                            disabled={intervals[index].enabled === false}
+                            {...register(`intervals.${index}.endTime`)}
+                          />
+                        </IntervalInputs>
+                      </IntervalItem>
+                    );
+                  })}
+                </IntervalContainer>
+                {errors.intervals && (
+                  <FormError size="sm">
+                    {errors.intervals.root?.message}
+                  </FormError>
+                )}
+                <Button type="submit" disabled={isSubmitting}>
+                  Proximo Passo
+                  <ArrowRight />
+                </Button>
+              </IntervalBox>
+            </Form>
+          </Container>
         </>
       ) : (
         <>
-        <NextSeo title="Não autorizado | Dental Clinic" noindex />
-      
-        <ContainerLogin>
-          <Heading>Você precisa fazer login para acessar essa página</Heading>
-          <a href="/register/connect-calendar" style={{ textDecoration: "none" }}>
-            <Button>Fazer Login</Button>
-          </a>
-        </ContainerLogin>
+          <NextSeo title="Não autorizado | Dental Clinic" noindex />
+
+          <ContainerLogin>
+            <Heading>Você precisa fazer login para acessar essa página</Heading>
+            <a
+              href="/register/connect-calendar"
+              style={{ textDecoration: "none" }}
+            >
+              <Button>Fazer Login</Button>
+            </a>
+          </ContainerLogin>
         </>
       )}
     </Header>
