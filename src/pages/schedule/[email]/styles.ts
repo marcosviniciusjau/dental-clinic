@@ -128,7 +128,6 @@ export const AccordionWrapper = styled('div', {
   marginTop: '$10',
 
   width: '50%',
-  marginLeft: '$16',
   [`> ${Heading}`]: {
     color: '$gray100',
     marginBottom: '$4',
@@ -140,8 +139,6 @@ export const AccordionItem = styled('div', {
 });
 
 export const Accordion = styled(Box, {
-  backgroundColor: '#eee',
-  color: '#444',
   cursor: 'pointer',
   padding: '18px',
   width: '100%',
@@ -179,7 +176,6 @@ export const PanelProfile = styled('div', {
 });
 
 export const Panel = styled('div', {
-  backgroundColor: 'white',
   overflow: 'hidden',
   height: 0,
   marginTop: '$5',

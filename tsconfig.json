@@ -21,6 +21,6 @@
     "noImplicitAny": false,
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/home/SendEmail"],
   "exclude": ["node_modules"]
 }

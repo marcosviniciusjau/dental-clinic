@@ -10,6 +10,6 @@ export const HeaderContainer = styled('header', {
 
 export const HeaderText = styled('header', {
   display: 'inherit',
-  gap: '$3',
+  gap: '$6',
   
 })

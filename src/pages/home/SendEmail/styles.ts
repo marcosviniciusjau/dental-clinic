@@ -13,8 +13,8 @@ export const Container = styled('div', {
   overflow: 'hidden',
   '@media(max-width: 600px)': {
     display: 'block',
-    marginLeft: '$10',
-    marginRight: '$6',
+  marginLeft: '$6',
+  marginRight: '$6',
   },
 })
 export const Vazio = styled('div', {
@@ -32,9 +32,7 @@ export const Form = styled(Box, {
   display: 'flex',
   flexDirection: 'column',
   gap: '$6',
-  '@media(max-width: 600px)': {
-    width: '90%'
-  },
+
   [`> ${Button}`]: {
     color: '$white',
     '&:disabled': {
@@ -44,7 +42,6 @@ export const Form = styled(Box, {
     '&:not(:disabled):hover': {
       backgroundColor: '$blue300',
     },
-    
   },
 })
 

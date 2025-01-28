@@ -31,11 +31,10 @@ export const Form = styled('div', {
   flexDirection: 'column',
   gap: '$4',
   '@media(max-width: 600px)': {
-    marginTop: '30vh',
+    marginTop: '20vh',
     [`> ${Heading}`]: {
       fontSize: 'md',
     },
-  
     },
   label: {
     display: 'flex',

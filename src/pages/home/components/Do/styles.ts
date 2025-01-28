@@ -11,7 +11,7 @@ export const Container = styled('div', {
   paddingLeft: '$16',
   '@media(max-width: 600px)': {
     display: 'block',
-    paddingLeft: '$6',
+    paddingLeft: '$10',
   },
 })
 

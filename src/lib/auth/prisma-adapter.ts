@@ -1,36 +1,22 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { Adapter } from 'next-auth/adapters'
+import { parseCookies, destroyCookie } from 'nookies'
 import { prisma } from '../prisma'
-import { setCookie, parseCookies, destroyCookie } from 'nookies'
-import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
-import { env } from '@/env/env'
+import { debug } from 'console'
 
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
 ): Adapter {
+  debugger
   return {
     async createUser(user) {
       const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
 
       if (!userIdOnCookies) {
-        throw new Error('User not found on cookies.')
+        throw new Error('User ID not found on cookies.')
       }
-      if (user.email === env.NEXT_EMAIL) {
-        await prisma.user.update({
-          where: {
-            id: userIdOnCookies,
-          },
-          data: {
-            name: user.name,
-            email: user.email,
-            is_admin: true,
-            profile_img_url: user.profile_img_url,
-          },
-        })
-      }
+
       const prismaUser = await prisma.user.update({
         where: {
           id: userIdOnCookies,
@@ -42,7 +28,7 @@ export function PrismaAdapter(
         },
       })
 
-      destroyCookie({ res }, 'dental-clinic:userId', {
+      destroyCookie({ res }, 'dental-clinic:client', {
         path: '/',
       })
 
@@ -50,7 +36,6 @@ export function PrismaAdapter(
         id: prismaUser.id,
         name: prismaUser.name,
         email: prismaUser.email!,
-        is_admin: prismaUser.is_admin,
         emailVerified: null,
         profile_img_url: prismaUser.profile_img_url!,
       }
@@ -61,13 +46,6 @@ export function PrismaAdapter(
         where: {
           id,
         },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          is_admin: true,
-          profile_img_url: true
-        }
       })
 
       if (!user) {
@@ -78,7 +56,6 @@ export function PrismaAdapter(
         id: user.id,
         name: user.name,
         email: user.email!,
-        is_admin: user.is_admin,
         emailVerified: null,
         profile_img_url: user.profile_img_url!,
       }
@@ -88,13 +65,6 @@ export function PrismaAdapter(
         where: {
           email,
         },
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          is_admin: true,
-          profile_img_url: true
-        }
       })
 
       if (!user) {
@@ -106,7 +76,6 @@ export function PrismaAdapter(
         name: user.name,
         email: user.email!,
         emailVerified: null,
-        is_admin: user.is_admin,
         profile_img_url: user.profile_img_url!,
       }
     },
@@ -122,6 +91,7 @@ export function PrismaAdapter(
           user: true,
         },
       })
+
       if (!account) {
         return null
       }
@@ -132,7 +102,6 @@ export function PrismaAdapter(
         id: user.id,
         name: user.name,
         email: user.email!,
-        is_admin: user.is_admin,
         emailVerified: null,
         profile_img_url: user.profile_img_url!,
       }
@@ -194,8 +163,6 @@ export function PrismaAdapter(
     },
 
     async getSessionAndUser(sessionToken) {
-      const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
-
       const prismaSession = await prisma.session.findUnique({
         where: {
           session_token: sessionToken,
@@ -204,15 +171,13 @@ export function PrismaAdapter(
           user: true,
         },
       })
-      // eslint-disable-next-line react-hooks/rules-of-hooks
 
-      const currentDate = dayjs().startOf('day');
-      const nextWeek = currentDate.add(1, 'week');
       if (!prismaSession) {
         return null
       }
 
       const { user, ...session } = prismaSession
+
       return {
         session: {
           userId: session.user_id,
@@ -223,7 +188,6 @@ export function PrismaAdapter(
           id: user.id,
           name: user.name,
           email: user.email!,
-          is_admin: user.is_admin,
           emailVerified: null,
           profile_img_url: user.profile_img_url!,
         },
@@ -240,6 +204,7 @@ export function PrismaAdapter(
           user_id: userId,
         },
       })
+
       return {
         sessionToken: prismaSession.session_token,
         userId: prismaSession.user_id,

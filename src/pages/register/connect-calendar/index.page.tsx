@@ -24,10 +24,10 @@ export default function ConnectCalendar() {
   
   const { 'dental-clinic:client': userIdOnCookies } = parseCookies()
 
-  const isSignedId = session.status === "authenticated" && session.data.user?.email === env.NEXT_EMAIL && userIdOnCookies;
+  const isSignedId = session.status === "authenticated";
 
   async function handleConnectCalendar() {
-    await signIn('google', { callbackUrl: '/register/connect-calendar' })
+    await signIn('google')
   }
 
   async function handleNextStep() {

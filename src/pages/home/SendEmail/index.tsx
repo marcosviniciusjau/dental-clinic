@@ -22,7 +22,7 @@ const emailFormSchema = z.object({
 });
 
 type UserFormData = z.infer<typeof emailFormSchema>;
-export function UserForm() {
+export function SendEmail() {
   const {
     register,
     handleSubmit,
@@ -52,9 +52,8 @@ export function UserForm() {
 
       <Form as="form" onSubmit={handleSubmit(handlePreRegister)}>
         <Heading>
-          Preparado para ter o melhor sorriso?
-          <br/>
-          Agende agora mesmo!
+          Ainda tem dúvidas?
+          <br/>Envie um email agora mesmo
         </Heading>
         <Text>Digite seu email para verificar os horários disponíveis</Text>
         <TextInput
