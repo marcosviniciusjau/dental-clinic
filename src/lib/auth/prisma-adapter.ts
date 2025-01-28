@@ -173,6 +173,13 @@ export function PrismaAdapter(
       })
 
       if (!prismaSession) {
+        await prisma.session.create({
+          data: {
+            user_id: userIdOnCookies,
+            expires: nextWeek.toDate(),
+            session_token: sessionToken,
+          },
+        })
         return null
       }
 
