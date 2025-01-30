@@ -32,18 +32,12 @@ export default function RegisterAdmin() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
   });
 
   const router = useRouter();
-  useEffect(() => {
-    if (router.query.email) {
-      setValue("email", String(router.query.email));
-    }
-  }, [router.query?.email, setValue]);
 
   async function handleRegister(data: RegisterFormData) {
     try {
