@@ -28,10 +28,6 @@ export default async function handler(
     where: {
       email,
     },
-    select:{
-      email: true,
-      id: true,
-    }
   })
 
   if (!user) {

@@ -6,7 +6,9 @@ import { HeaderContainer, HeaderText } from "./styles";
 export function Header() {
   return (
     <HeaderContainer>
-      <Image src={Logo} alt="Logo" width={100} height={100} />
+       <a href="/" style={{ textDecoration: "none" }}>
+        <Image src={Logo} alt="Logo" width={100} height={100} />
+      </a>
       <HeaderText>
         <a href="/" style={{ textDecoration: "none" }}>
           <Text>Home </Text>

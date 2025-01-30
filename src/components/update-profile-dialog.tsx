@@ -28,7 +28,7 @@ const storeProfileSchema = z.object({
 type StoreProfileSchema = z.infer<typeof storeProfileSchema>
 export function UpdateProfileDialog() {
   const queryClient = useQueryClient()
-  const emailOwner = env.NEXT_EMAIL
+  const emailOwner = env.NEXT_EMAIL_OWNER
   const session = useSession()
   const {
     register,

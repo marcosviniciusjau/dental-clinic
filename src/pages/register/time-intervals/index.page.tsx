@@ -28,6 +28,7 @@ import { ContainerLogin } from "@/pages/schedule/[email]/styles";
 
 import { Header as HeaderHome } from "@/pages/home/components/Header";
 import { parseCookies } from "nookies";
+import { env } from "@/env/env";
 const timeIntervalsFormSchema = z.object({
   intervals: z
     .array(
@@ -99,9 +100,7 @@ export default function TimeIntervals() {
   const router = useRouter();
 
   const session = useSession();
-  const { "dental-clinic:client": userIdOnCookies } = parseCookies();
-
-  const isSignedId = session.status === "authenticated" && userIdOnCookies;
+  const isSignedId = session.status === "authenticated" && session.data.user.email === env.NEXT_EMAIL_OWNER;
   async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
     const { intervals } = data;
     await api.post("/users/time-intervals", {

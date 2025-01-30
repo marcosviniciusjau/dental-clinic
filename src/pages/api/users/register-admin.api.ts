@@ -1,3 +1,4 @@
+import { env } from '@/env/env'
 import { prisma } from '@/lib/prisma'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { setCookie } from 'nookies'
@@ -10,11 +11,11 @@ export default async function handler(
     return res.status(405).end()
   }
 
-  const { name, email } = req.body
+  const { name, username } = req.body
 
   const userExists = await prisma.user.findUnique({
     where: {
-      email,
+      username,
     }
   })
 
@@ -24,10 +25,18 @@ export default async function handler(
       .json({ message: 'Ocorreu um erro ao cadastrar. Tente novamente.' })
   }
 
+  if (username != env.NEXT_USERNAME) {
+    return res
+      .status(401)
+      .json({ message: 'Não autorizado!' })
+  }
+
   const user = await prisma.user.create({
     data: {
       name,
-      email,
+      username,
+      email: '',
+      is_admin: true
     },
   })
 

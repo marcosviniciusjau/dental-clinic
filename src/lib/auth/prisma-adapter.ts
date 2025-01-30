@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
-import { Adapter } from 'next-auth/adapters'
+import { Adapter, VerificationToken } from 'next-auth/adapters'
 import { parseCookies, destroyCookie } from 'nookies'
 import { prisma } from '../prisma'
-import { debug } from 'console'
+import { authConfig } from '@/configs/auth'
 
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
@@ -12,7 +12,6 @@ export function PrismaAdapter(
   return {
     async createUser(user) {
       const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
-
       if (!userIdOnCookies) {
         throw new Error('User ID not found on cookies.')
       }
@@ -39,6 +38,32 @@ export function PrismaAdapter(
         emailVerified: null,
         profile_img_url: prismaUser.profile_img_url!,
       }
+    },
+
+    async createVerificationToken(verificationToken){
+      const token = await prisma.verificationRequest.create({
+        data: {
+          identifier: verificationToken.identifier,
+          token: verificationToken.token,
+          expires: verificationToken.expires,
+        },
+      });
+      return token;
+    },
+    async useVerificationToken({identifier, token} ){
+      const verificationToken = await prisma.verificationRequest.findUnique({
+        where: { token },
+      });
+    
+      if (!verificationToken || verificationToken.identifier !== identifier) {
+        return null; 
+      }
+    
+      await prisma.verificationRequest.delete({
+        where: { token },
+      });
+    
+      return verificationToken;
     },
 
     async getUser(id) {
@@ -91,7 +116,6 @@ export function PrismaAdapter(
           user: true,
         },
       })
-
       if (!account) {
         return null
       }
@@ -171,15 +195,7 @@ export function PrismaAdapter(
           user: true,
         },
       })
-
       if (!prismaSession) {
-        await prisma.session.create({
-          data: {
-            user_id: userIdOnCookies,
-            expires: nextWeek.toDate(),
-            session_token: sessionToken,
-          },
-        })
         return null
       }
 

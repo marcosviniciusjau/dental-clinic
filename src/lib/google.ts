@@ -2,6 +2,7 @@
 import { google } from 'googleapis'
 import { prisma } from './prisma'
 import dayjs from 'dayjs'
+import { env } from '@/env/env'
 export async function getGoogleOAuthToken(userId: string) {
   const account = await prisma.account.findFirstOrThrow({
     where: {
@@ -10,8 +11,8 @@ export async function getGoogleOAuthToken(userId: string) {
     },
   })
   const auth = new google.auth.OAuth2(
-    process.env.NEXT_GOOGLE_CLIENT_ID,
-    process.env.NEXT_GOOGLE_CLIENT_SECRET,
+    env.NEXT_GOOGLE_CLIENT_ID,
+    env.NEXT_GOOGLE_CLIENT_SECRET,
   )
 
   auth.setCredentials({

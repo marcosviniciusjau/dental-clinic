@@ -23,10 +23,10 @@ export const ContainerLogin = styled('div', {
     gap: '$8',
   },
   '@media(max-width: 600px)': {
-  marginTop: '30vh',
-  [`> ${Heading}`]: {
-    fontSize: 'md',
-  },
+    marginTop: '30vh',
+    [`> ${Heading}`]: {
+      fontSize: 'md',
+    },
 
   }
 })
@@ -35,7 +35,7 @@ export const UserHeader = styled('div', {
   '@media(min-width: 600px)': {
     marginTop: '$5',
     display: 'grid',
-    gridTemplateColumns: '1fr 2fr 1fr',
+    gridTemplateColumns: '1fr 1fr 150px',
     gridTemplateAreas: `'agendamentos doctor profile'`,
     gap: '19rem',
     alignItems: 'start',
@@ -62,15 +62,14 @@ export const ProfileHeader = styled('div', {
   gridArea: 'profile',
   display: 'flex',
   flexDirection: 'column',
-
   cursor: 'pointer',
   '@media(min-width: 600px)': {
     marginTop: '-$20',
     alignItems: 'flex-end',
   },
 
-'@media(max-width: 600px)': {
-  marginTop: '-$10',
+  '@media(max-width: 600px)': {
+    marginTop: '-$10',
   },
   [`> ${Heading}`]: {
     lineHeight: '$base',
@@ -78,14 +77,15 @@ export const ProfileHeader = styled('div', {
 
   [`> ${Text}`]: {
     color: '$gray100',
-    marginLeft: '25vh',
     textAlign: 'center',
+    marginBottom: '$4',
+    marginLeft: '-$20'
   },
 
   variants: {
     isOpen: {
       true: {
-        backgroundColor: '$gray900'
+        backgroundColor: '$gray900',
       },
     },
   },
@@ -158,18 +158,16 @@ export const Accordion = styled(Box, {
 });
 
 export const PanelProfile = styled('div', {
-  '@media(max-width: 600px)': {
-    marginLeft: '25vh',
-  },
   overflow: 'hidden',
   height: 0,
   transition: 'height 0.4s ease-out',
-
   variants: {
     isOpen: {
       true: {
+        '@media(min-width: 600px)': {
+        marginLeft: '-$12',
+        },
         height: 'auto',
-        padding: '18px',
       },
     },
   },

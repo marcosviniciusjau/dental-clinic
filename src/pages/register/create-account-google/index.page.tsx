@@ -19,7 +19,7 @@ export default function CreateAccountGoogle() {
 
   const router = useRouter();
 
-  const emailOwner = env.NEXT_EMAIL;
+  const emailOwner = env.NEXT_EMAIL_OWNER;
   const hasAuthError = !!router.query.error;
   const isSignedId = session.status === "authenticated";
 

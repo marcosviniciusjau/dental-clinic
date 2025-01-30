@@ -64,6 +64,12 @@ export default function Schedule({ user }: ScheduleProps) {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const [openIndexProfile, setOpenIndexProfile] = useState<number | null>(null);
+
+  const toggleAccordionProfile = (indexProfile: number) => {
+    setOpenIndexProfile(openIndexProfile === indexProfile ? null : indexProfile);
+  };
+
   const { data: schedulings } = useQuery<Schedulings[]>({
     queryKey: ["schedulings"],
     queryFn: async () => {
@@ -79,8 +85,6 @@ export default function Schedule({ user }: ScheduleProps) {
   function logout() {
     try { 
       signOut({ callbackUrl: "/" });
-      destroyCookie(null, 'dental-clinic:client', { path: '/' })
-      router.push("/");
     } catch (error) {
       console.log(error);
     }
@@ -96,12 +100,12 @@ export default function Schedule({ user }: ScheduleProps) {
           <UserHeader>
             <div key={1}>
               <ProfileHeader
-                onClick={() => toggleAccordion(1)}
-                isOpen={openIndex === 1}
+                onClick={() => toggleAccordionProfile(1)}
+                isOpen={openIndexProfile === 1}
               >
                 <Text size="sm">{session.data.user?.name}</Text>
               </ProfileHeader>
-              <PanelProfile isOpen={openIndex === 1}>
+              <PanelProfile isOpen={openIndexProfile === 1}>
                 <Text size="sm">{session.data?.user.email}</Text>
                 <Button
                   style={{ background: "#121214" }}
@@ -203,7 +207,7 @@ export const getStaticPaths = async () => {
   }
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const email = env.NEXT_EMAIL
+  const email = env.NEXT_EMAIL_OWNER
 
   const user = await prisma.user.findUnique({
     where: {

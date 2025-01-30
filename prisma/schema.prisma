@@ -6,14 +6,15 @@ datasource db {
   provider  = "postgresql"
   url       = env("NEXT_DATABASE_URL")
   directUrl = env("NEXT_DATABASE_DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
   id              String             @id @default(uuid())
+  username        String             @unique @default("")
   name            String
   bio             String?            @db.Text
-  password        String?
-  email           String            @unique
+  email           String             @unique
   profile_img_url String?
   created_at      DateTime           @default(now())
   accounts        Account[]
@@ -23,6 +24,19 @@ model User {
   Scheduling      Scheduling[]
 
   @@map("users")
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+  
+  @@map("verification-request")
 }
 
 model Account {

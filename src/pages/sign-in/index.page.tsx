@@ -19,19 +19,17 @@ import { AuthError } from "../register/connect-calendar/styles";
 import { startTransition, useEffect } from "react";
 import { redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+
 const SignInFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
-  password: z.string().min(6, { message: "Mínimo 6 caracteres" }),
 });
 
 type SignInFormData = z.infer<typeof SignInFormSchema>;
 
 export default function SignIn() {
   const router = useRouter();
-
-  const emailOwner = env.NEXT_EMAIL;
-  const session = useSession();
-
+  const session = useSession()
+  const emailOwner = env.NEXT_EMAIL_OWNER
   const hasAuthError = !!router.query.error;
 
   const {
@@ -43,17 +41,12 @@ export default function SignIn() {
   });
   async function handleSignIn(data: SignInFormData) {
     try {
-       await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        callbacks: `/sign-in`,
-        redirect: true,
-        callbackUrl: `/schedule/${emailOwner}`,
-      });
+       await signIn("email",data, {callbackUrl: `/schedules/${emailOwner}`});
     } catch (error) {
       console.error(error);
       }
     }
+    
   return (
     <Container>
       <Header />
@@ -68,17 +61,6 @@ export default function SignIn() {
           <TextInput placeholder="Seu email" {...register("email")} />
           {errors.email && (
             <FormError size="sm">{errors.email.message}</FormError>
-          )}
-        </label>
-        <label>
-          <Text size="sm">Senha</Text>
-          <TextInput
-            placeholder="Senha"
-            {...register("password")}
-            type="password"
-          />
-          {errors.password && (
-            <FormError size="sm">{errors.password.message}</FormError>
           )}
         </label>
         <Button type="submit" disabled={isSubmitting}>

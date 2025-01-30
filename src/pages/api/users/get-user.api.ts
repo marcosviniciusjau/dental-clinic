@@ -14,8 +14,11 @@ export default async function handler(
     return res.status(405).end()
   }
   const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
-
-  const user = await prisma.$queryRaw`SELECT name, email FROM users WHERE id = ${userIdOnCookies}`
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userIdOnCookies
+    }
+  })
 
   return res.status(200).send(user)
 }

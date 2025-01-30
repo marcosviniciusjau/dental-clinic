@@ -27,13 +27,14 @@ import { buildNextAuthOptions } from "@/pages/api/auth/[...nextauth].api";
 const updateProfileSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
+  bio: z.string(),
 });
 
 type UpdateProfileData = z.infer<typeof updateProfileSchema>;
 
 export default function updateProfile() {
   const session = useSession();
-  const emailOwner = env.NEXT_EMAIL
+  const emailOwner = env.NEXT_EMAIL_OWNER;
   const isSignedId = session.status === "authenticated";
 
   const {
@@ -51,9 +52,10 @@ export default function updateProfile() {
   async function handleUpdateProfile(data: UpdateProfileData) {
     await api.put("/users/update-profile", {
       name: data.name,
+      bio: data.bio,
       email: data.email,
     });
-    session.update(data)
+    session.update(data);
     toast.success("Perfil atualizado com sucesso!");
     await router.push(`/schedule/${emailOwner}`);
   }
@@ -73,6 +75,14 @@ export default function updateProfile() {
               <TextArea {...register("name")} />
               <FormAnnotation size="sm"></FormAnnotation>
             </label>
+            {session.data.user.email === env.NEXT_EMAIL_OWNER && (
+              <label>
+                <Text size="sm">Bio</Text>
+                <TextArea {...register("bio")} />
+                <FormAnnotation size="sm"></FormAnnotation>
+              </label>
+            )}
+
             <label>
               <Text size="sm">Email</Text>
               <TextArea {...register("email")} />
