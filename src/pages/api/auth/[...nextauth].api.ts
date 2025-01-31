@@ -90,15 +90,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function sendVerificationRequest(params) {
-<<<<<<< HEAD
-=======
-  try {
-
-  } catch (error) {
-
-  }
->>>>>>> 133d854e99cf9f1904268fd716dfd1340e1fa04a
-  const { identifier, url, provider, theme } = params
+const { identifier, url, provider, theme } = params
   const userExists = await prisma.user.findUnique({
     where: {
       email: identifier,
