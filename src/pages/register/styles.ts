@@ -8,12 +8,7 @@ import {
 
 export const Container = styled('main', {
   maxWidth: 572,
-  '@media(min-width: 600px)': {
-    margin: '$20 auto $4',
-  }, 
-  '@media(max-width: 600px)': {
-    margin: '$10 auto $4',
-  },
+  margin: '$10 auto $4',
   padding: '0 $4',
 })
 
