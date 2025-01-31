@@ -62,8 +62,9 @@ export const Contacts = styled('div', {
     display: 'flex',
     gap: '$20',
   },
-
+  '@media(max-width: 600px)': {
   marginLeft: '$8',
+  }
 }
 )
 
@@ -139,15 +140,34 @@ export const Panel = styled('div', {
 });
 export const Questions = styled('div', {
   '@media(min-width: 600px)': {
-    marginTop: '8rem',
-  }
+    marginTop: '4rem',
+    marginBottom: '4rem',
+  },
+  [`> ${Heading}`]: {
+    marginBottom: '$4',
+  },
 })
+
 export const Gmail = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: '$4',
 
+  marginBottom: '$4',
+  [`> ${Text}`]: {
+    marginTop: '$6',
+    color: '$gray300',
+  },
+})
+
+export const Whatsapp = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '$4',
+
   marginTop: '$4',
+  
+  marginBottom: '$4',
   [`> ${Text}`]: {
     marginTop: '$6',
     color: '$gray300',

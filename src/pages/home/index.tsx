@@ -3,7 +3,8 @@ import Image from "next/image";
 import { Container, Hero, Accordion,
   AccordionItem,
   AccordionWrapper,
-  Panel, Preview, Contacts, Imagem, Gmail, Questions } from "./styles";
+  Panel, Preview, Contacts, Imagem, Gmail, Questions, 
+  Whatsapp} from "./styles";
 
 import previewImage from "../../assets/dentista.png";
 
@@ -13,9 +14,9 @@ import { Header } from "./components/Header";
 import { Do } from "./components/Do";
 import { Footer } from "./components/Footer";
 import LogoGmail from "@/assets/logo_gmail.svg";
+import LogoWhatsapp from "@/assets/logo_whatsapp.svg";
 
 import { useState } from "react";
-
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -75,7 +76,7 @@ export default function Home() {
           ))}
         </AccordionWrapper>
         <Questions>
-          <Heading>Tem alguma dúvida?</Heading>
+          <Heading>Tem alguma mais dúvida?</Heading>
           <Text>Então envie um email para:</Text>
           <Gmail>
           <Image
@@ -95,6 +96,25 @@ export default function Home() {
             <Text size="xl">dentalclinic@gmail.com</Text>
           </a>
           </Gmail>
+          <Text>Ou nos envie uma mensagem para:</Text>
+          <Whatsapp>
+          <Image
+            src={LogoWhatsapp}
+            width={80}
+            quality={100}
+            priority
+            style={{ borderRadius: "4px" }}
+            alt="logo whatsapp"
+          />
+
+          <a
+            href="https://api.whatsapp.com/send?phone=5514982078002&text=Como+posso+te+ajudar%3F"
+            style={{ textDecoration: "none" }}
+            target="_parent"
+          >
+            <Text size="xl">14 982078002</Text>
+          </a>
+          </Whatsapp>
         </Questions>
       </Contacts>
       <UserForm />
