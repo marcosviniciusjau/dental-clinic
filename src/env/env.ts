@@ -8,14 +8,8 @@ const envSchema = z.object({
   NEXT_GOOGLE_CLIENT_ID: z.string(),
   NEXT_GOOGLE_CLIENT_SECRET: z.string(),
   NEXT_NEXTAUTH_SECRET: z.string(),
-
-<<<<<<< HEAD
   NEXT_EMAIL_OWNER: z.string().email(),
   NEXT_EMAIL_SERVER: z.string(),
-=======
-  NEXT_EMAIL_OWNER: z.string(),
-  NEXT_EMAIL_SERVER: z.string().email(),
->>>>>>> 133d854e99cf9f1904268fd716dfd1340e1fa04a
   NEXT_EMAIL_PASSWORD: z.string(),
   NEXT_USERNAME: z.string(),
 
