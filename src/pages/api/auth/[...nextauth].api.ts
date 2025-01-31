@@ -57,6 +57,7 @@ export function buildNextAuthOptions(
       }
       ),
     ],
+    secret: env.NEXT_AUTH_SECRET,
     pages: {
       verifyRequest: "/auth/verify-request",
     },
