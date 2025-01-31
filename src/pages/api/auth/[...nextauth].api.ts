@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse, NextPageContext } from 'next';
 import NextAuth, { NextAuthOptions, Theme } from 'next-auth';
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
 import EmailProvider from "next-auth/providers/email";
-import { PrismaAdapter } from '../../../lib/auth/prisma-adapter';
+import { PrismaAdapter } from '@/lib/auth/prisma-adapter';
 import { env } from '@/env/env';
 import { createTransport } from "nodemailer";
 import { prisma } from '@/lib/prisma';
@@ -90,11 +90,14 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function sendVerificationRequest(params) {
+<<<<<<< HEAD
+=======
   try {
 
   } catch (error) {
 
   }
+>>>>>>> 133d854e99cf9f1904268fd716dfd1340e1fa04a
   const { identifier, url, provider, theme } = params
   const userExists = await prisma.user.findUnique({
     where: {
@@ -114,7 +117,7 @@ async function sendVerificationRequest(params) {
     html: html({ url, host, theme }),
   })
   console.log(result)
-  const failed = result.rejected.concat(result.pending).filter(Boolean)
+  const failed = result.rejected.concat(result.rejected).filter(Boolean)
   if (failed.length) {
     throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)
   }

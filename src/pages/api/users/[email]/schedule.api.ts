@@ -21,13 +21,6 @@ export default async function handler(
     where: {
       email: emailOwner,
     },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      bio: true,
-      profile_img_url: true
-    },
   })
 
   if (!user) {
@@ -37,7 +30,7 @@ export default async function handler(
   const createSchedulingBody = z.object({
     name: z.string(),
     email: z.string().email(),
-    observations: z.enum(['Check-up', 'Tratamento', 'Implante']).default('Tratamento'),
+    observations: z.string(),
     date: z.string().datetime(),
   })
 
@@ -75,6 +68,7 @@ export default async function handler(
       user_id: user.id,
     },
   })
+  console.log(scheduling)
   const calendar = google.calendar({
     version: 'v3',
     auth: await getGoogleOAuthToken(user.id),

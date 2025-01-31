@@ -1,7 +1,13 @@
 import { Box, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled(Box, {
-  margin: '$6 auto 0',
+  '@media(min-width: 600px)': {
+    marginTop: '$6',
+    marginLeft: '8rem',
+  },
+  '@media(max-width: 600px)':{
+    margin: '$6 0 auto',
+  },
   padding: 0,
   display: 'grid',
   maxWidth: '100%',

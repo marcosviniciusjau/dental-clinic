@@ -9,7 +9,7 @@ export const Container = styled('div', {
     padding: '0 $4',
   },
   '@media(min-width: 600px)': {
-    margin: '$20 auto $4',
+    margin: '$5 auto $4',
   },
 })
 
@@ -63,14 +63,10 @@ export const ProfileHeader = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   cursor: 'pointer',
-  '@media(min-width: 600px)': {
-    marginTop: '-$20',
-    alignItems: 'flex-end',
-  },
-
   '@media(max-width: 600px)': {
     marginTop: '-$10',
   },
+
   [`> ${Heading}`]: {
     lineHeight: '$base',
   },
@@ -121,13 +117,17 @@ export const Consultas = styled('div', {
 
 
 export const AccordionWrapper = styled('div', {
+  marginTop: '$10',
+  marginLeft: '$8',
   '@media(max-width: 600px)': {
     width: '80%',
     marginBottom: '$10',
   },
-  marginTop: '$10',
+  '@media(min-width: 600px)': {
+    marginLeft: '8rem',
+  },
 
-  width: '50%',
+  width: '70%',
   [`> ${Heading}`]: {
     color: '$gray100',
     marginBottom: '$4',
@@ -165,7 +165,7 @@ export const PanelProfile = styled('div', {
     isOpen: {
       true: {
         '@media(min-width: 600px)': {
-        marginLeft: '-$12',
+          marginLeft: '-$12',
         },
         height: 'auto',
       },

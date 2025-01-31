@@ -1,4 +1,4 @@
-import { Heading, Text, styled } from '@marcos-vinicius-design-system/react'
+import { Box, Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 import Image from 'next/image'
 
 export const Container = styled('div', {
@@ -58,18 +58,90 @@ export const Preview = styled('div', {
 })
 export const Contacts = styled('div', {
   '@media(min-width: 600px)': {
+    marginLeft: '$16',
     display: 'flex',
-    '& > div': {
-      display: 'grid',
-      placeContent: 'center',
-    },
+    gap: '$20',
   },
 
-  '& > div': {
-  },
+  marginLeft: '$8',
 }
 )
 
+export const AccordionWrapper = styled('div', {
+  '@media(max-width: 600px)': {
+    marginBottom: '$10',
+    width: '85%',
+  },
+
+  marginTop: '$10',
+  '@media(min-width: 600px)': {
+    width: '50%',
+  },
+  [`> ${Heading}`]: {
+    color: '$gray100',
+    marginBottom: '$4',
+  },
+});
+
+export const AccordionItem = styled('div', {
+  marginBottom: '$2',
+});
+
+export const Accordion = styled(Box, {
+  cursor: 'pointer',
+  padding: '18px',
+  width: '100%',
+  textAlign: 'left',
+  border: 'none',
+  outline: 'none',
+  transition: '0.4s',
+
+  marginBottom: '$5',
+  variants: {
+    isOpen: {
+      true: {
+        backgroundColor: '$gray500'
+      },
+    },
+  },
+});
+
+export const PanelProfile = styled('div', {
+  overflow: 'hidden',
+  height: 0,
+  transition: 'height 0.4s ease-out',
+  variants: {
+    isOpen: {
+      true: {
+        '@media(min-width: 600px)': {
+          marginLeft: '-$12',
+        },
+        height: 'auto',
+      },
+    },
+  },
+});
+
+export const Panel = styled('div', {
+  overflow: 'hidden',
+  height: 0,
+  marginTop: '$5',
+  transition: 'height 0.4s ease-out',
+
+  variants: {
+    isOpen: {
+      true: {
+        height: 'auto',
+        padding: '18px',
+      },
+    },
+  },
+});
+export const Questions = styled('div', {
+  '@media(min-width: 600px)': {
+    marginTop: '8rem',
+  }
+})
 export const Gmail = styled('div', {
   display: 'flex',
   alignItems: 'center',

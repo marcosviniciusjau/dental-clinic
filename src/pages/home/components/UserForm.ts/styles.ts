@@ -33,7 +33,7 @@ export const Form = styled(Box, {
   flexDirection: 'column',
   gap: '$6',
   '@media(max-width: 600px)': {
-    width: '90%'
+    width: '95%'
   },
   [`> ${Button}`]: {
     color: '$white',

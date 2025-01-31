@@ -33,6 +33,7 @@ import { destroyCookie } from "nookies";
 import { Door, Pencil } from "phosphor-react";
 import { signOut, useSession } from "next-auth/react";
 import { env } from "@/env/env";
+import dayjs from "dayjs";
 interface ScheduleProps {
   user: {
     name: string;
@@ -65,9 +66,12 @@ export default function Schedule({ user }: ScheduleProps) {
   };
 
   const [openIndexProfile, setOpenIndexProfile] = useState<number | null>(null);
-
+  const currentDate = dayjs().startOf("day");
+ 
   const toggleAccordionProfile = (indexProfile: number) => {
-    setOpenIndexProfile(openIndexProfile === indexProfile ? null : indexProfile);
+    setOpenIndexProfile(
+      openIndexProfile === indexProfile ? null : indexProfile
+    );
   };
 
   const { data: schedulings } = useQuery<Schedulings[]>({
@@ -83,7 +87,7 @@ export default function Schedule({ user }: ScheduleProps) {
   }
 
   function logout() {
-    try { 
+    try {
       signOut({ callbackUrl: "/" });
     } catch (error) {
       console.log(error);
@@ -98,7 +102,7 @@ export default function Schedule({ user }: ScheduleProps) {
       {isSignedId ? (
         <Container>
           <UserHeader>
-            <div key={1}>
+            <div key={session.data.user?.id}>
               <ProfileHeader
                 onClick={() => toggleAccordionProfile(1)}
                 isOpen={openIndexProfile === 1}
@@ -133,11 +137,11 @@ export default function Schedule({ user }: ScheduleProps) {
                     <Text>
                       Data da consulta:{" "}
                       {new Date(scheduling.date).toLocaleDateString("pt-BR", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
                       })}
                     </Text>
                     <Text>Consulta:{scheduling.observations}</Text>
@@ -188,11 +192,11 @@ export default function Schedule({ user }: ScheduleProps) {
         </Container>
       ) : (
         <ContainerLogin>
-        <Heading>Você precisa fazer login para acessar essa página</Heading>
-        <a href="/sign-in" style={{ textDecoration: "none" }}>
-          <Button>Fazer Login</Button>
-        </a>
-      </ContainerLogin>
+          <Heading>Você precisa fazer login para acessar essa página</Heading>
+          <a href="/sign-in" style={{ textDecoration: "none" }}>
+            <Button>Fazer Login</Button>
+          </a>
+        </ContainerLogin>
       )}
 
       <ToastContainer />
@@ -203,20 +207,20 @@ export default function Schedule({ user }: ScheduleProps) {
 export const getStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
-  }
-}
+    fallback: "blocking",
+  };
+};
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const email = env.NEXT_EMAIL_OWNER
+  const email = env.NEXT_EMAIL_OWNER;
 
   const user = await prisma.user.findUnique({
     where: {
       email,
-    }, 
-  })
+    },
+  });
 
   if (!user) {
-    return { notFound: true }
+    return { notFound: true };
   }
 
   return {
@@ -229,5 +233,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     },
     revalidate: 60 * 60 * 24,
-  }
-}
+  };
+};

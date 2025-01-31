@@ -1,6 +1,9 @@
 import { Heading, Text } from "@marcos-vinicius-design-system/react";
 import Image from "next/image";
-import { Container, Hero, Preview, Contacts, Imagem, Gmail } from "./styles";
+import { Container, Hero, Accordion,
+  AccordionItem,
+  AccordionWrapper,
+  Panel, Preview, Contacts, Imagem, Gmail, Questions } from "./styles";
 
 import previewImage from "../../assets/dentista.png";
 
@@ -11,12 +14,6 @@ import { Do } from "./components/Do";
 import { Footer } from "./components/Footer";
 import LogoGmail from "@/assets/logo_gmail.svg";
 
-import {
-  Accordion,
-  AccordionItem,
-  AccordionWrapper,
-  Panel,
-} from "@/pages/schedule/[email]/styles";
 import { useState } from "react";
 
 
@@ -77,7 +74,7 @@ export default function Home() {
             </AccordionItem>
           ))}
         </AccordionWrapper>
-        <div>
+        <Questions>
           <Heading>Tem alguma dúvida?</Heading>
           <Text>Então envie um email para:</Text>
           <Gmail>
@@ -98,7 +95,7 @@ export default function Home() {
             <Text size="xl">dentalclinic@gmail.com</Text>
           </a>
           </Gmail>
-        </div>
+        </Questions>
       </Contacts>
       <UserForm />
       <Footer />
