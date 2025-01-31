@@ -7,7 +7,7 @@ const envSchema = z.object({
   NEXT_DATABASE_DIRECT_URL: z.string(),
   NEXT_GOOGLE_CLIENT_ID: z.string(),
   NEXT_GOOGLE_CLIENT_SECRET: z.string(),
-  NEXT_NEXTAUTH_SECRET: z.string(),
+  NEXT_AUTH_SECRET: z.string(),
   NEXT_EMAIL_OWNER: z.string().email(),
   NEXT_EMAIL_SERVER: z.string(),
   NEXT_EMAIL_PASSWORD: z.string(),
@@ -21,7 +21,7 @@ const parsedEnv = {
   NEXT_DATABASE_DIRECT_URL: process.env.NEXT_DATABASE_DIRECT_URL,
   NEXT_GOOGLE_CLIENT_ID: process.env.NEXT_GOOGLE_CLIENT_ID,
   NEXT_GOOGLE_CLIENT_SECRET: process.env.NEXT_GOOGLE_CLIENT_SECRET,
-  NEXT_NEXTAUTH_SECRET: process.env.NEXT_NEXTAUTH_SECRET,
+  NEXT_AUTH_SECRET: process.env.NEXT_AUTH_SECRET,
 
   NEXT_EMAIL_PASSWORD: process.env.NEXT_EMAIL_PASSWORD,
   NEXT_USERNAME: process.env.NEXT_USERNAME,

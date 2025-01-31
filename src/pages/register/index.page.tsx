@@ -78,7 +78,7 @@ export default function Register() {
 
         <Form as="form" onSubmit={handleSubmit(handleRegister)}>
           <label>
-            <Text size="sm">Nome completo</Text>
+            <Text size="sm">Nome</Text>
             <TextInput placeholder="Seu nome" {...register("name")} />
             {errors.name && (
               <FormError size="sm">{errors.name.message}</FormError>
