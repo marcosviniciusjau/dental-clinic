@@ -52,13 +52,13 @@ export function buildNextAuthOptions(
           provider: { server, from },
         }) {
           from = env.NEXT_EMAIL_OWNER,
-          sendVerificationRequest({ identifier: email, url, provider: { server, from } })
+            sendVerificationRequest({ identifier: email, url, provider: { server, from } })
         },
       }
-    ),
-    ], 
+      ),
+    ],
     pages: {
-      verifyRequest: "/auth/verify-request", // Define a página customizada
+      verifyRequest: "/auth/verify-request",
     },
 
     callbacks: {
@@ -91,9 +91,9 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 
 async function sendVerificationRequest(params) {
   try {
-    
+
   } catch (error) {
-    
+
   }
   const { identifier, url, provider, theme } = params
   const userExists = await prisma.user.findUnique({
@@ -101,7 +101,7 @@ async function sendVerificationRequest(params) {
       email: identifier,
     },
   })
-  if(!userExists){
+  if (!userExists) {
     throw new Error(`User not found`)
   }
   const { host } = new URL(url)
@@ -133,7 +133,7 @@ function html(params: { url: string, host: string, theme: Theme }) {
   const emailOwner = env.NEXT_EMAIL_OWNER
   const customUrl = url.replace('sign-in', `schedule/${emailOwner}`)
   //const customUrl = "https://www.google.com"
- const brandColor = "#346df1"
+  const brandColor = "#346df1"
   const color = {
     background: "#f9f9f9",
     text: "#444",
