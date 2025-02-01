@@ -39,7 +39,8 @@ export function buildNextAuthOptions(
       EmailProvider({
         server: {
           host: 'smtp.gmail.com',
-          port: 587,
+          port: 465,
+          secure:true,
           auth: {
             user: env.NEXT_EMAIL_OWNER,
             pass: env.NEXT_EMAIL_PASSWORD,
@@ -177,7 +178,7 @@ Se você não solicitou esse link, por favor apenas ignore
 </tr>
 </table>
 <footer>
-<p style="font-size: 8px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">Copyright © ${new Date().getFullYear()} Dental Clinic </p>
+<p style="font-size: 14px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">Copyright © ${new Date().getFullYear()} Dental Clinic </p>
 </footer>
 </body>
 `
