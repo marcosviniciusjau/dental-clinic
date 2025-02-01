@@ -39,11 +39,14 @@ export function buildNextAuthOptions(
       EmailProvider({
         server: {
           host: 'smtp.gmail.com',
-          port: 465,
-          secure:true,
+          port: 587,
+          secure:false,
           auth: {
             user: env.NEXT_EMAIL_OWNER,
             pass: env.NEXT_EMAIL_PASSWORD,
+          },
+          tls: {
+            rejectUnauthorized: false,
           },
         },
         from: env.NEXT_EMAIL_OWNER,
