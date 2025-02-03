@@ -19,11 +19,20 @@ import { NextSeo } from "next-seo";
 
 import { Header as HeaderHome } from "@/pages/home/components/Header";
 import { ToastContainer, toast } from "react-toastify";
-
-import { env } from "@/env/env";
+import { hash } from "bcryptjs";
 const registerFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
   name: z.string().min(3, { message: "Mínimo 3 caracteres" }),  
+   password: z
+  .string()
+  .min(6, { message: "Mínimo 6 caracteres" })
+  .regex(/[A-Z]/, { message: "Deve conter ao menos uma letra maiúscula" })
+  .regex(/[a-z]/, { message: "Deve conter ao menos uma letra minúscula" })
+  .regex(/[0-9]/, { message: "Deve conter ao menos um número" })
+  .regex(/[^a-zA-Z0-9]/, {
+    message: "Deve conter ao menos um caractere especial (!@#$%^&*)",
+  })
+ 
 })
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
@@ -47,10 +56,13 @@ export default function Register() {
 
   async function handleRegister(data: RegisterFormData) {
     try {
+      const passwordHashed = await hash(data.password, 6);
       await api.post("/users", {
         name: data.name,
         email: data.email,
+        password: passwordHashed,
       });
+
       await router.push(`/sign-in`);
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
@@ -91,6 +103,14 @@ export default function Register() {
               <FormError size="sm">{errors.email.message}</FormError>
             )}
           </label>
+          <label>
+            <Text size="sm">Senha</Text>
+            <TextInput placeholder="Senha" {...register("password")} type="password"/>
+            {errors.password && (
+              <FormError size="sm">{errors.password.message}</FormError>
+            )}
+          </label>
+
           <Button type="submit" disabled={isSubmitting}>
             Próximo passo
             <ArrowRight />

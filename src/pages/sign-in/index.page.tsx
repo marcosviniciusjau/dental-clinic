@@ -22,14 +22,16 @@ import { ToastContainer, toast } from "react-toastify";
 
 const SignInFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
+  password: z.string().min(6, { message: "Mínimo 6 caracteres" }),
 });
 
 type SignInFormData = z.infer<typeof SignInFormSchema>;
 
 export default function SignIn() {
   const router = useRouter();
-  const session = useSession()
-  const emailOwner = env.NEXT_EMAIL_OWNER
+  const session = useSession();
+  console.log(session)
+  const emailOwner = env.NEXT_EMAIL_OWNER;
   const hasAuthError = !!router.query.error;
   const {
     register,
@@ -40,21 +42,23 @@ export default function SignIn() {
   });
   async function handleSignIn(data: SignInFormData) {
     try {
-       await signIn("email",data);
+      await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: true,
+      });
     } catch (error) {
-      toast.error('Erro ao fazer login, tente novamente')
-      }
+      toast.error("Erro ao fazer login, tente novamente");
     }
-    
+  }
+
   return (
     <Container>
       <Header />
-      <ToastContainer/>
+      <ToastContainer />
       <Form as="form" onSubmit={handleSubmit(handleSignIn)}>
         <Heading>Fazer Login</Heading>
-        {hasAuthError && (
-          <AuthError size="sm">Email inválido</AuthError>
-        )}
+        {hasAuthError && <AuthError size="sm">Email inválido</AuthError>}
         <label>
           <Text size="sm">Seu email</Text>
           <TextInput placeholder="Seu email" {...register("email")} />
@@ -62,7 +66,19 @@ export default function SignIn() {
             <FormError size="sm">{errors.email.message}</FormError>
           )}
         </label>
-        <ToastContainer/>
+
+        <label>
+          <Text size="sm">Senha</Text>
+          <TextInput
+            placeholder="Senha"
+            {...register("password")}
+            type="password"
+          />
+          {errors.password && (
+            <FormError size="sm">{errors.password.message}</FormError>
+          )}
+        </label>
+        <ToastContainer />
         <Button type="submit" disabled={isSubmitting}>
           Fazer login
         </Button>

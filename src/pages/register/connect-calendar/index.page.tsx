@@ -22,8 +22,6 @@ export default function ConnectCalendar() {
 
   const hasAuthError = !!router.query.error 
   
-  const { 'dental-clinic:client': userIdOnCookies } = parseCookies()
-
   const isSignedId = session.status === "authenticated";
   console.log(session)
   async function handleConnectCalendar() {

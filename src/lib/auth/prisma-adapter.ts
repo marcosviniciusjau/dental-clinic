@@ -40,9 +40,6 @@ export function PrismaAdapter(
         profile_img_url: prismaUser.profile_img_url!,
       }
     },
-
- 
-
     async getUser(id) {
       const user = await prisma.user.findUnique({
         where: {
@@ -116,7 +113,7 @@ export function PrismaAdapter(
       })
 
       if (!user) {
-        throw new Error('User not found')
+        console.error('User not found')
         return null
       }
 

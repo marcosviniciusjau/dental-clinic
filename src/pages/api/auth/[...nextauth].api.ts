@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next';
 import NextAuth, { NextAuthOptions, Theme } from 'next-auth';
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
-import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from '@/lib/auth/prisma-adapter';
 import { env } from '@/env/env';
 import { createTransport } from "nodemailer";
@@ -9,6 +9,9 @@ import { prisma } from '@/lib/prisma';
 import { AppError } from '@/utils/app-error';
 import { useRouter } from 'next/router';
 import Error from 'next/error';
+import { setCookie } from 'nookies';
+import { compare } from 'bcryptjs';
+import dayjs from 'dayjs';
 export function buildNextAuthOptions(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
@@ -39,81 +42,73 @@ export function buildNextAuthOptions(
           }
         },
       }),
-      EmailProvider({
-        server: {
-          host: 'smtp.gmail.com',
-          port: 587,
-          secure: false,
-          auth: {
-            user: env.NEXT_EMAIL_OWNER,
-            pass: env.NEXT_EMAIL_PASSWORD,
-          },
-          tls: {
-            rejectUnauthorized: false,
-          },
+      CredentialsProvider({
+        name: 'Credentials',
+        credentials: {
+          email: { label: 'Email', type: 'text' },
+          password: { label: 'Password', type: 'password' },
         },
-        from: env.NEXT_EMAIL_OWNER,
-        sendVerificationRequest({
-          identifier: email,
-          url,
-          provider: { server, from },
-        }) {
-          from = env.NEXT_EMAIL_OWNER,
-            sendVerificationRequest({ identifier: email, url, provider: { server, from } })
-          async function sendVerificationRequest(params) {
-            try {
-              const { identifier, url, provider, theme } = params
-              const userExists = await prisma.user.findUnique({
-                where: {
-                  email: identifier,
-                },
-              })
-              if (!userExists) {
-                throw new AppError(`User not found next auth email`, 404)
-              }
-              const { host } = new URL(url)
-              const transport = createTransport(provider.server)
-              const result = await transport.sendMail({
-                to: identifier,
-                from: provider.from,
-                subject: `Acesse a agenda de Dental Clinic`,
-                text: text(),
-                html: html({ url, host, theme }),
-              })
-              console.log(result)
-              const failed = result.rejected.filter(Boolean)
-              if (failed.length) {
-                throw new AppError(`Email(s) (${failed.join(", ")}) could not be sent`, 400)
-              }
-            } catch (error) {
-              console.error("Erro ao enviar e-mail:", error)
-
-              if (error instanceof Error && error.code === "ECONNREFUSED") {
-                throw new AppError("Falha na conexão com o servidor SMTP")
-              } else if (error instanceof Error && error.code === "EAUTH") {
-                throw new AppError("Credenciais SMTP inválidas")
-              }
-              throw new AppError(`signIn?error=${encodeURIComponent(error)}`)
+        async authorize(credentials) {
+          try {
+            if (!credentials?.email || !credentials?.password) {
+              throw new AppError('Email e senha são obrigatórios.');
             }
 
+            const user = await prisma.user.findFirst({
+              where: {
+                email: credentials.email,
+              },
+            });
+
+            if (!user) {
+              throw new AppError('Email ou senha incorretos');
+            }
+
+            if (!user.password) {
+              throw new AppError('Email ou senha incorretos');
+            }
+
+            const passwordMatch = compare(credentials.password, user.password);
+            if (!passwordMatch) {
+              throw new AppError('Email ou senha incorretos');
+            }
+
+            const currentDate = dayjs().startOf('day');
+            const nextWeek = currentDate.add(1, 'week');
+
+            setCookie({ res }, 'dental-clinic:client', user.id, {
+              maxAge: 60 * 60 * 24 * 7, // 7 days
+              path: '/',
+              expires: nextWeek.toDate(),
+            });
+            return {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              profile_img_url: user.profile_img_url || '',
+              is_admin: user.is_admin
+            };
+          } catch (error) {
+            console.error('Erro na autenticação:', error);
+            return null;
           }
         },
-      }
-      ),
+      })
+
     ],
     secret: env.NEXT_AUTH_SECRET,
-    pages: { 
+    pages: {
       signIn: "/sign-in", // Página de login
       error: "/sign-in",
-    },
-
+    }, 
+    session: {
+      strategy: 'jwt'
+    }
+,
     callbacks: {
-      async signIn({ account, user }) {
-        if (!user) {
-          console.error("Erro: Usuário não encontrado")
-          return false
-        }
+      async signIn({ account }) {
         if (account?.provider != 'google') {
+          console.log("deu certo aqui no signin")
           return true;
         }
         if (
@@ -123,15 +118,24 @@ export function buildNextAuthOptions(
         }
         return true
       },
+      jwt: async ({ token, user, account, profile, isNewUser }) => {
+        if (typeof user !== typeof undefined) token.user = user;
+  
+        return token
+      },
+      session: async ({ session, user, token }) => {
+        token?.user && (session.user = token.user)
+  
+        return session
+      },
 
-
-      async session({ session, user }) {
-        return {
-          ...session,
-          user,
-        }
+      redirect: async ({ url, baseUrl }) => {
+        const emailOwner = env.NEXT_EMAIL_OWNER
+        url = `/schedule/${emailOwner}`
+        return baseUrl + url
       },
     },
+   
   }
 }
 

@@ -23,17 +23,17 @@ import { prisma } from "@/lib/prisma";
 import { ScheduleForm } from "./ScheduleForm";
 import { NextSeo } from "next-seo";
 import { Header } from "@/pages/home/components/Header";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 import { destroyCookie } from "nookies";
-import { Door, Pencil } from "phosphor-react";
+import { Door, Pencil, Trash } from "phosphor-react";
 import { signOut, useSession } from "next-auth/react";
 import { env } from "@/env/env";
-import dayjs from "dayjs";
+import { AxiosError } from "axios";
 interface ScheduleProps {
   user: {
     name: string;
@@ -66,8 +66,7 @@ export default function Schedule({ user }: ScheduleProps) {
   };
 
   const [openIndexProfile, setOpenIndexProfile] = useState<number | null>(null);
-  const currentDate = dayjs().startOf("day");
- 
+
   const toggleAccordionProfile = (indexProfile: number) => {
     setOpenIndexProfile(
       openIndexProfile === indexProfile ? null : indexProfile
@@ -88,9 +87,39 @@ export default function Schedule({ user }: ScheduleProps) {
 
   function logout() {
     try {
-      signOut({ callbackUrl: "/" });
+      destroyCookie(null, "dental-clinic:client", {
+        path: "/",
+      });
+     signOut({ redirect: false }); // Sem redirecionamento automático
+
+      router.replace("/");
     } catch (error) {
       console.log(error);
+    }
+  }
+  async function deleteAccount() {
+    try {
+      const confirm = window.confirm(
+        "Tem certeza que deseja excluir sua conta?"
+      );
+      if (!confirm) return;
+
+      await api.delete("/users/delete-account");
+
+      destroyCookie(null, "dental-clinic:client", {
+        path: "/",
+      });
+
+       signOut({ redirect: false });
+      toast.success("Conta excluída com sucesso!");
+      router.replace("/");
+    } catch (err) {
+      if (err instanceof AxiosError && err?.response?.data?.message) {
+        toast.error(err.response.data.message);
+        return;
+      }
+
+      console.error(err);
     }
   }
 
@@ -127,6 +156,14 @@ export default function Schedule({ user }: ScheduleProps) {
                   <Pencil />
                   Editar Perfil
                 </Button>
+                <Button
+                  style={{ background: "#ff0606" }}
+                  size="sm"
+                  onClick={deleteAccount}
+                >
+                  <Trash />
+                  Excluir conta
+                </Button>
               </PanelProfile>
             </div>
             <Consultas>
@@ -137,11 +174,11 @@ export default function Schedule({ user }: ScheduleProps) {
                     <Text>
                       Data da consulta:{" "}
                       {new Date(scheduling.date).toLocaleDateString("pt-BR", {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </Text>
                     <Text>Consulta:{scheduling.observations}</Text>

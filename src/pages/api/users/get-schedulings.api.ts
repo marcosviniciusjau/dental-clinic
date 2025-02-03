@@ -3,8 +3,6 @@ import { getServerSession } from 'next-auth'
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
-import { parseCookies } from 'nookies'
-import dayjs from 'dayjs'
 const updateProfileBodySchema = z.object({
   bio: z.string(),
 })
@@ -16,7 +14,6 @@ export default async function handler(
   if (req.method !== 'GET') {
     return res.status(405).end()
   }
-  const currentDate = dayjs().startOf("day");
   const session = await getServerSession(
     req,
     res,
