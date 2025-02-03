@@ -12,11 +12,19 @@ import Error from 'next/error';
 import { setCookie } from 'nookies';
 import { compare } from 'bcryptjs';
 import dayjs from 'dayjs';
+import { AdapterUser } from 'next-auth/adapters';
 export function buildNextAuthOptions(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
 ): NextAuthOptions {
   debugger
+  interface User {
+    id: string;
+    name: string;
+    email: string;
+    profile_img_url?: string;
+    is_admin?: boolean;
+  }
   return {
     adapter: PrismaAdapter(req, res),
     debug: true,
@@ -85,9 +93,10 @@ export function buildNextAuthOptions(
               id: user.id,
               email: user.email,
               name: user.name,
-              profile_img_url: user.profile_img_url || '',
-              is_admin: user.is_admin
-            };
+              profile_img_url: user.profile_img_url || "", // 🔹 Garantindo que seja string
+              is_admin: user.is_admin,
+            } satisfies User;
+            
           } catch (error) {
             console.error('Erro na autenticação:', error);
             return null;
@@ -123,11 +132,14 @@ export function buildNextAuthOptions(
   
         return token
       },
-      session: async ({ session, user, token }) => {
-        token?.user && (session.user = token.user)
-  
-        return session
+      session: async ({ session, token }) => {
+        return {
+          ...session,
+          user: token.user as AdapterUser, // 👈 Garante que `user` tem o tipo correto
+          expires: session.expires, 
+        };
       },
+      
 
       redirect: async ({ url, baseUrl }) => {
         const emailOwner = env.NEXT_EMAIL_OWNER
