@@ -31,7 +31,6 @@ export default function SignIn() {
   const session = useSession()
   const emailOwner = env.NEXT_EMAIL_OWNER
   const hasAuthError = !!router.query.error;
-
   const {
     register,
     handleSubmit,
@@ -41,9 +40,9 @@ export default function SignIn() {
   });
   async function handleSignIn(data: SignInFormData) {
     try {
-       await signIn("email",data, {callbackUrl: `/schedules/${emailOwner}`});
+       await signIn("email",data);
     } catch (error) {
-      console.error(error);
+      toast.error('Erro ao fazer login, tente novamente')
       }
     }
     
@@ -54,7 +53,7 @@ export default function SignIn() {
       <Form as="form" onSubmit={handleSubmit(handleSignIn)}>
         <Heading>Fazer Login</Heading>
         {hasAuthError && (
-          <AuthError size="sm">Email ou senha incorretos</AuthError>
+          <AuthError size="sm">Email inválido</AuthError>
         )}
         <label>
           <Text size="sm">Seu email</Text>
@@ -63,6 +62,7 @@ export default function SignIn() {
             <FormError size="sm">{errors.email.message}</FormError>
           )}
         </label>
+        <ToastContainer/>
         <Button type="submit" disabled={isSubmitting}>
           Fazer login
         </Button>

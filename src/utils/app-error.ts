@@ -1,5 +1,5 @@
 class AppError {
-  message: string
+  message: string | unknown
   statusCode: number
   constructor( message: string, statusCode: number = 400) {
     this.message = message

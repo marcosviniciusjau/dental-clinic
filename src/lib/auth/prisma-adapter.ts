@@ -3,6 +3,7 @@ import { Adapter, VerificationToken } from 'next-auth/adapters'
 import { parseCookies, destroyCookie } from 'nookies'
 import { prisma } from '../prisma'
 import { authConfig } from '@/configs/auth'
+import { AppError } from '@/utils/app-error'
 
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
@@ -40,31 +41,7 @@ export function PrismaAdapter(
       }
     },
 
-    async createVerificationToken(verificationToken){
-      const token = await prisma.verificationRequest.create({
-        data: {
-          identifier: verificationToken.identifier,
-          token: verificationToken.token,
-          expires: verificationToken.expires,
-        },
-      });
-      return token;
-    },
-    async useVerificationToken({identifier, token} ){
-      const verificationToken = await prisma.verificationRequest.findUnique({
-        where: { token },
-      });
-    
-      if (!verificationToken || verificationToken.identifier !== identifier) {
-        return null; 
-      }
-    
-      await prisma.verificationRequest.delete({
-        where: { token },
-      });
-    
-      return verificationToken;
-    },
+ 
 
     async getUser(id) {
       const user = await prisma.user.findUnique({
@@ -93,6 +70,7 @@ export function PrismaAdapter(
       })
 
       if (!user) {
+        console.error('User not found')
         return null
       }
 
@@ -130,7 +108,42 @@ export function PrismaAdapter(
         profile_img_url: user.profile_img_url!,
       }
     },
+    async createVerificationToken(verificationToken){
+      const user = await prisma.user.findUnique({
+        where: {
+          email:verificationToken.identifier,
+        },
+      })
 
+      if (!user) {
+        throw new Error('User not found')
+        return null
+      }
+
+      const token = await prisma.verificationRequest.create({
+        data: {
+          identifier: verificationToken.identifier,
+          token: verificationToken.token,
+          expires: verificationToken.expires,
+        },
+      });
+      return token;
+    },
+    async useVerificationToken({identifier, token} ){
+      const verificationToken = await prisma.verificationRequest.findUnique({
+        where: { token },
+      });
+    
+      if (!verificationToken || verificationToken.identifier !== identifier) {
+        return null; 
+      }
+    
+      await prisma.verificationRequest.delete({
+        where: { token },
+      });
+    
+      return verificationToken;
+    },
     async updateUser(user) {
       const prismaUser = await prisma.user.update({
         where: {

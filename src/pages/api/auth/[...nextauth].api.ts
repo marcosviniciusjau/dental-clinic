@@ -6,6 +6,8 @@ import { PrismaAdapter } from '@/lib/auth/prisma-adapter';
 import { env } from '@/env/env';
 import { createTransport } from "nodemailer";
 import { prisma } from '@/lib/prisma';
+import { AppError } from '@/utils/app-error';
+import { useRouter } from 'next/router';
 export function buildNextAuthOptions(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
@@ -40,7 +42,7 @@ export function buildNextAuthOptions(
         server: {
           host: 'smtp.gmail.com',
           port: 587,
-          secure:false,
+          secure: false,
           auth: {
             user: env.NEXT_EMAIL_OWNER,
             pass: env.NEXT_EMAIL_PASSWORD,
@@ -57,17 +59,59 @@ export function buildNextAuthOptions(
         }) {
           from = env.NEXT_EMAIL_OWNER,
             sendVerificationRequest({ identifier: email, url, provider: { server, from } })
+          async function sendVerificationRequest(params) {
+            try {
+              const { identifier, url, provider, theme } = params
+              const userExists = await prisma.user.findUnique({
+                where: {
+                  email: identifier,
+                },
+              })
+              if (!userExists) {
+                throw new AppError(`User not found next auth email`, 404)
+              }
+              const { host } = new URL(url)
+              const transport = createTransport(provider.server)
+              const result = await transport.sendMail({
+                to: identifier,
+                from: provider.from,
+                subject: `Acesse a agenda de Dental Clinic`,
+                text: text(),
+                html: html({ url, host, theme }),
+              })
+              console.log(result)
+              const failed = result.rejected.filter(Boolean)
+              if (failed.length) {
+                throw new AppError(`Email(s) (${failed.join(", ")}) could not be sent`, 400)
+              }
+            } catch (error) {
+              console.error("Erro ao enviar e-mail:", error)
+
+              if (error.code === "ECONNREFUSED") {
+                throw new AppError("Falha na conexão com o servidor SMTP")
+              } else if (error.code === "EAUTH") {
+                throw new AppError("Credenciais SMTP inválidas")
+              }
+              throw new AppError(`signIn?error=${encodeURIComponent(error)}`)
+            }
+
+          }
         },
       }
       ),
     ],
     secret: env.NEXT_AUTH_SECRET,
-    pages: {
-      verifyRequest: "/auth/verify-request",
+    pages: { 
+      signIn: "/sign-in", // Página de login
+      error: "/sign-in",
     },
 
     callbacks: {
-      async signIn({ account }) {
+      async signIn({ account, user }) {
+        if (!user) {
+          console.error("Erro: Usuário não encontrado")
+          return false
+        }
         if (account?.provider != 'google') {
           return true;
         }
@@ -94,31 +138,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return NextAuth(req, res, buildNextAuthOptions(req, res))
 }
 
-async function sendVerificationRequest(params) {
-const { identifier, url, provider, theme } = params
-  const userExists = await prisma.user.findUnique({
-    where: {
-      email: identifier,
-    },
-  })
-  if (!userExists) {
-    throw new Error(`User not found`)
-  }
-  const { host } = new URL(url)
-  const transport = createTransport(provider.server)
-  const result = await transport.sendMail({
-    to: identifier,
-    from: provider.from,
-    subject: `Acesse a agenda de Dental Clinic`,
-    text: text(),
-    html: html({ url, host, theme }),
-  })
-  console.log(result)
-  const failed = result.rejected.concat(result.rejected).filter(Boolean)
-  if (failed.length) {
-    throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)
-  }
-}
+
 
 /**
  * Email HTML body
@@ -132,7 +152,6 @@ function html(params: { url: string, host: string, theme: Theme }) {
   const { url } = params
   const emailOwner = env.NEXT_EMAIL_OWNER
   const customUrl = url.replace('sign-in', `schedule/${emailOwner}`)
-  //const customUrl = "https://www.google.com"
   const brandColor = "#346df1"
   const color = {
     background: "#f9f9f9",
