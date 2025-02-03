@@ -8,6 +8,7 @@ import { createTransport } from "nodemailer";
 import { prisma } from '@/lib/prisma';
 import { AppError } from '@/utils/app-error';
 import { useRouter } from 'next/router';
+import Error from 'next/error';
 export function buildNextAuthOptions(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
@@ -87,9 +88,9 @@ export function buildNextAuthOptions(
             } catch (error) {
               console.error("Erro ao enviar e-mail:", error)
 
-              if (error.code === "ECONNREFUSED") {
+              if (error instanceof Error && error.code === "ECONNREFUSED") {
                 throw new AppError("Falha na conexão com o servidor SMTP")
-              } else if (error.code === "EAUTH") {
+              } else if (error instanceof Error && error.code === "EAUTH") {
                 throw new AppError("Credenciais SMTP inválidas")
               }
               throw new AppError(`signIn?error=${encodeURIComponent(error)}`)
