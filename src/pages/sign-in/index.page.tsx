@@ -40,7 +40,7 @@ export default function SignIn() {
   });
   async function handleSignIn(data: SignInFormData) {
     try {
-      await signIn("email")
+      await signIn("email",data)
     } catch (error) {
       toast.error("Erro ao fazer login, tente novamente");
     }
