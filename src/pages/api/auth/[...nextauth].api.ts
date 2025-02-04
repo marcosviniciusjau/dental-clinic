@@ -98,6 +98,12 @@ export function buildNextAuthOptions(
     pages: { 
       signIn: "/sign-in", // Página de login
       error: "/sign-in",
+      verifyRequest: "/auth/verify-request",
+    },
+    logger:{
+      error: (message) => {
+        console.error(message);
+      },
     },
 
     callbacks: {
