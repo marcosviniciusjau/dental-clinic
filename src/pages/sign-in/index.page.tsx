@@ -21,8 +21,16 @@ import { redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const SignInFormSchema = z.object({
-  email: z.string().email({ message: "Digite um e-mail válido" }),
-  password: z.string().min(6, { message: "Mínimo 6 caracteres" }),
+  email: z.string().email({ message: "Digite um e-mail válido" }),  
+   password: z
+  .string()
+  .min(6, { message: "Mínimo 6 caracteres" })
+  .regex(/[A-Z]/, { message: "Deve conter ao menos uma letra maiúscula" })
+  .regex(/[a-z]/, { message: "Deve conter ao menos uma letra minúscula" })
+  .regex(/[0-9]/, { message: "Deve conter ao menos um número" })
+  .regex(/[^a-zA-Z0-9]/, {
+    message: "Deve conter ao menos um caractere especial (!@#$%^&*)",
+  })
 });
 
 type SignInFormData = z.infer<typeof SignInFormSchema>;
@@ -45,7 +53,7 @@ export default function SignIn() {
       await signIn("credentials", {
         email: data.email,
         password: data.password,
-        redirect: true,
+        callbackUrl: `/schedule/${emailOwner}`,
       });
     } catch (error) {
       toast.error("Erro ao fazer login, tente novamente");
@@ -58,7 +66,7 @@ export default function SignIn() {
       <ToastContainer />
       <Form as="form" onSubmit={handleSubmit(handleSignIn)}>
         <Heading>Fazer Login</Heading>
-        {hasAuthError && <AuthError size="sm">Email inválido</AuthError>}
+        {hasAuthError && <AuthError size="sm">Email ou senha inválidos</AuthError>}
         <label>
           <Text size="sm">Seu email</Text>
           <TextInput placeholder="Seu email" {...register("email")} />

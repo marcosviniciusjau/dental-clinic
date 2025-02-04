@@ -100,6 +100,7 @@ export default function TimeIntervals() {
   const router = useRouter();
 
   const session = useSession();
+  console.log(session)
   const isSignedId = session.status === "authenticated" && session.data.user.email === env.NEXT_EMAIL_OWNER;
   async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
     const { intervals } = data;

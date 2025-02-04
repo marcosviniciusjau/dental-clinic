@@ -50,11 +50,11 @@ export default async function handler(
   const startHour = time_start_in_minutes / 60
   const endHour = time_end_in_minutes / 60
 
-  const possibleTimes = Array.from({ length: (time_end_in_minutes - time_start_in_minutes) / 60 })
-  .map((_, i) => {
-    const minutes = time_start_in_minutes + i * 60
-    return dayjs().startOf('day').add(minutes, 'minute').format('HH:mm')
-  })
+  const possibleTimes = Array.from({ length: endHour - startHour }).map(
+    (_, i) => {
+      return startHour + i
+    },
+  )
 
   const blockedTimes = await prisma.scheduling.findMany({
     select: {
@@ -70,14 +70,11 @@ export default async function handler(
   })
 
   const availableTimes = possibleTimes.filter((time) => {
-    const isTimeBlocked = blockedTimes.some((blockedTime) => {
-      return dayjs(blockedTime.date).format('HH:mm') === time
-    })
+    const isTimeBlocked = blockedTimes.some(
+      (blockedTime) => blockedTime.date.getHours() === time,
+    )
   
-    const isTimeInPast = referenceDate
-      .set('hour', Number(time.split(':')[0]))
-      .set('minute', Number(time.split(':')[1]))
-      .isBefore(new Date())
+    const isTimeInPast = referenceDate.set('hour', time).isBefore(new Date())
   
     return !isTimeBlocked && !isTimeInPast
   })

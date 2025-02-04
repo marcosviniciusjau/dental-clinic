@@ -3,39 +3,38 @@ import {
   Heading,
   MultiStep,
   Text,
-} from '@marcos-vinicius-design-system/react'
-import { Container, Header } from '../styles'
+} from "@marcos-vinicius-design-system/react";
+import { Container, Header } from "../styles";
 
 import { Header as HeaderHome } from "@/pages/home/components/Header";
-import { signIn, useSession } from 'next-auth/react'
-import {parseCookies} from 'nookies'
-import { ArrowRight, Check } from 'phosphor-react'
-import { AuthError, ConnectBox, ConnectItem } from './styles'
-import { useRouter } from 'next/router'
-import { NextSeo } from 'next-seo'
-import { env } from '@/env/env';
+import { signIn, useSession } from "next-auth/react";
+import { parseCookies } from "nookies";
+import { ArrowRight, Check } from "phosphor-react";
+import { AuthError, ConnectBox, ConnectItem } from "./styles";
+import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
+import { env } from "@/env/env";
 
 export default function ConnectCalendar() {
-  const session = useSession()
+  const session = useSession();
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const hasAuthError = !!router.query.error 
-  
+  const hasAuthError = !!router.query.error;
+console.log(session)
   const isSignedId = session.status === "authenticated";
-  console.log(session)
   async function handleConnectCalendar() {
-    await signIn('google')
+    await signIn("google", { redirect: false });
   }
 
   async function handleNextStep() {
-    await router.push('/register/time-intervals')
+    await router.push("/register/time-intervals");
   }
 
   return (
     <>
       <NextSeo title="Conecte sua agenda do Google | Dental Clinic" noindex />
-      <HeaderHome/>
+      <HeaderHome />
       <Container>
         <Header>
           <Heading as="strong">Conecte sua agenda!</Heading>
@@ -78,5 +77,5 @@ export default function ConnectCalendar() {
         </ConnectBox>
       </Container>
     </>
-  )
+  );
 }

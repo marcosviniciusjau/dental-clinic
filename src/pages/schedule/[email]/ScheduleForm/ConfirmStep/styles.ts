@@ -46,3 +46,20 @@ export const FormActions = styled('div', {
   gap: '$2',
   marginTop: '$2',
 })
+export const Select = styled('select', {
+    width: '100%',
+    padding: '10px',
+    fontSize: '16px',
+    border: '1px solid #ccc',
+    borderRadius: '8px',
+    backgroundColor:' #fff',
+    color: '#333',
+    cursor: 'pointer',
+    outline: 'none',
+    appearance: 'none',
+    '&:focus' : {
+      borderColor:'$blue500',
+    }
+  },
+  
+)

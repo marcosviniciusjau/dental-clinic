@@ -30,7 +30,7 @@ import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 import { destroyCookie } from "nookies";
-import { Door, Pencil, Trash } from "phosphor-react";
+import { Clock, Door, Pencil, Trash } from "phosphor-react";
 import { signOut, useSession } from "next-auth/react";
 import { env } from "@/env/env";
 import { AxiosError } from "axios";
@@ -85,12 +85,16 @@ export default function Schedule({ user }: ScheduleProps) {
     router.push("/register/update-profile");
   }
 
+  async function timeIntervals() {
+    router.push("/register/time-intervals");
+  }
+
   function logout() {
     try {
       destroyCookie(null, "dental-clinic:client", {
         path: "/",
       });
-     signOut({ redirect: false }); // Sem redirecionamento automático
+      signOut({ redirect: false }); // Sem redirecionamento automático
 
       router.replace("/");
     } catch (error) {
@@ -110,7 +114,7 @@ export default function Schedule({ user }: ScheduleProps) {
         path: "/",
       });
 
-       signOut({ redirect: false });
+      signOut({ redirect: false });
       toast.success("Conta excluída com sucesso!");
       router.replace("/");
     } catch (err) {
@@ -140,16 +144,18 @@ export default function Schedule({ user }: ScheduleProps) {
               </ProfileHeader>
               <PanelProfile isOpen={openIndexProfile === 1}>
                 <Text size="sm">{session.data?.user.email}</Text>
+                {session.data.user?.email === env.NEXT_EMAIL_OWNER && (
+                  <Button
+                    style={{ background: "#007BFF" }}
+                    size="sm"
+                    onClick={timeIntervals}
+                  >
+                    <Clock />
+                    Gerenciar horários
+                  </Button>
+                )}
                 <Button
-                  style={{ background: "#121214" }}
-                  size="sm"
-                  onClick={logout}
-                >
-                  <Door />
-                  Sair
-                </Button>
-                <Button
-                  style={{ background: "#121214" }}
+                  style={{ background: "#007BFF" }}
                   size="sm"
                   onClick={updateProfile}
                 >
@@ -164,9 +170,18 @@ export default function Schedule({ user }: ScheduleProps) {
                   <Trash />
                   Excluir conta
                 </Button>
+
+                <Button
+                  style={{ background: "#121214" }}
+                  size="sm"
+                  onClick={logout}
+                >
+                  <Door />
+                  Sair
+                </Button>
               </PanelProfile>
             </div>
-            <Consultas>
+            <Consultas key={session.data.user?.name}>
               <Heading>Suas consultas:</Heading>
               {schedulings && schedulings.length > 0 ? (
                 schedulings.map((scheduling) => (

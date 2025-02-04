@@ -93,11 +93,12 @@ export const Consultas = styled('div', {
   flexDirection: 'column',
   gap: '1rem',
   marginLeft: '$5',
-  maxHeight: '400px',
   '@media(min-width: 600px)': {
     marginLeft: '-10rem',
+    maxHeight: '200px',
   },
   '@media(max-width: 600px)': {
+  maxHeight: 'auto',
     width: '80%',
     marginTop: '$10',
     marginBottom: '$10',

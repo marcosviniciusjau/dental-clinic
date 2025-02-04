@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next';
 import NextAuth, { NextAuthOptions, Theme } from 'next-auth';
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
-import CredentialsProvider from "next-auth/providers/credentials";
+import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from '@/lib/auth/prisma-adapter';
 import { env } from '@/env/env';
 import { createTransport } from "nodemailer";
@@ -9,22 +9,11 @@ import { prisma } from '@/lib/prisma';
 import { AppError } from '@/utils/app-error';
 import { useRouter } from 'next/router';
 import Error from 'next/error';
-import { setCookie } from 'nookies';
-import { compare } from 'bcryptjs';
-import dayjs from 'dayjs';
-import { AdapterUser } from 'next-auth/adapters';
 export function buildNextAuthOptions(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
 ): NextAuthOptions {
   debugger
-  interface User {
-    id: string;
-    name: string;
-    email: string;
-    profile_img_url?: string;
-    is_admin?: boolean;
-  }
   return {
     adapter: PrismaAdapter(req, res),
     debug: true,
@@ -50,74 +39,74 @@ export function buildNextAuthOptions(
           }
         },
       }),
-      CredentialsProvider({
-        name: 'Credentials',
-        credentials: {
-          email: { label: 'Email', type: 'text' },
-          password: { label: 'Password', type: 'password' },
+      EmailProvider({
+        server: {
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false,
+          auth: {
+            user: env.NEXT_EMAIL_OWNER,
+            pass: env.NEXT_EMAIL_PASSWORD,
+          },
+          tls: {
+            rejectUnauthorized: false,
+          },
         },
-        async authorize(credentials) {
-          try {
-            if (!credentials?.email || !credentials?.password) {
-              throw new AppError('Email e senha são obrigatórios.');
+        from: env.NEXT_EMAIL_OWNER,
+        sendVerificationRequest({
+          identifier: email,
+          url,
+          provider: { server, from },
+        }) {
+          from = env.NEXT_EMAIL_OWNER,
+            sendVerificationRequest({ identifier: email, url, provider: { server, from } })
+          async function sendVerificationRequest(params) {
+            try {
+              const { identifier, url, provider, theme } = params
+              const userExists = await prisma.user.findUnique({
+                where: {
+                  email: identifier,
+                },
+              })
+              if (!userExists) {
+                throw new AppError(`User not found next auth email`, 404)
+              }
+              const { host } = new URL(url)
+              const transport = createTransport(provider.server)
+              const result = await transport.sendMail({
+                to: identifier,
+                from: provider.from,
+                subject: `Acesse a agenda de Dental Clinic`,
+                text: text(),
+                html: html({ url, host, theme }),
+              })
+              console.log(result)
+              const failed = result.rejected.filter(Boolean)
+              if (failed.length) {
+                throw new AppError(`Email(s) (${failed.join(", ")}) could not be sent`, 400)
+              }
+            } catch (error) {
+              alert(error)
             }
 
-            const user = await prisma.user.findFirst({
-              where: {
-                email: credentials.email,
-              },
-            });
-
-            if (!user) {
-              throw new AppError('Email ou senha incorretos');
-            }
-
-            if (!user.password) {
-              throw new AppError('Email ou senha incorretos');
-            }
-
-            const passwordMatch = compare(credentials.password, user.password);
-            if (!passwordMatch) {
-              throw new AppError('Email ou senha incorretos');
-            }
-
-            const currentDate = dayjs().startOf('day');
-            const nextWeek = currentDate.add(1, 'week');
-
-            setCookie({ res }, 'dental-clinic:client', user.id, {
-              maxAge: 60 * 60 * 24 * 7, // 7 days
-              path: '/',
-              expires: nextWeek.toDate(),
-            });
-            return {
-              id: user.id,
-              email: user.email,
-              name: user.name,
-              profile_img_url: user.profile_img_url || "", // 🔹 Garantindo que seja string
-              is_admin: user.is_admin,
-            } satisfies User;
-            
-          } catch (error) {
-            console.error('Erro na autenticação:', error);
-            return null;
           }
         },
-      })
-
+      }
+      ),
     ],
     secret: env.NEXT_AUTH_SECRET,
-    pages: {
+    pages: { 
       signIn: "/sign-in", // Página de login
       error: "/sign-in",
-    }, 
-    session: {
-      strategy: 'jwt'
-    }
-,
+    },
+
     callbacks: {
-      async signIn({ account }) {
+      async signIn({ account, user }) {
+        if (!user) {
+          console.error("Erro: Usuário não encontrado")
+          return false
+        }
         if (account?.provider != 'google') {
-          console.log("deu certo aqui no signin")
           return true;
         }
         if (
@@ -127,27 +116,15 @@ export function buildNextAuthOptions(
         }
         return true
       },
-      jwt: async ({ token, user, account, profile, isNewUser }) => {
-        if (typeof user !== typeof undefined) token.user = user;
-  
-        return token
-      },
-      session: async ({ session, token }) => {
+
+
+      async session({ session, user }) {
         return {
           ...session,
-          user: token.user as AdapterUser, // 👈 Garante que `user` tem o tipo correto
-          expires: session.expires, 
-        };
-      },
-      
-
-      redirect: async ({ url, baseUrl }) => {
-        const emailOwner = env.NEXT_EMAIL_OWNER
-        url = `/schedule/${emailOwner}`
-        return baseUrl + url
+          user,
+        }
       },
     },
-   
   }
 }
 

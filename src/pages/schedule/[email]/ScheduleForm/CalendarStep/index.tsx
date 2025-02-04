@@ -12,6 +12,8 @@ import { api } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 
+import { FormActions } from "./styles";
+import { Button } from "@marcos-vinicius-design-system/react";
 interface Availability {
   possibleTimes: number[];
   availableTimes: number[];
@@ -45,29 +47,54 @@ export function CalendarStep({ onSelectedTime }: CalendarStepProps) {
         params: {
           date: selectedDateWithoutTime,
         },
-      })
+      });
 
-      return response.data
+      return response.data;
     },
     {
       enabled: !!selectedDate,
-    },
+    }
   );
+  function formatHour(hour: number): string {
+    const [h, m] = String(hour).split(".").map(Number);
+
+    const formattedMinutes = m === 5 ? "30" : String(m).padStart(2, "0");
+    if(formattedMinutes.length === 2){
+      return `${String(h).padStart(2, "0")}:${formattedMinutes}h`;
+    }else{
+      return `${String(hour).padStart(2, "0")}:00h`
+    }
+  }
 
   function handleSelectTime(hour: number) {
-    const dateWithTime = dayjs(selectedDate)
-      .set("hour", hour)
-      .startOf("hour")
-      .toDate();
+    const [h, m] = String(hour).split(".").map(Number);
 
+    const formattedMinutes = m === 5 ? 30 : 0
+    const hourWithMinutes = Number(h + "." + formattedMinutes)
+    const dateWithTime = dayjs(selectedDate)
+      .set("hour", hourWithMinutes)
+      .set("minute", formattedMinutes) 
+      .toDate();
     onSelectedTime(dateWithTime);
   }
+  function onCancelConfirmation(){
+    setSelectedDate(null)
+   }
 
   return (
     <Container isTimePickerOpen={isDateSelected}>
       <Calendar selectedDate={selectedDate} onDateSelected={setSelectedDate} />
       {isDateSelected && (
         <TimePicker>
+           <FormActions>
+              <Button
+                type="button"
+                variant="tertiary"
+                onClick={onCancelConfirmation}
+              >
+                Cancelar
+              </Button>
+            </FormActions>
           <TimePickerHeader>
             {weekDay} <span>{describedDate}</span>
           </TimePickerHeader>
@@ -81,7 +108,7 @@ export function CalendarStep({ onSelectedTime }: CalendarStepProps) {
                   }}
                   disabled={!availability.availableTimes.includes(hour)}
                 >
-                  {hour}
+                  {formatHour(hour)}
                 </TimePickerItem>
               );
             })}

@@ -11,7 +11,7 @@ import { CalendarBlank, Clock } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { api } from "@/lib/axios";
-import { ConfirmForm, FormActions, FormError, FormHeader } from "./styles";
+import { ConfirmForm, FormActions, FormError, FormHeader, Select } from "./styles";
 
 import { ToastContainer, toast } from "react-toastify";
 import { ContainerLogin } from "../../styles";
@@ -72,7 +72,6 @@ export function ConfirmStep({
   }
   const describedDate = dayjs(schedulingDate).format("DD[ de ]MMMM[ de ]YYYY");
   const describedTime = dayjs(schedulingDate).format("HH:mm[h]");
-
   return (
     <>
       {isSignedId ? (
@@ -110,11 +109,11 @@ export function ConfirmStep({
 
           <label>
             <Text size="sm">Observações</Text>
-            <select {...register("observations")} style={{ width: "100%" }}>
+            <Select {...register("observations")} style={{ width: "100%" }}>
               <option value="Check-up">Check-up</option>
               <option value="Tratamento">Tratamento</option>
               <option value="Implante">Implante</option>
-            </select>
+            </Select>
           </label>
 
           <FormActions>

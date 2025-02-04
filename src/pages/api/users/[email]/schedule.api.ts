@@ -38,7 +38,7 @@ export default async function handler(
     req.body,
   )
 
-  const schedulingDate = dayjs(date).startOf('hour')
+  const schedulingDate = dayjs(date)
 
   if (schedulingDate.isBefore(new Date())) {
     return res.status(400).json({
