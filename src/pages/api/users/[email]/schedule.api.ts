@@ -68,7 +68,6 @@ export default async function handler(
       user_id: user.id,
     },
   })
-  console.log(scheduling)
   const calendar = google.calendar({
     version: 'v3',
     auth: await getGoogleOAuthToken(user.id),
