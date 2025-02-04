@@ -98,16 +98,17 @@ export default function TimeIntervals() {
   const intervals = watch("intervals");
 
   const router = useRouter();
-
+  const emailOwner = env.NEXT_EMAIL_OWNER;
   const session = useSession();
-  console.log(session)
-  const isSignedId = session.status === "authenticated" && session.data.user.email === env.NEXT_EMAIL_OWNER;
+  const isSignedId =
+    session.status === "authenticated" &&
+    session.data.user.email === emailOwner;
   async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
     const { intervals } = data;
     await api.post("/users/time-intervals", {
       intervals,
     });
-    await router.push("/register/update-profile");
+    await router.push(`/schedule/${emailOwner}`);
   }
 
   return (
