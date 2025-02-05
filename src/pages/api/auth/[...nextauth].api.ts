@@ -41,11 +41,11 @@ export function buildNextAuthOptions(
       }),
       EmailProvider({
         server: {
-          host: 'smtp.gmail.com',
+          host: 'smtp.mailgun.org',
           port: 587,
           secure: false,
           auth: {
-            user: env.NEXT_EMAIL_OWNER,
+            user: env.NEXT_EMAIL_SERVER,
             pass: env.NEXT_EMAIL_PASSWORD,
           },
           tls: {
@@ -86,7 +86,7 @@ export function buildNextAuthOptions(
                 throw new AppError(`Email(s) (${failed.join(", ")}) could not be sent`, 400)
               }
             } catch (error) {
-              alert(error)
+              console.error(error)
             }
 
           }
