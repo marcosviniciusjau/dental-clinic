@@ -12,7 +12,6 @@ const envSchema = z.object({
   NEXT_EMAIL_SERVER: z.string(),
   NEXT_EMAIL_PASSWORD: z.string(),
   NEXT_USERNAME: z.string(),
-  NEXT_MAILGUN_API_KEY: z.string(),
   NEXT_JWT_SECRET: z.string(),
 })
 
@@ -22,7 +21,6 @@ const parsedEnv = {
   NEXT_GOOGLE_CLIENT_ID: process.env.NEXT_GOOGLE_CLIENT_ID,
   NEXT_GOOGLE_CLIENT_SECRET: process.env.NEXT_GOOGLE_CLIENT_SECRET,
   NEXT_AUTH_SECRET: process.env.NEXT_AUTH_SECRET,
-  NEXT_MAILGUN_API_KEY: process.env.NEXT_MAILGUN_API_KEY,
   NEXT_EMAIL_PASSWORD: process.env.NEXT_EMAIL_PASSWORD,
   NEXT_USERNAME: process.env.NEXT_USERNAME,
   NEXT_EMAIL_OWNER: process.env.NEXT_EMAIL_OWNER,

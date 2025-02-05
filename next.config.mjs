@@ -13,7 +13,6 @@ const nextConfig = {
     NEXT_EMAIL_SERVER: process.env.NEXT_EMAIL_SERVER,
     NEXT_EMAIL_PASSWORD: process.env.NEXT_EMAIL_PASSWORD,
     NEXT_USERNAME: process.env.NEXT_USERNAME,
-    NEXT_MAILGUN_API_KEY: process.env.NEXT_MAILGUN_API_KEY,
     NEXT_JWT_SECRET: process.env.NEXT_JWT_SECRET,
   },
 };
