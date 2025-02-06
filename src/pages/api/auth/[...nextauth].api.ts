@@ -48,7 +48,7 @@ export function buildNextAuthOptions(
             pass: env.NEXT_API_KEY,
           },
         },
-        from:  'Dental Clinic <mvaraujowebsites@mvaraujowebsites.com.br>',
+        from: `Dental Clinic <${env.NEXT_USERNAME}@${env.NEXT_EMAIL_FROM}>`,
         sendVerificationRequest({
           identifier: email,
           url,
@@ -102,10 +102,14 @@ export function buildNextAuthOptions(
     },
 
     callbacks: {
-      async signIn({ account, user }) {
-        if (!user) {
-          console.error("Erro: Usuário não encontrado")
-          return false
+      async signIn({ account, user,email }) {
+        const userExists = await prisma.user.findUnique({
+          where: {
+            email: user.email,
+          },
+        })
+        if (!userExists) {
+          return '/sign-in?error=email-invalid'
         }
         if (account?.provider != 'google') {
           return true;
@@ -125,6 +129,7 @@ export function buildNextAuthOptions(
           user,
         }
       },
+    
     },
   }
 }

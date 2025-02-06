@@ -21,7 +21,7 @@ import { redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
 const SignInFormSchema = z.object({
-  email: z.string().email({ message: "Digite um e-mail válido" }),  
+  email: z.string().email({ message: "Digite um e-mail válido" }),
 });
 
 type SignInFormData = z.infer<typeof SignInFormSchema>;
@@ -40,7 +40,7 @@ export default function SignIn() {
   });
   async function handleSignIn(data: SignInFormData) {
     try {
-      await signIn("email",data)
+      await signIn("email", data, { callbackUrl: "/sign-in" });
     } catch (error) {
       toast.error("Erro ao fazer login, tente novamente");
     }
