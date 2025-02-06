@@ -57,6 +57,7 @@ export default function Register() {
         toast.error(err.response.data.message);
         return;
       }
+      toast.error("Ocorreu um erro ao cadastrar. Tente novamente mais tarde!")
 
       console.error(err);
     }
