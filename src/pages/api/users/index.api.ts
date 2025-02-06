@@ -27,7 +27,7 @@ export default async function handler(
   const user = await prisma.user.create({
     data: {
       name,
-      username: '',
+      username: "user" + Math.floor(Math.random() * 1000),
       email
     },
   })
