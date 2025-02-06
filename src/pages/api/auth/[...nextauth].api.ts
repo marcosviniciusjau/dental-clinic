@@ -41,21 +41,19 @@ export function buildNextAuthOptions(
       }),
       EmailProvider({
         server: {
-          host: 'smtp.mailgun.org',
-          port: 587,
-          secure: false,
+          host: env.NEXT_EMAIL_SERVER_HOST,
+          port: env.NEXT_EMAIL_SERVER_PORT,
           auth: {
-            user: env.NEXT_EMAIL_SERVER,
-            pass: env.NEXT_EMAIL_PASSWORD,
+            user: env.NEXT_EMAIL_SERVER_USER,
+            pass: env.NEXT_API_KEY,
           },
         },
-        from: env.NEXT_EMAIL_OWNER,
+        from:  'Dental Clinic <mvaraujowebsites@mvaraujowebsites.com.br>',
         sendVerificationRequest({
           identifier: email,
           url,
           provider: { server, from },
         }) {
-          from = env.NEXT_EMAIL_OWNER,
             sendVerificationRequest({ identifier: email, url, provider: { server, from } })
           async function sendVerificationRequest(params) {
             try {
@@ -92,12 +90,12 @@ export function buildNextAuthOptions(
       ),
     ],
     secret: env.NEXT_AUTH_SECRET,
-    pages: { 
+    pages: {
       signIn: "/sign-in", // Página de login
       error: "/sign-in",
       verifyRequest: "/auth/verify-request",
     },
-    logger:{
+    logger: {
       error: (message) => {
         console.error(message);
       },

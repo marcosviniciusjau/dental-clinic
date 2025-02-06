@@ -9,10 +9,14 @@ const envSchema = z.object({
   NEXT_GOOGLE_CLIENT_SECRET: z.string(),
   NEXT_AUTH_SECRET: z.string(),
   NEXT_EMAIL_OWNER: z.string().email(),
-  NEXT_EMAIL_SERVER: z.string(),
-  NEXT_EMAIL_PASSWORD: z.string(),
   NEXT_USERNAME: z.string(),
   NEXT_JWT_SECRET: z.string(),
+
+  NEXT_EMAIL_SERVER_USER: z.string(),
+  NEXT_API_KEY: z.string(),
+  NEXT_EMAIL_SERVER_HOST: z.string(),
+  NEXT_EMAIL_FROM: z.string(),
+  NEXT_EMAIL_SERVER_PORT: z.coerce.number()
 })
 
 const parsedEnv = {
@@ -21,11 +25,14 @@ const parsedEnv = {
   NEXT_GOOGLE_CLIENT_ID: process.env.NEXT_GOOGLE_CLIENT_ID,
   NEXT_GOOGLE_CLIENT_SECRET: process.env.NEXT_GOOGLE_CLIENT_SECRET,
   NEXT_AUTH_SECRET: process.env.NEXT_AUTH_SECRET,
-  NEXT_EMAIL_PASSWORD: process.env.NEXT_EMAIL_PASSWORD,
-  NEXT_USERNAME: process.env.NEXT_USERNAME,
   NEXT_EMAIL_OWNER: process.env.NEXT_EMAIL_OWNER,
-  NEXT_EMAIL_SERVER: process.env.NEXT_EMAIL_SERVER,
+  NEXT_USERNAME: process.env.NEXT_USERNAME,
 
+  NEXT_API_KEY: process.env.NEXT_API_KEY,
+  NEXT_EMAIL_SERVER_HOST: process.env.NEXT_EMAIL_SERVER_HOST,
+  NEXT_EMAIL_FROM: process.env.NEXT_EMAIL_FROM,
+  NEXT_EMAIL_SERVER_PORT: process.env.NEXT_EMAIL_SERVER_PORT,
+  NEXT_EMAIL_SERVER_USER: process.env.NEXT_EMAIL_SERVER_USER,
   NEXT_JWT_SECRET: process.env.NEXT_JWT_SECRET,
 };
 export const env = envSchema.parse(parsedEnv)
