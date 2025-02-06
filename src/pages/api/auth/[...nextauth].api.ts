@@ -48,9 +48,6 @@ export function buildNextAuthOptions(
             user: env.NEXT_EMAIL_SERVER,
             pass: env.NEXT_EMAIL_PASSWORD,
           },
-          tls: {
-            rejectUnauthorized: false,
-          },
         },
         from: env.NEXT_EMAIL_OWNER,
         sendVerificationRequest({
