@@ -48,7 +48,7 @@ export function buildNextAuthOptions(
             pass: env.NEXT_API_KEY,
           },
         },
-        from: `Dental Clinic <${env.NEXT_USERNAME}@${env.NEXT_EMAIL_FROM}>`,
+        from: `Dental Clinic <naoresponda-dental-clinic@${env.NEXT_EMAIL_FROM}>`,
         sendVerificationRequest({
           identifier: email,
           url,
@@ -91,7 +91,7 @@ export function buildNextAuthOptions(
     ],
     secret: env.NEXT_AUTH_SECRET,
     pages: {
-      signIn: "/sign-in", // Página de login
+      signIn: "/sign-in",
       error: "/sign-in",
       verifyRequest: "/auth/verify-request",
     },
@@ -108,10 +108,12 @@ export function buildNextAuthOptions(
             email: user.email,
           },
         })
-        if (!userExists) {
+        const googleProvider = account?.provider == 'google'
+
+        if (!userExists && !googleProvider) {
           return '/sign-in?error=email-invalid'
         }
-        if (account?.provider != 'google') {
+        if (!googleProvider) {
           return true;
         }
         if (
@@ -138,16 +140,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return NextAuth(req, res, buildNextAuthOptions(req, res))
 }
 
-
-
-/**
- * Email HTML body
- * Insert invisible space into domains from being turned into a hyperlink by email
- * clients like Outlook and Apple mail, as this is confusing because it seems
- * like they are supposed to click on it to sign in.
- *
- * @note We don't add the email address to avoid needing to escape it, if you do, remember to sanitize it!
- */
 function html(params: { url: string, host: string, theme: Theme }) {
   const { url } = params
   const emailOwner = env.NEXT_EMAIL_OWNER
@@ -206,7 +198,6 @@ Se você não solicitou esse link, por favor apenas ignore
 `
 }
 
-/** Email Text body (fallback for email clients that don't render HTML, e.g. feature phones) */
 function text() {
   return `Acesse a agenda de Dental Clinic`
 }
