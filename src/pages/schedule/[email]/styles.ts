@@ -1,4 +1,4 @@
-import { Box, Heading, Text, styled } from '@marcos-vinicius-design-system/react'
+import { Box, Button, Heading, Text, styled } from '@marcos-vinicius-design-system/react'
 
 export const Container = styled('div', {
   maxWidth: 852,
@@ -63,7 +63,9 @@ export const ProfileHeader = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   cursor: 'pointer',
+  
   '@media(max-width: 600px)': {
+    marginLeft: '-$40',
     marginTop: '-$10',
   },
 
@@ -75,7 +77,7 @@ export const ProfileHeader = styled('div', {
     color: '$gray100',
     textAlign: 'center',
     marginBottom: '$4',
-    marginLeft: '-$20'
+        marginTop: '$4',
   },
 
   variants: {
@@ -98,7 +100,7 @@ export const Consultas = styled('div', {
     maxHeight: '200px',
   },
   '@media(max-width: 600px)': {
-  maxHeight: 'auto',
+    maxHeight: 'auto',
     width: '80%',
     marginTop: '$10',
     marginBottom: '$10',
@@ -162,11 +164,16 @@ export const PanelProfile = styled('div', {
   overflow: 'hidden',
   height: 0,
   transition: 'height 0.4s ease-out',
+  
   variants: {
     isOpen: {
       true: {
         '@media(min-width: 600px)': {
           marginLeft: '-$12',
+        },
+        [`> ${Button}`]: {
+          marginTop: '$4',
+          marginBottom: '$4',
         },
         height: 'auto',
       },

@@ -13,6 +13,7 @@ export const Container = styled('main', {
 })
 
 export const Header = styled('div', {
+
   padding: '0 $6',
 
   [`> ${Heading}`]: {
@@ -26,6 +27,7 @@ export const Header = styled('div', {
 })
 
 export const Form = styled(Box, {
+  
   marginTop: '$6',
   display: 'flex',
   flexDirection: 'column',

@@ -1,6 +1,9 @@
-import { Box, Text, styled } from '@marcos-vinicius-design-system/react'
+import { Box, styled, Text, TextInput } from '@marcos-vinicius-design-system/react'
 
-export const IntervalBox = styled(Box, {
+export const IntervalBox = styled(Box, { 
+  '@media(max-width:600px)': {
+  width: '310px',
+},
   marginTop: '$6',
   display: 'flex',
   flexDirection: 'column',
@@ -16,7 +19,7 @@ export const IntervalItem = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '$3 $6',
+  padding: '$3 $4',
 
   '& + &': {
     borderTop: '1px solid $gray600',
@@ -26,17 +29,19 @@ export const IntervalItem = styled('div', {
 export const IntervalDay = styled('div', {
   display: 'flex',
   alignItems: 'center',
-
   gap: '$3',
 })
 
 export const IntervalInputs = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '$3',
+  '@media(min-width:600px)': {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '$2',
+  },
+
 
   'input::-webkit-calendar-picker-indicator': {
-    filter: 'invert(100%) brightness(80%)',
+    filter: 'invert(100%) brightness(40%)',
   },
 })
 

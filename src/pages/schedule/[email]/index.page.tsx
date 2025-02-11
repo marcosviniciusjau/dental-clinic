@@ -94,7 +94,7 @@ export default function Schedule({ user }: ScheduleProps) {
       destroyCookie(null, "dental-clinic:client", {
         path: "/",
       });
-      signOut({ redirect: false }); // Sem redirecionamento automático
+      signOut({ redirect: false });
 
       router.replace("/");
     } catch (error) {
@@ -243,12 +243,16 @@ export default function Schedule({ user }: ScheduleProps) {
           </AccordionWrapper>
         </Container>
       ) : (
+        <>
+        <NextSeo title="Não autorizado | Dental Clinic" noindex />
+
         <ContainerLogin>
           <Heading>Você precisa fazer login para acessar essa página</Heading>
           <a href="/sign-in" style={{ textDecoration: "none" }}>
             <Button>Fazer Login</Button>
           </a>
         </ContainerLogin>
+        </>
       )}
 
       <ToastContainer />
