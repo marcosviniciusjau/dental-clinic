@@ -114,8 +114,8 @@ export default function Schedule({ user }: ScheduleProps) {
         path: "/",
       });
 
-      signOut({ redirect: false });
       toast.success("Conta excluída com sucesso!");
+      signOut({ redirect: false });
       router.replace("/");
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
