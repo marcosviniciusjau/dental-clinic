@@ -1,9 +1,9 @@
 import { Box, styled, Text, TextInput } from '@marcos-vinicius-design-system/react'
 
-export const IntervalBox = styled(Box, { 
-  '@media(max-width:600px)': {
-  width: '310px',
-},
+export const IntervalBox = styled(Box, {
+  '@media screen and (max-width:48rem)': {
+    width: '310px',
+  },
   marginTop: '$6',
   display: 'flex',
   flexDirection: 'column',
@@ -33,7 +33,7 @@ export const IntervalDay = styled('div', {
 })
 
 export const IntervalInputs = styled('div', {
-  '@media(min-width:600px)': {
+  '@media(min-width:48rem)': {
     display: 'flex',
     alignItems: 'center',
     gap: '$2',

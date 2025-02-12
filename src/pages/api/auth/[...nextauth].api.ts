@@ -54,7 +54,7 @@ export function buildNextAuthOptions(
           url,
           provider: { server, from },
         }) {
-            sendVerificationRequest({ identifier: email, url, provider: { server, from } })
+          sendVerificationRequest({ identifier: email, url, provider: { server, from } })
           async function sendVerificationRequest(params) {
             try {
               const { identifier, url, provider, theme } = params
@@ -102,7 +102,7 @@ export function buildNextAuthOptions(
     },
 
     callbacks: {
-      async signIn({ account, user,email }) {
+      async signIn({ account, user, email }) {
         const userExists = await prisma.user.findUnique({
           where: {
             email: user.email,
@@ -131,7 +131,7 @@ export function buildNextAuthOptions(
           user,
         }
       },
-    
+
     },
   }
 }
@@ -157,7 +157,7 @@ function html(params: { url: string, host: string, theme: Theme }) {
   return `
 <body style="background: ${color.background};">
 <table width="100%" border="0" cellspacing="20" cellpadding="0"
-style="background: ${color.mainBackground}; max-width: 600px; margin: auto; border-radius: 10px;">
+style="background: ${color.mainBackground}; max-width: 48rem; margin: auto; border-radius: 10px;">
 
 <tr align="center"
 style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">

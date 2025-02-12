@@ -7,10 +7,10 @@ export const Container = styled('div', {
   gap: '$20',
   overflow: 'hidden',
   paddingBottom: '$10',
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     padding: '0 $10',
   },
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     display: 'block',
     padding: '0',
     marginLeft: '$2',
@@ -22,7 +22,7 @@ export const Hero = styled('div', {
   padding: '0 $8',
   paddingBottom: '$10',
   [`> ${Heading}`]: {
-    '@media(max-width: 600px)': {
+    '@media screen and (max-width: 48rem)': {
       fontSize: '$2xl',
     },
   },
@@ -39,7 +39,7 @@ export const Imagem = styled(Image, {
   borderRadius: "4px",
 
   marginLeft: "$8",
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     padding: 0,
 
     width: "30vh",
@@ -49,7 +49,7 @@ export const Imagem = styled(Image, {
 })
 
 export const Preview = styled('div', {
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginLeft: '5vh',
   },
 
@@ -57,25 +57,25 @@ export const Preview = styled('div', {
   paddingBottom: '$10',
 })
 export const Contacts = styled('div', {
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginLeft: '$16',
     display: 'flex',
     gap: '$20',
   },
-  '@media(max-width: 600px)': {
-  marginLeft: '$8',
+  '@media screen and (max-width: 48rem)': {
+    marginLeft: '$8',
   }
 }
 )
 
 export const AccordionWrapper = styled('div', {
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     marginBottom: '$10',
     width: '85%',
   },
 
   marginTop: '$10',
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     width: '50%',
   },
   [`> ${Heading}`]: {
@@ -114,7 +114,7 @@ export const PanelProfile = styled('div', {
   variants: {
     isOpen: {
       true: {
-        '@media(min-width: 600px)': {
+        '@media(min-width: 48rem)': {
           marginLeft: '-$12',
         },
         height: 'auto',
@@ -139,7 +139,7 @@ export const Panel = styled('div', {
   },
 });
 export const Questions = styled('div', {
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginTop: '4rem',
     marginBottom: '4rem',
   },
@@ -166,7 +166,7 @@ export const Whatsapp = styled('div', {
   gap: '$4',
 
   marginTop: '$4',
-  
+
   marginBottom: '$4',
   [`> ${Text}`]: {
     marginTop: '$6',

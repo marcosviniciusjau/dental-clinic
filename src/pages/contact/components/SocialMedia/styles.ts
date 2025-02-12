@@ -5,18 +5,18 @@ export const Container = styled('div', {
   width: '100%',
   alignItems: 'center',
   overflow: 'hidden',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     display: 'block',
     paddingLeft: '$6',
   },
 })
 
 export const Hero = styled('div', {
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginTop: '380px',
   },
   [`> ${Heading}`]: {
-    '@media(max-width: 600px)': {
+    '@media screen and (max-width: 48rem)': {
       fontSize: '$4xl',
     },
   },
@@ -36,14 +36,14 @@ export const SocialMediaDiv = styled('div', {
   overflow: 'hidden',
 })
 
-export const Imagem = styled('div',{
+export const Imagem = styled('div', {
 })
 
 export const Texto = styled('div', {
   display: 'flex',
   flexWrap: 'wrap',
   alignContent: 'center',
-  
+
   '&:last-child': {
     fontWeight: 'bold',
   },

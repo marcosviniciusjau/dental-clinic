@@ -3,18 +3,16 @@ import { Box, Button, Heading, Text, styled } from '@marcos-vinicius-design-syst
 export const Container = styled('div', {
   maxWidth: 852,
   padding: '0 $4',
-
-  margin: '$16 auto $4',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     padding: '0 $4',
   },
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     margin: '$5 auto $4',
   },
 })
 
 export const ContainerLogin = styled('div', {
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginLeft: '$40',
     width: '80vh',
     height: '80vh',
@@ -22,7 +20,7 @@ export const ContainerLogin = styled('div', {
     placeContent: 'center',
     gap: '$8',
   },
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     marginTop: '30vh',
     [`> ${Heading}`]: {
       fontSize: 'md',
@@ -32,10 +30,10 @@ export const ContainerLogin = styled('div', {
 })
 
 export const UserHeader = styled('div', {
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginTop: '$5',
     display: 'grid',
-    gridTemplateColumns: '1fr 1fr 150px',
+    gridTemplateColumns: '1fr 1fr 12.5rem',
     gridTemplateAreas: `'agendamentos doctor profile'`,
     gap: '19rem',
     alignItems: 'start',
@@ -59,31 +57,53 @@ export const DoctorHeader = styled('div', {
 });
 
 export const ProfileHeader = styled('div', {
-  gridArea: 'profile',
   display: 'flex',
   flexDirection: 'column',
   cursor: 'pointer',
-  
-  '@media(max-width: 600px)': {
-    marginLeft: '-$40',
-    marginTop: '-$10',
+  marginTop: '$6',
+  '@media screen and (max-width: 48rem)': {
+    width: '100%',
+    marginLeft: '$6',
   },
 
-  [`> ${Heading}`]: {
-    lineHeight: '$base',
+});
+export const PanelProfile = styled('div', {
+  overflow: 'hidden',
+  height: 0,
+  transition: 'height 0.4s ease-out',
+  variants: {
+    isOpen: {
+      true: {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.75rem',
+        '@media screen and (max-width: 768px)': {
+          marginLeft: '$6',
+        },
+        width: '100%',
+        height: 'auto',
+      },
+    },
   },
 
-  [`> ${Text}`]: {
-    color: '$gray100',
+  [`> ${Button}`]: {
+    width: '90%',
+    maxWidth: '300px',
     textAlign: 'center',
-    marginBottom: '$4',
-        marginTop: '$4',
   },
+});
+
+export const Panel = styled('div', {
+  overflow: 'hidden',
+  height: 0,
+  marginTop: '$5',
+  transition: 'height 0.4s ease-out',
 
   variants: {
     isOpen: {
       true: {
-        backgroundColor: '$gray900',
+        height: 'auto',
+        padding: '18px',
       },
     },
   },
@@ -95,11 +115,11 @@ export const Consultas = styled('div', {
   flexDirection: 'column',
   gap: '1rem',
   marginLeft: '$5',
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginLeft: '-10rem',
-    maxHeight: '200px',
+    maxHeight: '10rem',
   },
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     maxHeight: 'auto',
     width: '80%',
     marginTop: '$10',
@@ -122,11 +142,11 @@ export const Consultas = styled('div', {
 export const AccordionWrapper = styled('div', {
   marginTop: '$10',
   marginLeft: '$8',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     width: '80%',
     marginBottom: '$10',
   },
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginLeft: '8rem',
   },
 
@@ -160,39 +180,3 @@ export const Accordion = styled(Box, {
   },
 });
 
-export const PanelProfile = styled('div', {
-  overflow: 'hidden',
-  height: 0,
-  transition: 'height 0.4s ease-out',
-  
-  variants: {
-    isOpen: {
-      true: {
-        '@media(min-width: 600px)': {
-          marginLeft: '-$12',
-        },
-        [`> ${Button}`]: {
-          marginTop: '$4',
-          marginBottom: '$4',
-        },
-        height: 'auto',
-      },
-    },
-  },
-});
-
-export const Panel = styled('div', {
-  overflow: 'hidden',
-  height: 0,
-  marginTop: '$5',
-  transition: 'height 0.4s ease-out',
-
-  variants: {
-    isOpen: {
-      true: {
-        height: 'auto',
-        padding: '18px',
-      },
-    },
-  },
-});

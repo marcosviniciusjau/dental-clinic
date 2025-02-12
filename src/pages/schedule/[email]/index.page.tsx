@@ -138,7 +138,6 @@ export default function Schedule({ user }: ScheduleProps) {
             <div key={session.data.user?.id}>
               <ProfileHeader
                 onClick={() => toggleAccordionProfile(1)}
-                isOpen={openIndexProfile === 1}
               >
                 <Text size="sm">{session.data.user?.name}</Text>
               </ProfileHeader>

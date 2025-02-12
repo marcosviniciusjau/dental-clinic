@@ -4,6 +4,7 @@ import { parseCookies, destroyCookie } from 'nookies'
 import { prisma } from '../prisma'
 import { authConfig } from '@/configs/auth'
 import { AppError } from '@/utils/app-error'
+import dayjs from 'dayjs'
 
 export function PrismaAdapter(
   req: NextApiRequest | NextPageContext['req'],
@@ -117,15 +118,17 @@ export function PrismaAdapter(
         return null
       }
 
+      const nextWeek = dayjs().add(7, 'days')
       const token = await prisma.verificationRequest.create({
         data: {
           identifier: verificationToken.identifier,
           token: verificationToken.token,
-          expires: verificationToken.expires,
+          expires: nextWeek.toDate(),
         },
       });
       return token;
     },
+
     async useVerificationToken({identifier, token} ){
       const verificationToken = await prisma.verificationRequest.findUnique({
         where: { token },

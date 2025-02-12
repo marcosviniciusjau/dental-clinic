@@ -25,14 +25,14 @@ export const Header = styled('div', {
 
 export const Form = styled('div', {
   maxWidth: 572,
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     margin: '$20 auto $4',
   },
   marginTop: '$6',
   display: 'flex',
   flexDirection: 'column',
   gap: '$4',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     marginTop: '5vh',
     [`> ${Heading}`]: {
       fontSize: 'md',

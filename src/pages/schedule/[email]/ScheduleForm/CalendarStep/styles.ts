@@ -12,7 +12,8 @@ export const Container = styled(Box, {
       true: {
         gridTemplateColumns: '1fr 280px',
 
-        '@media(max-width: 900px)': {
+        marginLeft: '$6',
+        '@media screen and (max-width: 900px)': {
           gridTemplateColumns: '1fr',
         },
       },
@@ -25,7 +26,7 @@ export const Container = styled(Box, {
 })
 
 export const TimePicker = styled('div', {
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     display: 'block',
     backgroundColor: '$gray800',
   },
@@ -55,7 +56,7 @@ export const TimePickerList = styled('div', {
   gridTemplateColumns: '1fr',
   gap: '$2',
 
-  '@media(max-width: 900px)': {
+  '@media screen and (max-width: 900px)': {
     gridTemplateColumns: '2fr',
   },
 })

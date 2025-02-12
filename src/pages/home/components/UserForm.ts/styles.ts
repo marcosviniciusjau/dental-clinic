@@ -11,7 +11,7 @@ export const Container = styled('div', {
   gridTemplateAreas: 'image vazio form',
   alignItems: 'center',
   overflow: 'hidden',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     display: 'block',
     marginLeft: '$10',
     marginRight: '$6',
@@ -32,7 +32,7 @@ export const Form = styled(Box, {
   display: 'flex',
   flexDirection: 'column',
   gap: '$6',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     width: '95%'
   },
   [`> ${Button}`]: {
@@ -44,7 +44,7 @@ export const Form = styled(Box, {
     '&:not(:disabled):hover': {
       backgroundColor: '$blue300',
     },
-    
+
   },
 })
 

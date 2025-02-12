@@ -9,18 +9,18 @@ export const Container = styled('div', {
   overflow: 'hidden',
   backgroundColor: '$blue500',
   paddingLeft: '$16',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     display: 'block',
     paddingLeft: '$10',
   },
 })
 
 export const Hero = styled('div', {
-  '@media(min-width: 600px)': {
+  '@media(min-width: 48rem)': {
     marginTop: '380px',
   },
   [`> ${Heading}`]: {
-    '@media(max-width: 600px)': {
+    '@media screen and (max-width: 48rem)': {
       fontSize: '$4xl',
     },
   },
@@ -49,7 +49,7 @@ export const Aparelhos = styled('div', {
   gap: '$4',
   marginTop: '$10',
   overflow: 'hidden',
-  '@media(max-width: 600px)': {
+  '@media screen and (max-width: 48rem)': {
     marginBottom: '$16',
     marginTop: '$16',
   },
