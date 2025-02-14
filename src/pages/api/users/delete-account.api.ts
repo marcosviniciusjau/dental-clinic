@@ -25,10 +25,10 @@ export default async function handler(
   if (!session) {
     return res.status(401).end()
   }
-  
+
   await prisma.scheduling.deleteMany({
     where: {
-      user_id: session.user.id,
+      email: session.user.email,
     },
   });
 
