@@ -9,6 +9,10 @@ import { prisma } from '@/lib/prisma';
 import { AppError } from '@/utils/app-error';
 import { useRouter } from 'next/router';
 import Error from 'next/error';
+import { Resend } from 'resend';
+
+const resend = new Resend(env.NEXT_API_KEY);
+
 export function buildNextAuthOptions(
   req: NextApiRequest | NextPageContext['req'],
   res: NextApiResponse | NextPageContext['res'],
@@ -67,21 +71,21 @@ export function buildNextAuthOptions(
                 throw new AppError(`User not found next auth email`, 404)
               }
               const { host } = new URL(url)
-              const transport = createTransport(provider.server)
-              const result = await transport.sendMail({
+              const emailResponse = await resend.emails.send({
                 to: identifier,
                 from: provider.from,
                 subject: `Acesse a agenda de Dental Clinic`,
                 text: text(),
                 html: html({ url, host, theme }),
               })
-              console.log(result)
-              const failed = result.rejected.filter(Boolean)
-              if (failed.length) {
-                throw new AppError(`Email(s) (${failed.join(", ")}) could not be sent`, 400)
+              console.log(emailResponse)
+              if (emailResponse.error) {
+                throw new AppError(`Erro ao enviar email: ${emailResponse.error.message}`, 400);
               }
+          
+              console.log(`Email enviado para ${identifier}`);
             } catch (error) {
-              console.error(error)
+              console.error(error);
             }
 
           }
