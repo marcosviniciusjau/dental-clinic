@@ -25,15 +25,7 @@ export default async function handler(
   if (!session) {
     return res.status(401).end()
   }
-
-  if(session.user.email === env.NEXT_EMAIL_OWNER){
-    await prisma.account.deleteMany({
-      where: {
-        user_id: session.user.id,
-      },
-    });
-  }
-
+  
   await prisma.scheduling.deleteMany({
     where: {
       user_id: session.user.id,
