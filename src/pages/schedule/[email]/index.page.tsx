@@ -108,15 +108,15 @@ export default function Schedule({ user }: ScheduleProps) {
       );
       if (!confirm) return;
 
-      await api.delete("/users/delete-account");
+      const response = await api.delete("/users/delete-account");
+      if (response.status === 200) {
+        toast.success("Conta excluída com sucesso!");
+        destroyCookie(null, "dental-clinic:client", {
+          path: "/",
+        });
 
-      destroyCookie(null, "dental-clinic:client", {
-        path: "/",
-      });
-
-      toast.success("Conta excluída com sucesso!");
-      signOut({ redirect: false });
-      router.replace("/");
+        router.replace("/");
+      }
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         toast.error(err.response.data.message);
@@ -136,9 +136,7 @@ export default function Schedule({ user }: ScheduleProps) {
         <Container>
           <UserHeader>
             <div key={session.data.user?.id}>
-              <ProfileHeader
-                onClick={() => toggleAccordionProfile(1)}
-              >
+              <ProfileHeader onClick={() => toggleAccordionProfile(1)}>
                 <Text size="sm">{session.data.user?.name}</Text>
               </ProfileHeader>
               <PanelProfile isOpen={openIndexProfile === 1}>
@@ -243,14 +241,14 @@ export default function Schedule({ user }: ScheduleProps) {
         </Container>
       ) : (
         <>
-        <NextSeo title="Não autorizado | Dental Clinic" noindex />
+          <NextSeo title="Não autorizado | Dental Clinic" noindex />
 
-        <ContainerLogin>
-          <Heading>Você precisa fazer login para acessar essa página</Heading>
-          <a href="/sign-in" style={{ textDecoration: "none" }}>
-            <Button>Fazer Login</Button>
-          </a>
-        </ContainerLogin>
+          <ContainerLogin>
+            <Heading>Você precisa fazer login para acessar essa página</Heading>
+            <a href="/sign-in" style={{ textDecoration: "none" }}>
+              <Button>Fazer Login</Button>
+            </a>
+          </ContainerLogin>
         </>
       )}
 
