@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { google } from 'googleapis'
 import { getGoogleOAuthToken } from '@/lib/google'
+import { sendEventEmail } from '@/utils/send-event-email'
 
 export default async function handler(
   req: NextApiRequest,
@@ -73,11 +74,13 @@ export default async function handler(
     auth: await getGoogleOAuthToken(user.id),
   })
 
+  await sendEventEmail(email, schedulingDate.format())
+
   await calendar.events.insert({
     calendarId: 'primary',
     conferenceDataVersion: 1,
     requestBody: {
-      summary: `Dental Clinic: ${name} `,
+      summary: `Dental Clinic: Paciente ${name} `,
       description: observations,
       start: {
         dateTime: schedulingDate.format(),

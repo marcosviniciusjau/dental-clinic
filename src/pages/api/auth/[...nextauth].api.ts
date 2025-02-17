@@ -52,7 +52,7 @@ export function buildNextAuthOptions(
             pass: env.NEXT_API_KEY,
           },
         },
-        from: `Dental Clinic <naoresponda-dental-clinic@${env.NEXT_EMAIL_FROM}>`,
+        from: `Dental Clinic <noreply-dental-clinic@${env.NEXT_EMAIL_FROM}>`,
         sendVerificationRequest({
           identifier: email,
           url,
