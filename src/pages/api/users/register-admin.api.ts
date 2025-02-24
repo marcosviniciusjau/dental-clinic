@@ -40,7 +40,7 @@ export default async function handler(
     },
   })
 
-  setCookie({ res }, 'dental-clinic:client', user.id, {
+  setCookie({ res }, 'dental-clinic+:client', user.id, {
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: '/',
   })

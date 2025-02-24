@@ -22,9 +22,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { hash } from "bcryptjs";
 import { env } from "@/env/env";
 const registerFormSchema = z.object({
-  name: z.string().min(3, { message: "Mínimo 3 caracteres" }),  
-  username: z.string().min(3, { message: "Mínimo 3 caracteres" }),  
-})
+  name: z.string().min(3, { message: "Mínimo 3 caracteres" }),
+  username: z.string().min(3, { message: "Mínimo 3 caracteres" }),
+});
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
 
@@ -46,7 +46,6 @@ export default function RegisterAdmin() {
         name: data.name,
       });
       await router.push("/register/connect-calendar");
-      
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         toast.error(err.response.data.message);
@@ -58,12 +57,12 @@ export default function RegisterAdmin() {
   }
   return (
     <>
-      <NextSeo title="Crie uma conta de Administrador | Dental Clinic" />
+      <NextSeo title="Crie uma conta de Administrador | Dental Clinic+" />
 
-      <HeaderHome/>
+      <HeaderHome />
       <Container>
         <Header>
-          <Heading as="strong">Bem-vindo a Dental Clinic!</Heading>
+          <Heading as="strong">Bem-vindo a Dental Clinic+!</Heading>
           <Text>
             Precisamos de algumas informações para criar seu perfil! Ah, você
             pode editar essas informações depois.
@@ -72,9 +71,12 @@ export default function RegisterAdmin() {
         </Header>
 
         <Form as="form" onSubmit={handleSubmit(handleRegister)}>
-        <label>
+          <label>
             <Text size="sm">Nome de usuário</Text>
-            <TextInput placeholder="Seu nome de usuário" {...register("username")} />
+            <TextInput
+              placeholder="Seu nome de usuário"
+              {...register("username")}
+            />
             {errors.username && (
               <FormError size="sm">{errors.username.message}</FormError>
             )}

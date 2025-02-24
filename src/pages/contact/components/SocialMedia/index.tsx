@@ -34,7 +34,7 @@ export function SocialMedia() {
             style={{ textDecoration: "none" }}
             target="_parent"
           >
-            <Text size="2xl">Dental Clinic</Text>
+            <Text size="2xl">Dental Clinic+</Text>
           </a>
         </Texto>
       </SocialMediaDiv>
@@ -77,7 +77,7 @@ export function SocialMedia() {
             style={{ textDecoration: "none" }}
             target="_parent"
           >
-            <Text size="2xl">@dental-clinic</Text>
+            <Text size="2xl">@dental-clinic+</Text>
           </a>
         </Texto>
       </SocialMediaDiv>
@@ -99,7 +99,7 @@ export function SocialMedia() {
             style={{ textDecoration: "none" }}
             target="_parent"
           >
-            <Text size="2xl">Dental Clinic</Text>
+            <Text size="2xl">Dental Clinic+</Text>
           </a>
         </Texto>
       </SocialMediaDiv>

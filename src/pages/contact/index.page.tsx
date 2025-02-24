@@ -14,8 +14,8 @@ export default function Contact() {
   return (
     <>
       <NextSeo
-        title="Dental Clinic"
-        description="Dental Clinic. Agende seu horário e tenha o melhor sorriso."
+        title="Dental Clinic+"
+        description="Dental Clinic+. Agende seu horário e tenha o melhor sorriso."
       />
       <Header />
       <Container>
@@ -24,8 +24,8 @@ export default function Contact() {
         </Preview>
         <Hero>
           <Heading size="4xl"> Entre em contato conosco: </Heading>
-          
-      <SocialMedia />
+
+          <SocialMedia />
         </Hero>
       </Container>
       <UserForm />

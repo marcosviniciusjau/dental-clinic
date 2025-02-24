@@ -13,7 +13,7 @@ export function PrismaAdapter(
   debugger
   return {
     async createUser(user) {
-      const { 'dental-clinic:client': userIdOnCookies } = parseCookies({ req })
+      const { 'dental-clinic+:client': userIdOnCookies } = parseCookies({ req })
       if (!userIdOnCookies) {
         throw new Error('User ID not found on cookies.')
       }
@@ -29,7 +29,7 @@ export function PrismaAdapter(
         },
       })
 
-      destroyCookie({ res }, 'dental-clinic:client', {
+      destroyCookie({ res }, 'dental-clinic+:client', {
         path: '/',
       })
 
@@ -106,10 +106,10 @@ export function PrismaAdapter(
         profile_img_url: user.profile_img_url!,
       }
     },
-    async createVerificationToken(verificationToken){
+    async createVerificationToken(verificationToken) {
       const user = await prisma.user.findUnique({
         where: {
-          email:verificationToken.identifier,
+          email: verificationToken.identifier,
         },
       })
 
@@ -129,19 +129,19 @@ export function PrismaAdapter(
       return token;
     },
 
-    async useVerificationToken({identifier, token} ){
+    async useVerificationToken({ identifier, token }) {
       const verificationToken = await prisma.verificationRequest.findUnique({
         where: { token },
       });
-    
+
       if (!verificationToken || verificationToken.identifier !== identifier) {
-        return null; 
+        return null;
       }
-    
+
       await prisma.verificationRequest.delete({
         where: { token },
       });
-    
+
       return verificationToken;
     },
     async updateUser(user) {

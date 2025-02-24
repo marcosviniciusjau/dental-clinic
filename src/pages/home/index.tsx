@@ -1,10 +1,19 @@
 import { Heading, Text } from "@marcos-vinicius-design-system/react";
 import Image from "next/image";
-import { Container, Hero, Accordion,
+import {
+  Container,
+  Hero,
+  Accordion,
   AccordionItem,
   AccordionWrapper,
-  Panel, Preview, Contacts, Imagem, Gmail, Questions, 
-  Whatsapp} from "./styles";
+  Panel,
+  Preview,
+  Contacts,
+  Imagem,
+  Gmail,
+  Questions,
+  Whatsapp,
+} from "./styles";
 
 import previewImage from "../../assets/dentista.png";
 
@@ -28,8 +37,8 @@ export default function Home() {
   return (
     <>
       <NextSeo
-        title="Dental Clinic"
-        description="Dental Clinic. Agende seu horário e tenha o melhor sorriso."
+        title="Dental Clinic+"
+        description="Dental Clinic+. Agende seu horário e tenha o melhor sorriso."
       />
       <Header />
       <Container>
@@ -79,41 +88,41 @@ export default function Home() {
           <Heading>Tem alguma mais dúvida?</Heading>
           <Text>Então envie um email para:</Text>
           <Gmail>
-          <Image
-            src={LogoGmail}
-            width={80}
-            quality={100}
-            priority
-            style={{ borderRadius: "4px" }}
-            alt="logo Gmail"
-          />
+            <Image
+              src={LogoGmail}
+              width={80}
+              quality={100}
+              priority
+              style={{ borderRadius: "4px" }}
+              alt="logo Gmail"
+            />
 
-          <a
-            href="mailto:mvaraujowebsites@gmail.com"
-            style={{ textDecoration: "none" }}
-            target="_parent"
-          >
-            <Text size="xl">dentalclinic@gmail.com</Text>
-          </a>
+            <a
+              href="mailto:mvaraujowebsites@gmail.com"
+              style={{ textDecoration: "none" }}
+              target="_parent"
+            >
+              <Text size="xl">dentalclinic@gmail.com</Text>
+            </a>
           </Gmail>
           <Text>Ou nos envie uma mensagem para:</Text>
           <Whatsapp>
-          <Image
-            src={LogoWhatsapp}
-            width={80}
-            quality={100}
-            priority
-            style={{ borderRadius: "4px" }}
-            alt="logo whatsapp"
-          />
+            <Image
+              src={LogoWhatsapp}
+              width={80}
+              quality={100}
+              priority
+              style={{ borderRadius: "4px" }}
+              alt="logo whatsapp"
+            />
 
-          <a
-            href="https://api.whatsapp.com/send?phone=5514982078002&text=Como+posso+te+ajudar%3F"
-            style={{ textDecoration: "none" }}
-            target="_parent"
-          >
-            <Text size="xl">14 982078002</Text>
-          </a>
+            <a
+              href="https://api.whatsapp.com/send?phone=5514982078002&text=Como+posso+te+ajudar%3F"
+              style={{ textDecoration: "none" }}
+              target="_parent"
+            >
+              <Text size="xl">14 982078002</Text>
+            </a>
           </Whatsapp>
         </Questions>
       </Contacts>

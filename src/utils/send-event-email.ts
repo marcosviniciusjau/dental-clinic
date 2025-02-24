@@ -10,8 +10,8 @@ export async function sendEventEmail(identifier: string, schedulingDate: string)
     const schedulingDateBefore = dayjs(schedulingDate).subtract(30, 'minutes').format()
     const emailResponseBefore = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic <noreply-dental-clinic@${env.NEXT_EMAIL_FROM}>`,
-      subject: `Lembrete da consulta - Dental Clinic`,
+      from: `Dental Clinic+ <noreply-dental-clinic+@${env.NEXT_EMAIL_FROM}>`,
+      subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
       scheduledAt: schedulingDateBefore,
       html: htmlBefore(schedulingDate),
@@ -19,8 +19,8 @@ export async function sendEventEmail(identifier: string, schedulingDate: string)
 
     const emailResponseInTime = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic <noreply-dental-clinic@${env.NEXT_EMAIL_FROM}>`,
-      subject: `Lembrete da consulta - Dental Clinic`,
+      from: `Dental Clinic+ <noreply-dental-clinic+@${env.NEXT_EMAIL_FROM}>`,
+      subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
       scheduledAt: schedulingDate,
       html: htmlInTime(schedulingDate),
@@ -62,8 +62,8 @@ style="background: ${color.mainBackground}; max-width: 48rem; margin: auto; bord
 <tr align="center"
 style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
 <td>
-<img src="https://dental-clinic-two-gamma.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.9c598bf7.png&w=128&q=75" alt="Logo de Dente da Dental Clinic"/>
-<h2>Dental Clinic</h2>
+<img src="https://dental-clinic+-two-gamma.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.9c598bf7.png&w=128&q=75" alt="Logo de Dente da Dental Clinic+"/>
+<h2>Dental Clinic+</h2>
 </td>
 </tr>
 
@@ -81,7 +81,7 @@ Se você não solicitou esse email, por favor apenas ignore
 </tr>
 </table>
 <footer>
-<p style="font-size: 14px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">Copyright © ${new Date().getFullYear()} Dental Clinic </p>
+<p style="font-size: 14px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">Copyright © ${new Date().getFullYear()} Dental Clinic+ </p>
 </footer>
 </body>
 `
@@ -106,8 +106,8 @@ style="background: ${color.mainBackground}; max-width: 48rem; margin: auto; bord
 <tr align="center"
 style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
 <td>
-<img src="https://dental-clinic-two-gamma.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.9c598bf7.png&w=128&q=75" alt="Logo de Dente da Dental Clinic"/>
-<h2>Dental Clinic</h2>
+<img src="https://dental-clinic+-two-gamma.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.9c598bf7.png&w=128&q=75" alt="Logo de Dente da Dental Clinic+"/>
+<h2>Dental Clinic+</h2>
 </td>
 </tr>
 
@@ -125,12 +125,12 @@ Se você não solicitou esse email, por favor apenas ignore
 </tr>
 </table>
 <footer>
-<p style="font-size: 14px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">Copyright © ${new Date().getFullYear()} Dental Clinic </p>
+<p style="font-size: 14px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">Copyright © ${new Date().getFullYear()} Dental Clinic+ </p>
 </footer>
 </body>
 `
 }
 
 function text() {
-  return `Lembrete da consulta Dental Clinic`
+  return `Lembrete da consulta Dental Clinic+`
 }

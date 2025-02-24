@@ -62,7 +62,7 @@ export default function updateProfile() {
 
   return (
     <>
-      <NextSeo title="Atualize seu perfil | Dental Clinic" noindex />
+      <NextSeo title="Atualize seu perfil | Dental Clinic+" noindex />
       {isSignedId ? (
         <Container>
           <Header>

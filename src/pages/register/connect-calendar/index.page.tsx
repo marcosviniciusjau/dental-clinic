@@ -32,7 +32,7 @@ export default function ConnectCalendar() {
 
   return (
     <>
-      <NextSeo title="Conecte sua agenda do Google | Dental Clinic" noindex />
+      <NextSeo title="Conecte sua agenda do Google | Dental Clinic+" noindex />
       <HeaderHome />
       <Container>
         <Header>

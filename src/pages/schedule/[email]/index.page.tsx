@@ -91,7 +91,7 @@ export default function Schedule({ user }: ScheduleProps) {
 
   function logout() {
     try {
-      destroyCookie(null, "dental-clinic:client", {
+      destroyCookie(null, "dental-clinic+:client", {
         path: "/",
       });
       signOut({ redirect: false });
@@ -111,7 +111,7 @@ export default function Schedule({ user }: ScheduleProps) {
       const response = await api.delete("/users/delete-account");
       if (response.status === 200) {
         toast.success("Conta excluída com sucesso!");
-        destroyCookie(null, "dental-clinic:client", {
+        destroyCookie(null, "dental-clinic+:client", {
           path: "/",
         });
 
@@ -129,7 +129,7 @@ export default function Schedule({ user }: ScheduleProps) {
 
   return (
     <>
-      <NextSeo title={`Agendar com ${"Dental Clinic"}| Dental Clinic`} />
+      <NextSeo title={`Agendar com ${"Dental Clinic+"}| Dental Clinic+`} />
 
       <Header />
       {isSignedId ? (
@@ -202,7 +202,7 @@ export default function Schedule({ user }: ScheduleProps) {
             </Consultas>
             <DoctorHeader>
               <ProfilePhoto src={user.profileImgUrl} />
-              <Heading>Dental Clinic</Heading>
+              <Heading>Dental Clinic+</Heading>
               <Text>{user.bio}</Text>
               <Text>{user.email}</Text>
             </DoctorHeader>
@@ -241,7 +241,7 @@ export default function Schedule({ user }: ScheduleProps) {
         </Container>
       ) : (
         <>
-          <NextSeo title="Não autorizado | Dental Clinic" noindex />
+          <NextSeo title="Não autorizado | Dental Clinic+" noindex />
 
           <ContainerLogin>
             <Heading>Você precisa fazer login para acessar essa página</Heading>

@@ -22,8 +22,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { hash } from "bcryptjs";
 const registerFormSchema = z.object({
   email: z.string().email({ message: "Digite um e-mail válido" }),
-  name: z.string().min(3, { message: "Mínimo 3 caracteres" }),  
-})
+  name: z.string().min(3, { message: "Mínimo 3 caracteres" }),
+});
 
 type RegisterFormData = z.infer<typeof registerFormSchema>;
 
@@ -57,19 +57,19 @@ export default function Register() {
         toast.error(err.response.data.message);
         return;
       }
-      toast.error("Ocorreu um erro ao cadastrar. Tente novamente mais tarde!")
+      toast.error("Ocorreu um erro ao cadastrar. Tente novamente mais tarde!");
 
       console.error(err);
     }
   }
   return (
     <>
-      <NextSeo title="Crie uma conta | Dental Clinic" />
+      <NextSeo title="Crie uma conta | Dental Clinic+" />
 
-      <HeaderHome/>
+      <HeaderHome />
       <Container>
         <Header>
-          <Heading as="strong">Bem-vindo a Dental Clinic!</Heading>
+          <Heading as="strong">Bem-vindo a Dental Clinic+!</Heading>
           <Text>
             Precisamos de algumas informações para criar seu perfil! Ah, você
             pode editar essas informações depois.

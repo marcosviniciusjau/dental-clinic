@@ -19,7 +19,7 @@ export default function App({
           openGraph={{
             type: "website",
             locale: "pt_BR",
-            siteName: "Dental Clinic",
+            siteName: "Dental Clinic+",
           }}
         />
 
