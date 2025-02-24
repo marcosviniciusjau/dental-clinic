@@ -166,7 +166,7 @@ style="background: ${color.mainBackground}; max-width: 48rem; margin: auto; bord
 <tr align="center"
 style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
 <td>
-<img src="https://dental-clinic+-two-gamma.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.9c598bf7.png&w=128&q=75" alt="Logo de Dente da Dental Clinic+"/>
+<img src="https://dental-clinic-two-gamma.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.b500b2f4.png&w=128&q=75" alt="Logo de Dente da Dental Clinic+"/>
 <h2>Dental Clinic+</h2>
 </td>
 </tr>
