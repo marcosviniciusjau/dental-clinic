@@ -3,14 +3,19 @@ import { Theme } from 'next-auth';
 import { Resend } from 'resend';
 import { AppError } from './app-error';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
 const resend = new Resend(env.NEXT_API_KEY);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export async function sendEventEmail(identifier: string, schedulingDate: string) {
   try {
     const schedulingDateBefore = dayjs(schedulingDate).subtract(30, 'minutes').format()
     const emailResponseBefore = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic+ <noreply-dental-clinic+@${env.NEXT_EMAIL_FROM}>`,
+      from: `Dental Clinic+ <noreply-dentalclinic+@${env.NEXT_EMAIL_FROM}>`,
       subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
       scheduledAt: schedulingDateBefore,
@@ -19,16 +24,13 @@ export async function sendEventEmail(identifier: string, schedulingDate: string)
 
     const emailResponseInTime = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic+ <noreply-dental-clinic+@${env.NEXT_EMAIL_FROM}>`,
+      from: `Dental Clinic+ <noreply-dentalclinic+@${env.NEXT_EMAIL_FROM}>`,
       subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
       scheduledAt: schedulingDate,
       html: htmlInTime(schedulingDate),
     })
 
-    console.log(emailResponseBefore)
-
-    console.log(emailResponseInTime)
     if (emailResponseBefore.error) {
       throw new AppError(`Erro ao enviar email: ${emailResponseBefore.error.message}`, 400);
     }
@@ -44,6 +46,10 @@ export async function sendEventEmail(identifier: string, schedulingDate: string)
 }
 
 function htmlBefore(schedulingDate: string) {
+  const schedulingDateFormat = dayjs.utc(schedulingDate)
+  .tz(dayjs.tz.guess())
+  .startOf('hour')
+  .format('DD-MM-YYYY HH:mm');
   const brandColor = "#346df1"
   const color = {
     background: "#f9f9f9",
@@ -70,7 +76,7 @@ style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-s
 <tr>
 <td align="center"
 style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
-"Olá! Este é um lembrete de que sua consulta está agendada para ${schedulingDate}. Ainda há tempo para se preparar. Caso não possa comparecer, entre em contato para reagendar."</td>
+"Olá! Este é um lembrete de que sua consulta está agendada para ${schedulingDateFormat}. Ainda há tempo para se preparar. Caso não possa comparecer, entre em contato para reagendar."</td>
 </tr>
 
 <tr>
@@ -87,7 +93,12 @@ Se você não solicitou esse email, por favor apenas ignore
 `
 }
 
+
 function htmlInTime(schedulingDate: string) {
+  const schedulingDateFormat = dayjs.utc(schedulingDate)
+  .tz(dayjs.tz.guess())
+  .startOf('hour')
+  .format('DD-MM-YYYY HH:mm');
   const brandColor = "#346df1"
   const color = {
     background: "#f9f9f9",
@@ -114,7 +125,7 @@ style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-s
 <tr>
 <td align="center"
 style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
-Olá! Sua consulta está marcada para agora (${schedulingDate}). Estamos esperando por você! Caso tenha algum imprevisto, entre em contato com a clínica</td>
+Olá! Sua consulta está marcada para agora (${schedulingDateFormat}). Estamos esperando por você! Caso tenha algum imprevisto, entre em contato com a clínica</td>
 </tr>
 
 <tr>
