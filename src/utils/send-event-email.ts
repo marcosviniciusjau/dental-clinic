@@ -49,7 +49,7 @@ function htmlBefore(schedulingDate: string) {
   const schedulingDateFormat = dayjs.utc(schedulingDate)
   .tz(dayjs.tz.guess())
   .startOf('hour')
-  .format('DD-MM-YYYY HH:mm');
+  .format('HH:mm DD-MM-YYYY');
   const brandColor = "#346df1"
   const color = {
     background: "#f9f9f9",
@@ -98,7 +98,7 @@ function htmlInTime(schedulingDate: string) {
   const schedulingDateFormat = dayjs.utc(schedulingDate)
   .tz(dayjs.tz.guess())
   .startOf('hour')
-  .format('DD-MM-YYYY HH:mm');
+  .format('HH:mm DD-MM-YYYY');
   const brandColor = "#346df1"
   const color = {
     background: "#f9f9f9",
