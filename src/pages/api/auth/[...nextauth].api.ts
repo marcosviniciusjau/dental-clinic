@@ -114,7 +114,7 @@ export function buildNextAuthOptions(
         })
         const googleProvider = account?.provider == 'google'
 
-        if (!userExists) {
+        if (!userExists && !googleProvider) {
           return '/sign-in?error=email-invalid'
         }
         if (!googleProvider) {
