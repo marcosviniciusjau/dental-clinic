@@ -15,7 +15,7 @@ export async function sendEventEmail(identifier: string, schedulingDate: string)
     const schedulingDateBefore = dayjs(schedulingDate).subtract(30, 'minutes').format()
     const emailResponseBefore = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic+ <noreply-dentalclinic+@${env.NEXT_EMAIL_FROM}>`,
+      from: `Dental Clinic+ <dentalclinicplus-noreply@${env.NEXT_EMAIL_FROM}>`,
       subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
       scheduledAt: schedulingDateBefore,
@@ -24,7 +24,7 @@ export async function sendEventEmail(identifier: string, schedulingDate: string)
 
     const emailResponseInTime = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic+ <noreply-dentalclinic+@${env.NEXT_EMAIL_FROM}>`,
+      from: `Dental Clinic+ <dentalclinicplus-noreply@${env.NEXT_EMAIL_FROM}>`,
       subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
       scheduledAt: schedulingDate,
