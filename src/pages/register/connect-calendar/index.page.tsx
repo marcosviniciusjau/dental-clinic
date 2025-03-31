@@ -38,8 +38,7 @@ export default function ConnectCalendar() {
         <Header>
           <Heading as="strong">Conecte sua agenda!</Heading>
           <Text>
-            Conecte o seu calendário para verificar automaticamente as horas
-            ocupadas e os novos eventos à medida em que são agendados.
+          Conecte o seu calendário para registrar o horário seu do expediente
           </Text>
           <MultiStep size={4} currentStep={2} />
         </Header>
