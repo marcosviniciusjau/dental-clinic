@@ -117,6 +117,9 @@ export function buildNextAuthOptions(
         if (!userExists && !googleProvider) {
           return '/sign-in?error=email-invalid'
         }
+        if (userExists && googleProvider) {
+          return '/register/connect-calendar'
+        }
         if (!googleProvider) {
           return true;
         }
