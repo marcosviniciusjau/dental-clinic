@@ -12,10 +12,11 @@ dayjs.extend(timezone);
 
 export async function sendEventEmail(identifier: string, schedulingDate: string) {
   try {
-    const schedulingDateBefore = dayjs(schedulingDate).subtract(30, 'minutes').format()
+    const schedulingDateBefore = dayjs.utc(schedulingDate).tz(dayjs.tz.guess()).subtract(30, 'minutes').format()
+    const schedulingDateFormat = dayjs.utc(schedulingDate).tz(dayjs.tz.guess())
     const emailResponseBefore = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic+ <dentalclinicplus-noreply@${env.NEXT_EMAIL_FROM}>`,
+      from: `DentalClinic+ <info-dentalclinic+@${env.NEXT_EMAIL_FROM}>`,
       subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
       scheduledAt: schedulingDateBefore,
@@ -24,13 +25,12 @@ export async function sendEventEmail(identifier: string, schedulingDate: string)
 
     const emailResponseInTime = await resend.emails.send({
       to: identifier,
-      from: `Dental Clinic+ <dentalclinicplus-noreply@${env.NEXT_EMAIL_FROM}>`,
+      from: `DentalClinic+ <info-dentalclinic+@${env.NEXT_EMAIL_FROM}>`,
       subject: `Lembrete da consulta - Dental Clinic+`,
       text: text(),
-      scheduledAt: schedulingDate,
+      scheduledAt: schedulingDateFormat.toString(),
       html: htmlInTime(schedulingDate),
     })
-
     if (emailResponseBefore.error) {
       throw new AppError(`Erro ao enviar email: ${emailResponseBefore.error.message}`, 400);
     }

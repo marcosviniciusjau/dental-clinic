@@ -25,7 +25,7 @@ import { NextSeo } from "next-seo";
 import { Header } from "@/pages/home/components/Header";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { api } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -57,6 +57,11 @@ interface Schedulings {
 
 export default function Schedule({ user }: ScheduleProps) {
   const router = useRouter();
+  useEffect(() => {
+    if (router.query.email !== env.NEXT_EMAIL_OWNER) {
+      router.replace("/404");
+    }
+  }, [router, router.query.email]);
   const session = useSession();
   const isSignedId = session.status === "authenticated";
   const [openIndex, setOpenIndex] = useState<number | null>(null);
